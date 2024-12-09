@@ -15,8 +15,8 @@ function App() {
       <div className="flex justify-center w-full">
         {/* Main content */}
         <main className="bg-white rounded-lg p-4 w-full max-w-[1400px] flex flex-col">
-          <div className="flex-1">
-            <div className="max-w-4xl mx-auto">
+          <div className="flex-1 flex flex-col">
+            <div className="max-w-4xl mx-auto w-full h-full">
               <ChatInput />
             </div>
           </div>
