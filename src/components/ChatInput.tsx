@@ -441,6 +441,8 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
               onClick={() => {
                 setRecipe(null);
                 onRecipeChange?.(null);
+                setModifications([]);
+                setNotes("");
               }}
               className="gap-2"
             >
@@ -450,22 +452,22 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
           </div>
           <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6">
             <RecipeDisplay content={recipe} />
-            <div className="bg-white rounded-lg p-6 md:sticky md:top-4 md:h-[calc(100vh-45rem)]">
-              <h2 className="text-xl font-semibold mb-4">Modifications</h2>
-              <div className="flex flex-col h-full">
+            <div className="bg-white rounded-xl p-6 md:sticky md:top-4 h-fit border border-border shadow-[0_2px_4px_rgba(0,0,0,0.05)]">
+              <h2 className="text-xl font-semibold mb-4">Recipe Assistant</h2>
+              <div className="flex flex-col">
                 <div
-                  className="flex-1 mb-4 h-[calc(100%-8rem)] overflow-y-auto pr-4"
+                  className="flex-1 mb-4 min-h-[100px] max-h-[400px] overflow-y-auto pr-4 bg-muted/50 rounded-xl p-4 border border-border"
                   ref={scrollRef}
                 >
                   {modifications.map((mod, index) => (
                     <div key={index} className="mb-4">
                       <div className="flex items-start gap-2 justify-end mb-2">
-                        <div className="bg-primary rounded-lg p-2 text-primary-foreground max-w-[80%]">
+                        <div className="bg-primary rounded-xl p-2 text-primary-foreground max-w-[80%] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
                           {mod.request}
                         </div>
                       </div>
                       <div className="flex items-start gap-2">
-                        <div className="bg-primary/10 rounded-lg p-2 max-w-[80%]">
+                        <div className="bg-primary/10 rounded-xl p-2 max-w-[80%] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
                           {mod.response === null ? (
                             <span className="animate-pulse">...</span>
                           ) : (
@@ -482,7 +484,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Describe your modifications (e.g., 'I don't have broccoli' or 'Make it spicier')"
-                    className="resize-none"
+                    className="resize-none border-border rounded-xl"
                     rows={2}
                   />
                   <Button
