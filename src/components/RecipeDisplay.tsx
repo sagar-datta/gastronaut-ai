@@ -16,12 +16,16 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         .replace(/\*\*(.*?):\*\*/g, "\n## $1\n")
         // Format lists
         .replace(/\* /g, "\n* ")
+        // Format numbered instructions to ensure they're on new lines
+        .replace(/(\d+)\./g, "\n\n$1.")
         // Remove bold from numbered list items but keep the colon format
         .replace(/(\d+)\.\s*\*\*(.*?)\*\*:/g, "$1. $2:")
         // Style fractions as a single unit
         .replace(/(\d+\/\d+)/g, "**$1**")
         // Style remaining numbers (except in headers)
         .replace(/(?<!#)(\d+)(?!\d*\s*#)(?!\/)/g, "**$1**")
+        // Format section headers
+        .replace(/\*\*(.*?):\*\*/g, "\n## $1\n")
         // Remove extra spaces
         .replace(/\s+\n/g, "\n")
         // Ensure proper spacing between sections
@@ -29,6 +33,11 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         // Add space after headers
         .replace(/##(.*?)\n/g, "## $1\n\n")
         .replace(/###(.*?)\n/g, "### $1\n\n")
+        // Ensure each instruction is on its own line
+        .split("\n")
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0)
+        .join("\n\n")
     );
   };
 
@@ -60,7 +69,9 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         print:max-w-full
         print:prose-h1:text-2xl
         print:prose-h2:text-xl
-        print:prose-h3:text-lg"
+        print:prose-h3:text-lg
+        [&_ol>li]:mb-4
+        [&_ol>li]:block"
       >
         <ReactMarkdown>{formatContent(content)}</ReactMarkdown>
       </div>
