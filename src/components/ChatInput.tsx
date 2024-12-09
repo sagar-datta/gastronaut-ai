@@ -61,14 +61,6 @@ export function ChatInput() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <Slider
-              value={[cookTime]}
-              onValueChange={(value) => setCookTime(value[0])}
-              min={15}
-              max={180}
-              step={5}
-              className="py-4"
-            />
             <div className="flex items-center justify-center gap-2">
               <Button
                 type="button"
@@ -79,8 +71,9 @@ export function ChatInput() {
               >
                 -
               </Button>
-              <div className="font-medium min-w-[100px] text-center">
-                {cookTime} minutes
+              <div className="text-lg min-w-[120px] text-center">
+                <span className="font-bold">{cookTime}</span>{" "}
+                <span className="text-muted-foreground">minutes</span>
               </div>
               <Button
                 type="button"
@@ -92,6 +85,14 @@ export function ChatInput() {
                 +
               </Button>
             </div>
+            <Slider
+              value={[cookTime]}
+              onValueChange={(value) => setCookTime(value[0])}
+              min={15}
+              max={180}
+              step={5}
+              className="pt-2"
+            />
           </div>
         </CardContent>
       </Card>
@@ -106,14 +107,6 @@ export function ChatInput() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <Slider
-              value={[servings]}
-              onValueChange={(value) => setServings(value[0])}
-              min={1}
-              max={18}
-              step={1}
-              className="py-4"
-            />
             <div className="flex items-center justify-center gap-2">
               <Button
                 type="button"
@@ -124,8 +117,11 @@ export function ChatInput() {
               >
                 -
               </Button>
-              <div className="font-medium min-w-[100px] text-center">
-                {servings} {servings === 1 ? "person" : "people"}
+              <div className="text-lg min-w-[120px] text-center">
+                <span className="font-bold">{servings}</span>{" "}
+                <span className="text-muted-foreground">
+                  {servings === 1 ? "person" : "people"}
+                </span>
               </div>
               <Button
                 type="button"
@@ -137,6 +133,14 @@ export function ChatInput() {
                 +
               </Button>
             </div>
+            <Slider
+              value={[servings]}
+              onValueChange={(value) => setServings(value[0])}
+              min={1}
+              max={12}
+              step={1}
+              className="pt-2"
+            />
           </div>
         </CardContent>
       </Card>
