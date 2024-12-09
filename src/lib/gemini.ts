@@ -95,31 +95,49 @@ export async function generateRecipe({
 export async function generateRecipeModification({
   originalRecipe,
   modification,
-}: ModificationInput): Promise<string> {
+}: ModificationInput): Promise<{
+  recipe: string;
+  response: string;
+}> {
   const prompt = `Given this recipe:
 
 ${originalRecipe}
 
 The user wants to modify it with this request: "${modification}"
 
-Please modify the recipe according to the user's request and return ONLY the modified recipe using the exact same markdown format. 
+Respond with a JSON object in this exact format:
+{"recipe":"<modified recipe in markdown>","response":"<brief, friendly chef's response explaining the changes>"}
 
-Important guidelines:
-- When suggesting substitutions, be specific (e.g., use "marinara sauce" instead of "your favorite sauce")
-- Provide exact measurements and quantities
-- Suggest common, readily available alternatives
-- Keep modifications practical and specific
-- Maintain the original recipe's style and format
-- Do not use placeholder text or generic suggestions
-- If multiple alternatives are possible, choose the most appropriate one
-
-Return ONLY the modified recipe with no additional explanations or analysis.`;
+Guidelines:
+- The recipe should be a single line (replace newlines with \\n)
+- The response should be conversational and brief
+- Do not include any text outside the JSON
+- Do not include line breaks in the JSON`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    return response.text();
+    const text = response.text();
+
+    try {
+      // Clean up the response text before parsing
+      const cleanText = text.trim().replace(/\n/g, "\\n");
+      const parsed = JSON.parse(cleanText);
+
+      // Convert escaped newlines back to actual newlines
+      return {
+        recipe: parsed.recipe.replace(/\\n/g, "\n"),
+        response: parsed.response,
+      };
+    } catch (parseError) {
+      console.error("Failed to parse JSON response:", text);
+      return {
+        recipe: originalRecipe,
+        response:
+          "I apologize, but I couldn't process that modification. Could you try rephrasing your request?",
+      };
+    }
   } catch (error) {
     console.error("Error generating recipe modification:", error);
     throw new Error("Failed to modify recipe");

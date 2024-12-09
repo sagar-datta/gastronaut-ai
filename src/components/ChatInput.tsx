@@ -44,7 +44,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
   const [modifications, setModifications] = useState<
     Array<{
       request: string;
-      response: string | null;
+      response: { recipe: string; response: string } | null;
       timestamp: Date;
     }>
   >([]);
@@ -111,8 +111,8 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
         )
       );
 
-      setRecipe(response);
-      onRecipeChange?.(response);
+      setRecipe(response.recipe);
+      onRecipeChange?.(response.recipe);
     } catch (error) {
       console.error("Error processing modification:", error);
     } finally {
@@ -461,17 +461,32 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
                 >
                   {modifications.map((mod, index) => (
                     <div key={index} className="mb-4">
+                      {/* User's message bubble */}
                       <div className="flex items-start gap-2 justify-end mb-2">
                         <div className="bg-primary rounded-xl p-2 text-primary-foreground max-w-[80%] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
                           {mod.request}
                         </div>
                       </div>
+                      {/* AI's response bubble */}
                       <div className="flex items-start gap-2">
                         <div className="bg-primary/10 rounded-xl p-2 max-w-[80%] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
                           {mod.response === null ? (
-                            <span className="animate-pulse">...</span>
+                            <div className="flex items-center gap-1 py-0.5">
+                              <span
+                                className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce"
+                                style={{ animationDelay: "0ms" }}
+                              />
+                              <span
+                                className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce"
+                                style={{ animationDelay: "150ms" }}
+                              />
+                              <span
+                                className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce"
+                                style={{ animationDelay: "300ms" }}
+                              />
+                            </div>
                           ) : (
-                            "Changes applied to recipe"
+                            mod.response.response
                           )}
                         </div>
                       </div>
@@ -490,9 +505,9 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
                   <Button
                     onClick={() => handleModification(notes)}
                     disabled={isProcessingMod || !notes.trim()}
-                    className="shrink-0"
+                    className="shrink-0 h-auto rounded-xl"
                   >
-                    {isProcessingMod ? "..." : "Send"}
+                    Send
                   </Button>
                 </div>
               </div>
