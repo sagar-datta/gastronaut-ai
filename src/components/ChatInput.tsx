@@ -175,7 +175,13 @@ export function ChatInput() {
       {/* Cuisine Preferences */}
       <Card>
         <CardHeader>
-          <CardTitle>Cuisine Preferences</CardTitle>
+          <CardTitle>
+            Cuisine Preferences
+            <span className="text-sm font-normal text-muted-foreground">
+              {" "}
+              (Optional)
+            </span>
+          </CardTitle>
           <CardDescription>
             Describe your preferred style of cooking or specific cuisines you'd
             like to explore
@@ -194,7 +200,13 @@ export function ChatInput() {
       {/* Meal Type */}
       <Card>
         <CardHeader>
-          <CardTitle>Meal Type</CardTitle>
+          <CardTitle>
+            Meal Type{" "}
+            <span className="text-sm font-normal text-muted-foreground">
+              {" "}
+              (Optional)
+            </span>
+          </CardTitle>
           <CardDescription>
             Describe what kind of meal you're planning to make and its context
           </CardDescription>
@@ -212,7 +224,13 @@ export function ChatInput() {
       {/* Dietary Goals */}
       <Card>
         <CardHeader>
-          <CardTitle>Dietary Goals</CardTitle>
+          <CardTitle>
+            Dietary Goals{" "}
+            <span className="text-sm font-normal text-muted-foreground">
+              {" "}
+              (Optional)
+            </span>
+          </CardTitle>
           <CardDescription>
             Tell us about your nutritional preferences or dietary objectives
           </CardDescription>
@@ -230,7 +248,13 @@ export function ChatInput() {
       {/* Allergies and Exclusions Section */}
       <Card>
         <CardHeader>
-          <CardTitle>Dietary Restrictions</CardTitle>
+          <CardTitle>
+            Dietary Restrictions{" "}
+            <span className="text-sm font-normal text-muted-foreground">
+              {" "}
+              (Optional)
+            </span>
+          </CardTitle>
           <CardDescription>
             Tell us about any allergies, intolerances, or ingredients you'd like
             to avoid
@@ -249,7 +273,13 @@ export function ChatInput() {
       {/* Equipment Section */}
       <Card className="md:col-span-2">
         <CardHeader>
-          <CardTitle>Cooking Equipment</CardTitle>
+          <CardTitle>
+            Cooking Equipment{" "}
+            <span className="text-sm font-normal text-muted-foreground">
+              {" "}
+              (Optional)
+            </span>
+          </CardTitle>
           <CardDescription>
             Tell us what cooking equipment you have available - this helps us
             suggest suitable recipes
