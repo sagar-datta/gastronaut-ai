@@ -1,33 +1,26 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { ChatInput } from "@/components/ChatInput";
 
 function App() {
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr] gap-4 p-4">
       {/* Header */}
-      <header className="bg-muted rounded-lg p-4">
-        Header content will go here
+      <header className="bg-white rounded-lg p-4 text-center">
+        <h1 className="text-2xl font-bold">Gastronaut AI</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Your AI-powered culinary companion for recipe discovery
+        </p>
       </header>
 
       {/* Wrapper div for centering */}
       <div className="flex justify-center w-full">
-        {/* Main grid with three columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(180px,220px)_minmax(500px,1200px)_minmax(180px,220px)] gap-4 w-full max-w-[1640px]">
-          {/* Left sidebar - hidden on tablet and below */}
-          <aside className="hidden lg:block bg-muted rounded-lg p-4">
-            Left sidebar content
-          </aside>
-
-          {/* Main center content - takes full width on tablet and below */}
-          <main className="bg-muted rounded-lg p-4 lg:w-full w-[calc(100vw-2rem)]">
-            Main chat interface will go here
-          </main>
-
-          {/* Right sidebar - hidden on tablet and below */}
-          <aside className="hidden lg:block bg-muted rounded-lg p-4">
-            Right sidebar content
-          </aside>
-        </div>
+        {/* Main content */}
+        <main className="bg-white rounded-lg p-4 w-full max-w-[1400px] flex flex-col">
+          <div className="flex-1">
+            <div className="max-w-4xl mx-auto">
+              <ChatInput />
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );
