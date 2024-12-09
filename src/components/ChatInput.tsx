@@ -331,6 +331,13 @@ export function ChatInput() {
               </div>
             </CollapsibleContent>
           </Collapsible>
+
+          {/* Generate Recipe Button */}
+          <div className="flex justify-center md:col-span-2">
+            <Button size="lg" className="px-8">
+              Generate Recipe
+            </Button>
+          </div>
         </div>
       </div>
     </div>
