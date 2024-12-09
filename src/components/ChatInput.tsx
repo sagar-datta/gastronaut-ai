@@ -73,7 +73,7 @@ export function ChatInput() {
             <CardHeader>
               <CardTitle>Time Available</CardTitle>
               <CardDescription>
-                How much time do you have for cooking and preparation?
+                How much time do you to cook and prep?
               </CardDescription>
             </CardHeader>
             <CardContent>
