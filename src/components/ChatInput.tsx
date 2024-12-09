@@ -19,7 +19,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
-import { generateRecipe } from "@/lib/gemini";
+import { generateRecipe, generateRecipeModification } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
 
 interface ChatInputProps {
@@ -40,6 +40,8 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [recipe, setRecipe] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
+  const [modifications, setModifications] = useState<string[]>([]);
+  const [isProcessingMod, setIsProcessingMod] = useState(false);
 
   const handleTimeChange = (value: number[]) => {
     setCookTime(Math.max(15, value[0]));
@@ -70,6 +72,23 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
       console.error("Error:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleModification = async (input: string) => {
+    setIsProcessingMod(true);
+    try {
+      const response = await generateRecipeModification({
+        originalRecipe: recipe!,
+        modification: input,
+      });
+      setModifications((prev) => [...prev, response]);
+      setRecipe(response);
+      onRecipeChange?.(response);
+    } catch (error) {
+      console.error("Error processing modification:", error);
+    } finally {
+      setIsProcessingMod(false);
     }
   };
 
@@ -408,9 +427,16 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
               <Textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Add your modifications, substitutions, or personal adjustments here..."
-                className="h-[calc(100%-4rem)] resize-none"
+                placeholder="Describe your modifications (e.g., 'I don't have broccoli' or 'Make it spicier')"
+                className="h-[calc(100%-8rem)] resize-none mb-4"
               />
+              <Button
+                onClick={() => handleModification(notes)}
+                disabled={isProcessingMod || !notes.trim()}
+                className="w-full"
+              >
+                {isProcessingMod ? "Processing..." : "Update Recipe"}
+              </Button>
             </div>
           </div>
         </div>

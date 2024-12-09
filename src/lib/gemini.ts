@@ -14,6 +14,11 @@ interface RecipeInput {
   equipment?: string;
 }
 
+interface ModificationInput {
+  originalRecipe: string;
+  modification: string;
+}
+
 export async function generateRecipe({
   ingredients,
   experience,
@@ -84,5 +89,35 @@ export async function generateRecipe({
   } catch (error) {
     console.error("Error generating recipe:", error);
     throw new Error("Failed to generate recipe");
+  }
+}
+
+export async function generateRecipeModification({
+  originalRecipe,
+  modification,
+}: ModificationInput): Promise<string> {
+  const prompt = `Given this recipe:
+
+${originalRecipe}
+
+The user wants to modify it with this request: "${modification}"
+
+Please modify the recipe according to the user's request and return ONLY the modified recipe using the exact same markdown format. 
+
+Important:
+- Return ONLY the modified recipe
+- Use the same markdown headings (# for title, ## for sections)
+- Keep all sections (Description, Ingredients, Instructions, Cooking Tips, Time Breakdown)
+- Do not include any analysis or explanations
+- Do not include any text about the modifications made`;
+
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error("Error generating recipe modification:", error);
+    throw new Error("Failed to modify recipe");
   }
 }
