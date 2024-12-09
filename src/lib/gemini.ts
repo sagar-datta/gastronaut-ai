@@ -53,10 +53,9 @@ export async function generateRecipe({
   - [etc...]
   
   ## Instructions
-  1. [First step details]
-  2. [Second step details]
-  3. [Third step details]
-  4. [Continue with clear, concise steps]
+  1. [Simple step description without any formatting, bold text, or headings]
+  2. [Next step in plain text only]
+  3. [Continue with plain numbered steps]
   
   ## Cooking Tips
   - [Tip 1 relevant to experience level]
@@ -69,10 +68,10 @@ export async function generateRecipe({
   - Total Time: [Z] minutes
 
   Important formatting rules:
-  1. Never use bold text (**) in any section
-  2. Keep steps simple and numbered
-  3. Use plain text for all instructions
-  4. Each instruction step should be a simple statement without colons or special formatting`;
+  1. Never use bold text (**) anywhere in the recipe
+  2. Instructions should be simple numbered steps without any headings or formatting
+  3. Each instruction should be a plain text description without colons or special characters
+  4. Do not add titles or headings within the numbered steps`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
