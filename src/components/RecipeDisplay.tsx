@@ -77,12 +77,12 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         <ReactMarkdown
           components={{
             h1: ({ children }) => (
-              <h1>
-                {children}
+              <h1 className="flex items-center justify-between gap-4">
+                <span>{children}</span>
                 <Button
                   onClick={handlePrint}
                   variant="outline"
-                  className="gap-2 print:hidden"
+                  className="gap-2 print:hidden ml-auto"
                 >
                   <Printer className="h-4 w-4" />
                   Print Recipe
