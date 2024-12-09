@@ -1,6 +1,9 @@
 import { ChatInput } from "@/components/ChatInput";
+import { useState } from "react";
 
 function App() {
+  const [hasRecipe, setHasRecipe] = useState(false);
+
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr] p-4">
       {/* Header */}
@@ -13,11 +16,15 @@ function App() {
 
       {/* Wrapper div for centering */}
       <div className="flex justify-center w-full">
-        {/* Main content */}
-        <main className="bg-white rounded-lg p-4 w-full max-w-[1400px] flex flex-col">
+        {/* Main content - dynamically adjust max-width */}
+        <main
+          className={`bg-white rounded-lg p-4 w-full ${
+            hasRecipe ? "max-w-[1800px]" : "max-w-[1400px]"
+          } flex flex-col`}
+        >
           <div className="flex-1 flex flex-col">
-            <div className="max-w-4xl mx-auto w-full h-full">
-              <ChatInput />
+            <div className="w-full h-full">
+              <ChatInput onRecipeChange={(recipe) => setHasRecipe(!!recipe)} />
             </div>
           </div>
         </main>
