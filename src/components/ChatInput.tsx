@@ -19,6 +19,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { generateRecipe } from "@/lib/gemini";
 
 export function ChatInput() {
   const [input, setInput] = useState("");
@@ -31,6 +32,7 @@ export function ChatInput() {
   const [servings, setServings] = useState(1);
   const [mealType, setMealType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTimeChange = (value: number[]) => {
     setCookTime(Math.max(15, value[0]));
@@ -38,6 +40,28 @@ export function ChatInput() {
 
   const handleServingsChange = (value: number[]) => {
     setServings(Math.max(1, value[0]));
+  };
+
+  const handleGenerateRecipe = async () => {
+    try {
+      setIsLoading(true);
+      const response = await generateRecipe({
+        ingredients: input,
+        experience,
+        cookTime,
+        servings,
+        cuisine,
+        mealType,
+        dietaryGoal,
+        exclusions,
+        equipment,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -334,8 +358,13 @@ export function ChatInput() {
 
           {/* Generate Recipe Button */}
           <div className="flex justify-center md:col-span-2">
-            <Button size="lg" className="px-8">
-              Generate Recipe
+            <Button
+              size="lg"
+              className="px-8"
+              onClick={handleGenerateRecipe}
+              disabled={isLoading || !input.trim()}
+            >
+              {isLoading ? "Generating..." : "Generate Recipe"}
             </Button>
           </div>
         </div>
