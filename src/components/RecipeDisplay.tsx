@@ -47,12 +47,6 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
 
   return (
     <div className="bg-white rounded-lg p-6 h-full overflow-y-auto max-w-[900px] mx-auto">
-      <div className="flex justify-end mb-4 print:hidden">
-        <Button onClick={handlePrint} variant="outline" className="gap-2">
-          <Printer className="h-4 w-4" />
-          Print Recipe
-        </Button>
-      </div>
       <div
         className="prose prose-sm max-w-none dark:prose-invert 
         prose-h1:text-3xl 
@@ -74,9 +68,31 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         [&_ol>li]:block
         [&_ol>li]:break-inside-avoid-page
         [&_h2]:break-before-page
-        print:prose-h2:mt-0"
+        print:prose-h2:mt-0
+        [&_h1]:flex
+        [&_h1]:items-center
+        [&_h1]:justify-between
+        [&_h1]:gap-4"
       >
-        <ReactMarkdown>{formatContent(content)}</ReactMarkdown>
+        <ReactMarkdown
+          components={{
+            h1: ({ children }) => (
+              <h1>
+                {children}
+                <Button
+                  onClick={handlePrint}
+                  variant="outline"
+                  className="gap-2 print:hidden"
+                >
+                  <Printer className="h-4 w-4" />
+                  Print Recipe
+                </Button>
+              </h1>
+            ),
+          }}
+        >
+          {formatContent(content)}
+        </ReactMarkdown>
       </div>
     </div>
   );
