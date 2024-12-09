@@ -105,14 +105,28 @@ ${originalRecipe}
 
 The user's message is: "${modification}"
 
-Important: If the user is confirming previous changes (using words like "yes", "sure", "okay", "that looks good", etc.), 
-you should proceed with implementing the last suggested changes.
+Important formatting rules:
+1. Use this exact structure:
+   # [Recipe Name]
+   
+   ## Ingredients
+   - [ingredient with amount]
+   
+   ## Instructions
+   1. [step]
+   2. [step]
+   
+   ## Cooking Tips
+   - [tip]
+   
+   ## Time Breakdown
+   - Prep: [X] minutes
+   - Cook: [Y] minutes
+   - Total: [Z] minutes
 
-You must respond in this exact JSON format:
-{
-  "suggestedChanges": "<your response message>",
-  "proposedRecipe": "<full modified recipe or null>"
-}
+2. Never use bold text (**) in any section
+3. Keep steps simple and numbered
+4. Use plain text for all instructions
 
 When handling modifications:
 1. For direct modification requests (e.g., "make it vegan"):
