@@ -104,12 +104,16 @@ The user wants to modify it with this request: "${modification}"
 
 Please modify the recipe according to the user's request and return ONLY the modified recipe using the exact same markdown format. 
 
-Important:
-- Return ONLY the modified recipe
-- Use the same markdown headings (# for title, ## for sections)
-- Keep all sections (Description, Ingredients, Instructions, Cooking Tips, Time Breakdown)
-- Do not include any analysis or explanations
-- Do not include any text about the modifications made`;
+Important guidelines:
+- When suggesting substitutions, be specific (e.g., use "marinara sauce" instead of "your favorite sauce")
+- Provide exact measurements and quantities
+- Suggest common, readily available alternatives
+- Keep modifications practical and specific
+- Maintain the original recipe's style and format
+- Do not use placeholder text or generic suggestions
+- If multiple alternatives are possible, choose the most appropriate one
+
+Return ONLY the modified recipe with no additional explanations or analysis.`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });

@@ -11,7 +11,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Slider } from "@/components/ui/slider";
 import {
   Collapsible,
@@ -21,6 +21,7 @@ import {
 import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 import { generateRecipe, generateRecipeModification } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -40,8 +41,21 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [recipe, setRecipe] = useState<string | null>(null);
   const [notes, setNotes] = useState("");
-  const [modifications, setModifications] = useState<string[]>([]);
+  const [modifications, setModifications] = useState<
+    Array<{
+      request: string;
+      response: string | null;
+      timestamp: Date;
+    }>
+  >([]);
   const [isProcessingMod, setIsProcessingMod] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [modifications]);
 
   const handleTimeChange = (value: number[]) => {
     setCookTime(Math.max(15, value[0]));
@@ -76,13 +90,27 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
   };
 
   const handleModification = async (input: string) => {
+    const newModification = {
+      request: input,
+      response: null,
+      timestamp: new Date(),
+    };
+    setModifications((prev) => [...prev, newModification]);
+    setNotes("");
+
     setIsProcessingMod(true);
     try {
       const response = await generateRecipeModification({
         originalRecipe: recipe!,
         modification: input,
       });
-      setModifications((prev) => [...prev, response]);
+
+      setModifications((prev) =>
+        prev.map((mod, index) =>
+          index === prev.length - 1 ? { ...mod, response } : mod
+        )
+      );
+
       setRecipe(response);
       onRecipeChange?.(response);
     } catch (error) {
@@ -424,19 +452,48 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
             <RecipeDisplay content={recipe} />
             <div className="bg-white rounded-lg p-6 md:sticky md:top-4 md:h-[calc(100vh-45rem)]">
               <h2 className="text-xl font-semibold mb-4">Modifications</h2>
-              <Textarea
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Describe your modifications (e.g., 'I don't have broccoli' or 'Make it spicier')"
-                className="h-[calc(100%-8rem)] resize-none mb-4"
-              />
-              <Button
-                onClick={() => handleModification(notes)}
-                disabled={isProcessingMod || !notes.trim()}
-                className="w-full"
-              >
-                {isProcessingMod ? "Processing..." : "Update Recipe"}
-              </Button>
+              <div className="flex flex-col h-full">
+                <div
+                  className="flex-1 mb-4 h-[calc(100%-8rem)] overflow-y-auto pr-4"
+                  ref={scrollRef}
+                >
+                  {modifications.map((mod, index) => (
+                    <div key={index} className="mb-4">
+                      <div className="flex items-start gap-2 justify-end mb-2">
+                        <div className="bg-primary rounded-lg p-2 text-primary-foreground max-w-[80%]">
+                          {mod.request}
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <div className="bg-primary/10 rounded-lg p-2 max-w-[80%]">
+                          {mod.response === null ? (
+                            <span className="animate-pulse">...</span>
+                          ) : (
+                            "Changes applied to recipe"
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex gap-2">
+                  <Textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Describe your modifications (e.g., 'I don't have broccoli' or 'Make it spicier')"
+                    className="resize-none"
+                    rows={2}
+                  />
+                  <Button
+                    onClick={() => handleModification(notes)}
+                    disabled={isProcessingMod || !notes.trim()}
+                    className="shrink-0"
+                  >
+                    {isProcessingMod ? "..." : "Send"}
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
