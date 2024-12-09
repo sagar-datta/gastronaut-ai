@@ -71,7 +71,10 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         print:prose-h2:text-xl
         print:prose-h3:text-lg
         [&_ol>li]:mb-4
-        [&_ol>li]:block"
+        [&_ol>li]:block
+        [&_ol>li]:break-inside-avoid-page
+        [&_h2]:break-before-page
+        print:prose-h2:mt-0"
       >
         <ReactMarkdown>{formatContent(content)}</ReactMarkdown>
       </div>
