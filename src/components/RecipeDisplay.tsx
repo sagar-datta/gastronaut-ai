@@ -67,12 +67,12 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         [&_ol>li]:mb-4
         [&_ol>li]:block
         [&_ol>li]:break-inside-avoid-page
+        [&_ol>li]:break-before-auto
         [&_h2]:break-before-page
         print:prose-h2:mt-0
-        [&_h1]:flex
-        [&_h1]:items-center
-        [&_h1]:justify-between
-        [&_h1]:gap-4"
+        [&_p]:break-inside-avoid-page
+        [&_ul]:break-inside-avoid-page
+        [&_ol]:break-inside-avoid-page"
       >
         <ReactMarkdown
           components={{
