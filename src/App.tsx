@@ -19,7 +19,7 @@ function App() {
         {/* Main content - dynamically adjust max-width */}
         <main
           className={`bg-white rounded-lg p-4 w-full ${
-            hasRecipe ? "max-w-[1800px]" : "max-w-[1400px]"
+            hasRecipe ? "max-w-[1800px]" : "max-w-[900px]"
           } flex flex-col`}
         >
           <div className="flex-1 flex flex-col">

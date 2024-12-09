@@ -53,10 +53,10 @@ export async function generateRecipe({
   - [etc...]
   
   ## Instructions
-  1. Prep ingredients: [First step details]
-  2. Heat the pan: [Second step details]
-  3. Cook the main ingredients: [Third step details]
-  4. [Continue with clear, concise steps in the format "Step description: Details"]
+  1. [First step details]
+  2. [Second step details]
+  3. [Third step details]
+  4. [Continue with clear, concise steps]
   
   ## Cooking Tips
   - [Tip 1 relevant to experience level]
@@ -68,17 +68,11 @@ export async function generateRecipe({
   - Cook Time: [Y] minutes
   - Total Time: [Z] minutes
 
-  Important formatting notes:
-  - Do not use any bold text (**) in the instructions
-  - Each instruction step should be in the format "Step description: Details"
-  - Keep the markdown formatting simple and clean
-
-  Make sure the recipe:
-  - Is complete and balanced (protein, vegetables, carbs if appropriate)
-  - Uses common accompaniments and seasonings
-  - Includes proper seasoning amounts
-  - Has clear portion sizes
-  - Provides specific temperatures and cooking times`;
+  Important formatting rules:
+  1. Never use bold text (**) in any section
+  2. Keep steps simple and numbered
+  3. Use plain text for all instructions
+  4. Each instruction step should be a simple statement without colons or special formatting`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });

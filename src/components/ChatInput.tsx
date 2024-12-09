@@ -563,7 +563,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
                     <div key={index} className="mb-4">
                       {/* User's message bubble */}
                       <div className="flex items-start gap-2 justify-end mb-2">
-                        <div className="bg-primary rounded-xl p-2 text-primary-foreground max-w-[80%] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+                        <div className="bg-primary/30 rounded-xl p-2 text-primary-foreground max-w-[80%] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
                           {mod.request}
                         </div>
                       </div>
