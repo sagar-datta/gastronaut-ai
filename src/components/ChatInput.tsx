@@ -39,6 +39,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [recipe, setRecipe] = useState<string | null>(null);
+  const [notes, setNotes] = useState("");
 
   const handleTimeChange = (value: number[]) => {
     setCookTime(Math.max(15, value[0]));
@@ -386,9 +387,8 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
           </div>
         </div>
       ) : (
-        // Recipe View
         <div className="h-full">
-          <div className="max-w-[1000px] mx-auto mb-4">
+          <div className="max-w-[1400px] mx-auto mb-4">
             <Button
               variant="ghost"
               onClick={() => {
@@ -401,7 +401,18 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
               Back to Input
             </Button>
           </div>
-          <RecipeDisplay content={recipe} />
+          <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6">
+            <RecipeDisplay content={recipe} />
+            <div className="bg-white rounded-lg p-6 md:sticky md:top-4 md:h-[calc(100vh-45rem)]">
+              <h2 className="text-xl font-semibold mb-4">Modifications</h2>
+              <Textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Add your modifications, substitutions, or personal adjustments here..."
+                className="h-[calc(100%-4rem)] resize-none"
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>
