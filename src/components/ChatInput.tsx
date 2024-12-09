@@ -154,7 +154,7 @@ export function ChatInput() {
       </Card>
 
       {/* Ingredients Section */}
-      <Card className="h-full">
+      <Card className="h-full md:col-span-2">
         <CardHeader>
           <CardTitle>Ingredients</CardTitle>
           <CardDescription>
@@ -191,24 +191,6 @@ export function ChatInput() {
         </CardContent>
       </Card>
 
-      {/* Dietary Goals */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Dietary Goals</CardTitle>
-          <CardDescription>
-            Tell us about your nutritional preferences or dietary objectives
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Textarea
-            value={dietaryGoal}
-            onChange={(e) => setDietaryGoal(e.target.value)}
-            placeholder="e.g., I'm looking for high-protein meals for muscle gain, or I want to reduce carbs while keeping meals filling..."
-            className="flex-1 min-h-[100px] resize-none"
-          />
-        </CardContent>
-      </Card>
-
       {/* Meal Type */}
       <Card>
         <CardHeader>
@@ -227,6 +209,24 @@ export function ChatInput() {
         </CardContent>
       </Card>
 
+      {/* Dietary Goals */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Dietary Goals</CardTitle>
+          <CardDescription>
+            Tell us about your nutritional preferences or dietary objectives
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Textarea
+            value={dietaryGoal}
+            onChange={(e) => setDietaryGoal(e.target.value)}
+            placeholder="e.g., I'm looking for high-protein meals for muscle gain, or I want to reduce carbs while keeping meals filling..."
+            className="flex-1 min-h-[100px] resize-none"
+          />
+        </CardContent>
+      </Card>
+
       {/* Allergies and Exclusions Section */}
       <Card>
         <CardHeader>
@@ -237,17 +237,17 @@ export function ChatInput() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Input
+          <Textarea
             value={exclusions}
             onChange={(e) => setExclusions(e.target.value)}
             placeholder="e.g., peanuts, dairy, shellfish, mushrooms..."
-            className="flex-1"
+            className="flex-1 min-h-[70px] resize-none"
           />
         </CardContent>
       </Card>
 
       {/* Equipment Section */}
-      <Card>
+      <Card className="md:col-span-2">
         <CardHeader>
           <CardTitle>Cooking Equipment</CardTitle>
           <CardDescription>
@@ -256,11 +256,11 @@ export function ChatInput() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Input
+          <Textarea
             value={equipment}
             onChange={(e) => setEquipment(e.target.value)}
             placeholder="e.g., oven, stovetop, slow cooker, air fryer..."
-            className="flex-1"
+            className="flex-1 min-h-[70px] resize-none"
           />
         </CardContent>
       </Card>
