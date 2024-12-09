@@ -25,6 +25,14 @@ export function ChatInput() {
   const [servings, setServings] = useState(1);
   const [mealType, setMealType] = useState("");
 
+  const handleTimeChange = (value: number[]) => {
+    setCookTime(Math.max(15, value[0]));
+  };
+
+  const handleServingsChange = (value: number[]) => {
+    setServings(Math.max(1, value[0]));
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Experience Level Section */}
@@ -87,8 +95,8 @@ export function ChatInput() {
             </div>
             <Slider
               value={[cookTime]}
-              onValueChange={(value) => setCookTime(value[0])}
-              min={15}
+              onValueChange={handleTimeChange}
+              min={0}
               max={180}
               step={5}
               className="pt-2"
@@ -127,17 +135,17 @@ export function ChatInput() {
                 type="button"
                 variant="outline"
                 size="icon"
-                disabled={servings >= 12}
-                onClick={() => setServings((prev) => Math.min(12, prev + 1))}
+                disabled={servings >= 18}
+                onClick={() => setServings((prev) => Math.min(18, prev + 1))}
               >
                 +
               </Button>
             </div>
             <Slider
               value={[servings]}
-              onValueChange={(value) => setServings(value[0])}
-              min={1}
-              max={12}
+              onValueChange={handleServingsChange}
+              min={0}
+              max={18}
               step={1}
               className="pt-2"
             />
