@@ -96,23 +96,40 @@ export async function generateRecipeModification({
   originalRecipe,
   modification,
 }: ModificationInput): Promise<{
-  recipe: string;
-  response: string;
+  suggestedChanges: string;
+  proposedRecipe: string | null;
 }> {
   const prompt = `Given this recipe:
 
 ${originalRecipe}
 
-The user wants to modify it with this request: "${modification}"
+The user's message is: "${modification}"
 
-Respond with a JSON object in this exact format:
-{"recipe":"<modified recipe in markdown>","response":"<brief, friendly chef's response explaining the changes>"}
+Important: If the user is confirming previous changes (using words like "yes", "sure", "okay", "that looks good", etc.), 
+you should proceed with implementing the last suggested changes.
 
-Guidelines:
-- The recipe should be a single line (replace newlines with \\n)
-- The response should be conversational and brief
-- Do not include any text outside the JSON
-- Do not include line breaks in the JSON`;
+You must respond in this exact JSON format:
+{
+  "suggestedChanges": "<your response message>",
+  "proposedRecipe": "<full modified recipe or null>"
+}
+
+When handling modifications:
+1. For direct modification requests (e.g., "make it vegan"):
+   - Suggest specific changes in suggestedChanges
+   - Include the complete modified recipe in proposedRecipe
+
+2. For confirmations of previous suggestions:
+   - Implement the previously suggested changes
+   - Set suggestedChanges to explain what was changed
+   - Include the modified recipe in proposedRecipe
+
+3. For unclear requests:
+   - Set suggestedChanges to ask for clarification
+   - Set proposedRecipe to null
+
+Keep responses conversational but specific about what will be changed.
+Ensure the recipe maintains the same markdown formatting as the original.`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
@@ -121,21 +138,24 @@ Guidelines:
     const text = response.text();
 
     try {
-      // Clean up the response text before parsing
-      const cleanText = text.trim().replace(/\n/g, "\\n");
-      const parsed = JSON.parse(cleanText);
+      const parsed = JSON.parse(text);
 
-      // Convert escaped newlines back to actual newlines
+      if (!parsed.suggestedChanges) {
+        throw new Error("Missing suggestedChanges in response");
+      }
+
       return {
-        recipe: parsed.recipe.replace(/\\n/g, "\n"),
-        response: parsed.response,
+        suggestedChanges: parsed.suggestedChanges,
+        proposedRecipe: parsed.proposedRecipe || null,
       };
     } catch (parseError) {
-      console.error("Failed to parse JSON response:", text);
+      console.error("Failed to parse response:", parseError);
+      console.error("Raw response:", text);
+
       return {
-        recipe: originalRecipe,
-        response:
+        suggestedChanges:
           "I apologize, but I couldn't process that modification. Could you try rephrasing your request?",
+        proposedRecipe: null,
       };
     }
   } catch (error) {

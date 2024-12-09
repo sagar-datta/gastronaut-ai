@@ -105,16 +105,109 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
         modification: input,
       });
 
+      // Handle the error message format
+      if (
+        typeof response === "string" &&
+        response.startsWith("Failed to parse JSON response:")
+      ) {
+        // Extract the JSON part after the error message
+        const jsonString = response
+          .replace("Failed to parse JSON response:", "")
+          .trim();
+        try {
+          const parsedResponse = JSON.parse(jsonString);
+
+          if (parsedResponse.proposedRecipe) {
+            setModifications((prev) =>
+              prev.map((mod, index) =>
+                index === prev.length - 1
+                  ? {
+                      ...mod,
+                      response: {
+                        recipe: parsedResponse.proposedRecipe,
+                        response: parsedResponse.suggestedChanges,
+                      },
+                    }
+                  : mod
+              )
+            );
+            setRecipe(parsedResponse.proposedRecipe);
+            onRecipeChange?.(parsedResponse.proposedRecipe);
+            return;
+          }
+        } catch (e) {
+          console.error("Error parsing JSON:", e);
+        }
+      }
+
+      // Handle normal response
+      let parsedResponse = response;
+      if (typeof response === "string") {
+        try {
+          parsedResponse = JSON.parse(response);
+        } catch (e) {
+          parsedResponse = {
+            suggestedChanges: response,
+            proposedRecipe: recipe!,
+          };
+        }
+      }
+
+      if (
+        "suggestedChanges" in parsedResponse &&
+        parsedResponse.proposedRecipe &&
+        typeof parsedResponse.proposedRecipe === "string"
+      ) {
+        const newRecipe = parsedResponse.proposedRecipe;
+        setModifications((prev) =>
+          prev.map((mod, index) =>
+            index === prev.length - 1
+              ? {
+                  ...mod,
+                  response: {
+                    recipe: newRecipe,
+                    response: parsedResponse.suggestedChanges,
+                  },
+                }
+              : mod
+          )
+        );
+        setRecipe(newRecipe);
+        onRecipeChange?.(newRecipe);
+        return;
+      }
+
       setModifications((prev) =>
         prev.map((mod, index) =>
-          index === prev.length - 1 ? { ...mod, response } : mod
+          index === prev.length - 1
+            ? {
+                ...mod,
+                response: {
+                  recipe: recipe!,
+                  response:
+                    parsedResponse.suggestedChanges ||
+                    "Unable to process modification",
+                },
+              }
+            : mod
         )
       );
-
-      setRecipe(response.recipe);
-      onRecipeChange?.(response.recipe);
     } catch (error) {
-      console.error("Error processing modification:", error);
+      console.error("Error:", error);
+      setModifications((prev) =>
+        prev.map((mod, index) =>
+          index === prev.length - 1
+            ? {
+                ...mod,
+                response: {
+                  recipe: recipe!,
+                  response:
+                    "There was an error processing your request. Please try again.",
+                },
+              }
+            : mod
+        )
+      );
     } finally {
       setIsProcessingMod(false);
     }
@@ -443,6 +536,17 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
                 onRecipeChange?.(null);
                 setModifications([]);
                 setNotes("");
+                // Reset all input fields
+                setInput("");
+                setEquipment("");
+                setExperience("beginner");
+                setExclusions("");
+                setCuisine("");
+                setCookTime(15);
+                setDietaryGoal("");
+                setServings(1);
+                setMealType("");
+                setIsOpen(false);
               }}
               className="gap-2"
             >
