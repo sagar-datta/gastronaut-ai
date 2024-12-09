@@ -2,7 +2,7 @@ import { ChatInput } from "@/components/ChatInput";
 
 function App() {
   return (
-    <div className="min-h-screen grid grid-rows-[auto_1fr] gap-4 p-4">
+    <div className="min-h-screen grid grid-rows-[auto_1fr] p-4">
       {/* Header */}
       <header className="bg-white rounded-lg p-4 text-center">
         <h1 className="text-2xl font-bold">Gastronaut AI</h1>
