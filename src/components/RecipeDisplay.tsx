@@ -1,4 +1,6 @@
 import ReactMarkdown from "react-markdown";
+import { Button } from "./ui/button";
+import { Printer } from "lucide-react";
 
 type RecipeDisplayProps = {
   content: string;
@@ -30,8 +32,18 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
     );
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="bg-white rounded-lg p-6 h-full overflow-y-auto max-w-[900px] mx-auto">
+      <div className="flex justify-end mb-4 print:hidden">
+        <Button onClick={handlePrint} variant="outline" className="gap-2">
+          <Printer className="h-4 w-4" />
+          Print Recipe
+        </Button>
+      </div>
       <div
         className="prose prose-sm max-w-none dark:prose-invert 
         prose-h1:text-3xl 
@@ -44,7 +56,11 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         prose-ul:mt-2
         [&_ol>li]:marker:text-red-500
         [&_ol>li]:marker:font-bold
-        prose-strong:text-red-500"
+        prose-strong:text-red-500
+        print:max-w-full
+        print:prose-h1:text-2xl
+        print:prose-h2:text-xl
+        print:prose-h3:text-lg"
       >
         <ReactMarkdown>{formatContent(content)}</ReactMarkdown>
       </div>

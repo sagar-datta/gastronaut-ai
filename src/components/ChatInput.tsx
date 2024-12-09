@@ -544,7 +544,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
                 setMealType("");
                 setIsOpen(false);
               }}
-              className="gap-2"
+              className="gap-2 print:hidden"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to Input
@@ -552,7 +552,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
           </div>
           <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6">
             <RecipeDisplay content={recipe} />
-            <div className="bg-white rounded-xl p-6 md:sticky md:top-4 h-fit border border-border shadow-[0_2px_4px_rgba(0,0,0,0.05)]">
+            <div className="bg-white rounded-xl p-6 md:sticky md:top-4 h-fit border border-border shadow-[0_2px_4px_rgba(0,0,0,0.05)] print:hidden">
               <h2 className="text-xl font-semibold mb-4">Recipe Assistant</h2>
               <div className="flex flex-col">
                 <div

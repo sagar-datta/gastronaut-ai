@@ -1,0 +1,13 @@
+@media print {
+  @page {
+    margin: 2cm;
+  }
+
+  body {
+    background: white;
+  }
+
+  .print-hide {
+    display: none;
+  }
+}
