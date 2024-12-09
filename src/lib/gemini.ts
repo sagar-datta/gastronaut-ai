@@ -53,9 +53,10 @@ export async function generateRecipe({
   - [etc...]
   
   ## Instructions
-  1. [Simple step description without any formatting, bold text, or headings]
-  2. [Next step in plain text only]
-  3. [Continue with plain numbered steps]
+  1. [First step details]
+  2. [Second step details]
+  3. [Third step details]
+  4. [Continue with clear, concise steps]
   
   ## Cooking Tips
   - [Tip 1 relevant to experience level]
@@ -68,10 +69,10 @@ export async function generateRecipe({
   - Total Time: [Z] minutes
 
   Important formatting rules:
-  1. Never use bold text (**) anywhere in the recipe
-  2. Instructions should be simple numbered steps without any headings or formatting
-  3. Each instruction should be a plain text description without colons or special characters
-  4. Do not add titles or headings within the numbered steps`;
+  1. Never use bold text (**) in any section
+  2. Keep steps simple and numbered
+  3. Use plain text for all instructions
+  4. Each instruction step should be a simple statement without colons or special formatting`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
@@ -90,53 +91,27 @@ export async function generateRecipeModification({
   modification,
 }: ModificationInput): Promise<{
   suggestedChanges: string;
-  proposedRecipe: string | null;
+  proposedRecipe: string;
 }> {
   const prompt = `Given this recipe:
 
 ${originalRecipe}
 
-The user's message is: "${modification}"
+Please modify it according to this request: "${modification}"
 
-Important formatting rules:
-1. Use this exact structure:
-   # [Recipe Name]
-   
-   ## Ingredients
-   - [ingredient with amount]
-   
-   ## Instructions
-   1. [step]
-   2. [step]
-   
-   ## Cooking Tips
-   - [tip]
-   
-   ## Time Breakdown
-   - Prep: [X] minutes
-   - Cook: [Y] minutes
-   - Total: [Z] minutes
+Important: Your response must follow this EXACT format with these EXACT labels:
 
-2. Never use bold text (**) in any section
-3. Keep steps simple and numbered
-4. Use plain text for all instructions
+CHANGES:
+[Write a brief, friendly explanation of the modifications made]
 
-When handling modifications:
-1. For direct modification requests (e.g., "make it vegan"):
-   - Suggest specific changes in suggestedChanges
-   - Include the complete modified recipe in proposedRecipe
+RECIPE:
+[Paste the complete modified recipe here]
 
-2. For confirmations of previous suggestions:
-   - Implement the previously suggested changes
-   - Set suggestedChanges to explain what was changed
-   - Include the modified recipe in proposedRecipe
-
-3. For unclear requests:
-   - Set suggestedChanges to ask for clarification
-   - Set proposedRecipe to null
-
-Keep responses conversational but specific about what will be changed.
-Ensure the recipe maintains the same markdown formatting as the original.`;
+Rules:
+1. Never use placeholders like [ingredient] - always specify real ingredients
+2. Never use bold text (**) anywhere
+3. Keep the exact same markdown format as the original
+4. Include the complete recipe with all sections`;
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
@@ -144,29 +119,24 @@ Ensure the recipe maintains the same markdown formatting as the original.`;
     const response = await result.response;
     const text = response.text();
 
-    try {
-      const parsed = JSON.parse(text);
+    // Split the response into changes and recipe
+    const [changesSection, recipeSection] = text.split("RECIPE:");
 
-      if (!parsed.suggestedChanges) {
-        throw new Error("Missing suggestedChanges in response");
-      }
-
-      return {
-        suggestedChanges: parsed.suggestedChanges,
-        proposedRecipe: parsed.proposedRecipe || null,
-      };
-    } catch (parseError) {
-      console.error("Failed to parse response:", parseError);
-      console.error("Raw response:", text);
-
-      return {
-        suggestedChanges:
-          "I apologize, but I couldn't process that modification. Could you try rephrasing your request?",
-        proposedRecipe: null,
-      };
+    if (!changesSection || !recipeSection) {
+      throw new Error("Invalid response format");
     }
+
+    const changes = changesSection.replace("CHANGES:", "").trim();
+    const recipe = recipeSection.trim();
+
+    return {
+      suggestedChanges: changes,
+      proposedRecipe: recipe,
+    };
   } catch (error) {
-    console.error("Error generating recipe modification:", error);
-    throw new Error("Failed to modify recipe");
+    console.error("Modification error:", error);
+    throw new Error(
+      "Failed to modify recipe. Please try again with a different request."
+    );
   }
 }

@@ -101,93 +101,24 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
         modification: input,
       });
 
-      // Handle the error message format
-      if (
-        typeof response === "string" &&
-        (response as string).startsWith("Failed to parse JSON response:")
-      ) {
-        // Extract the JSON part after the error message
-        const jsonString = (response as string)
-          .replace("Failed to parse JSON response:", "")
-          .trim();
-        try {
-          const parsedResponse = JSON.parse(jsonString);
-
-          if (parsedResponse.proposedRecipe) {
-            setModifications((prev) =>
-              prev.map((mod, index) =>
-                index === prev.length - 1
-                  ? {
-                      ...mod,
-                      response: {
-                        recipe: parsedResponse.proposedRecipe,
-                        response: parsedResponse.suggestedChanges,
-                      },
-                    }
-                  : mod
-              )
-            );
-            setRecipe(parsedResponse.proposedRecipe);
-            onRecipeChange?.(parsedResponse.proposedRecipe);
-            return;
-          }
-        } catch (e) {
-          console.error("Error parsing JSON:", e);
-        }
-      }
-
-      // Handle normal response
-      let parsedResponse = response;
-      if (typeof response === "string") {
-        try {
-          parsedResponse = JSON.parse(response);
-        } catch (e) {
-          parsedResponse = {
-            suggestedChanges: response,
-            proposedRecipe: recipe!,
-          };
-        }
-      }
-
-      if (
-        "suggestedChanges" in parsedResponse &&
-        parsedResponse.proposedRecipe &&
-        typeof parsedResponse.proposedRecipe === "string"
-      ) {
-        const newRecipe = parsedResponse.proposedRecipe;
-        setModifications((prev) =>
-          prev.map((mod, index) =>
-            index === prev.length - 1
-              ? {
-                  ...mod,
-                  response: {
-                    recipe: newRecipe,
-                    response: parsedResponse.suggestedChanges,
-                  },
-                }
-              : mod
-          )
-        );
-        setRecipe(newRecipe);
-        onRecipeChange?.(newRecipe);
-        return;
-      }
-
+      // Update the modifications with the response
       setModifications((prev) =>
         prev.map((mod, index) =>
           index === prev.length - 1
             ? {
                 ...mod,
                 response: {
-                  recipe: recipe!,
-                  response:
-                    parsedResponse.suggestedChanges ||
-                    "Unable to process modification",
+                  recipe: response.proposedRecipe,
+                  response: response.suggestedChanges,
                 },
               }
             : mod
         )
       );
+
+      // Update the main recipe display
+      setRecipe(response.proposedRecipe);
+      onRecipeChange?.(response.proposedRecipe);
     } catch (error) {
       console.error("Error:", error);
       setModifications((prev) =>
@@ -198,7 +129,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
                 response: {
                   recipe: recipe!,
                   response:
-                    "There was an error processing your request. Please try again.",
+                    "Failed to process modification. Please try again with a different request.",
                 },
               }
             : mod
