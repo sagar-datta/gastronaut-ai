@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,14 +11,8 @@ import { useState } from "react";
 
 export function ChatInput() {
   const [input, setInput] = useState("");
+  const [equipment, setEquipment] = useState("");
   const [experience, setExperience] = useState("beginner");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle the submission here with both input and experience level
-    console.log("Submitted:", { input, experience });
-    setInput("");
-  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -57,15 +50,31 @@ export function ChatInput() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="flex gap-2">
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="e.g., 2 chicken breasts, 500g rice, onions..."
-              className="flex-1"
-            />
-            <Button type="submit">Send</Button>
-          </form>
+          <Input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="e.g., 2 chicken breasts, a bag of rice, some carrots, onions..."
+            className="flex-1"
+          />
+        </CardContent>
+      </Card>
+
+      {/* Equipment Section */}
+      <Card className="md:col-span-2">
+        <CardHeader>
+          <CardTitle>Cooking Equipment</CardTitle>
+          <CardDescription>
+            Tell us what cooking equipment you have available - this helps us
+            suggest suitable recipes
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Input
+            value={equipment}
+            onChange={(e) => setEquipment(e.target.value)}
+            placeholder="e.g., oven, stovetop, slow cooker, air fryer..."
+            className="flex-1"
+          />
         </CardContent>
       </Card>
     </div>
