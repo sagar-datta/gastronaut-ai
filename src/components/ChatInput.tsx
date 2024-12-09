@@ -5,11 +5,8 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
 import { Slider } from "@/components/ui/slider";
@@ -21,7 +18,6 @@ import {
 import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 import { generateRecipe, generateRecipeModification } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -108,10 +104,10 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
       // Handle the error message format
       if (
         typeof response === "string" &&
-        response.startsWith("Failed to parse JSON response:")
+        (response as string).startsWith("Failed to parse JSON response:")
       ) {
         // Extract the JSON part after the error message
-        const jsonString = response
+        const jsonString = (response as string)
           .replace("Failed to parse JSON response:", "")
           .trim();
         try {
