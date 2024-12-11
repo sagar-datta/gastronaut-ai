@@ -164,7 +164,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
         className="flex h-full relative"
         initial={false}
         animate={{
-          gap: recipe || isLoading ? "0rem" : "0",
+          gap: recipe || isLoading ? "1rem" : "0",
         }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
@@ -490,53 +490,66 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
         </motion.div>
 
         {/* Right side - Recipe Display or Skeleton */}
-        <AnimatePresence>
+        <AnimatePresence mode="sync">
           {(recipe || isLoading) && (
             <motion.div
               className="h-full"
               initial={{ width: 0, opacity: 0 }}
-              animate={{
-                width: "50%",
-                opacity: 1,
-              }}
+              animate={{ width: "50%", opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
             >
-              {recipe ? (
-                <div className="h-full overflow-y-auto print:w-full print:max-w-none">
-                  <RecipeDisplay content={recipe} />
-                </div>
-              ) : isLoading ? (
-                <div className="h-full p-6 space-y-4">
-                  <Skeleton className="h-12 w-3/4" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-full" />
-                  <div className="space-y-2 mt-8">
-                    {" "}
-                    {/* Ingredients */}
-                    <Skeleton className="h-8 w-1/4" /> {/* Section title */}
+              <AnimatePresence mode="wait">
+                {isLoading ? (
+                  <motion.div
+                    key="skeleton"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="h-full p-6 space-y-4"
+                  >
+                    <Skeleton className="h-12 w-3/4" />
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                  <div className="space-y-2 mt-8">
-                    {" "}
-                    {/* Instructions */}
-                    <Skeleton className="h-8 w-1/4" /> {/* Section title */}
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                  <div className="space-y-2 mt-8">
-                    {" "}
-                    {/* Tips */}
-                    <Skeleton className="h-8 w-1/4" /> {/* Section title */}
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                </div>
-              ) : null}
+                    <div className="space-y-2 mt-8">
+                      {" "}
+                      {/* Ingredients */}
+                      <Skeleton className="h-8 w-1/4" /> {/* Section title */}
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                    </div>
+                    <div className="space-y-2 mt-8">
+                      {" "}
+                      {/* Instructions */}
+                      <Skeleton className="h-8 w-1/4" /> {/* Section title */}
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                    </div>
+                    <div className="space-y-2 mt-8">
+                      {" "}
+                      {/* Tips */}
+                      <Skeleton className="h-8 w-1/4" /> {/* Section title */}
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                    </div>
+                  </motion.div>
+                ) : recipe ? (
+                  <motion.div
+                    key="recipe"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="h-full overflow-y-auto print:w-full print:max-w-none"
+                  >
+                    <RecipeDisplay content={recipe} />
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>
