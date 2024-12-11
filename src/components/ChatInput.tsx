@@ -198,7 +198,13 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="min-[500px]:block hidden">
+                  <div
+                    className={`${
+                      recipe || isLoading
+                        ? "min-[950px]:block hidden"
+                        : "min-[500px]:block hidden"
+                    }`}
+                  >
                     <Tabs
                       defaultValue="beginner"
                       value={experience}
@@ -215,15 +221,30 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                       </TabsList>
                     </Tabs>
                   </div>
-                  <div className="min-[500px]:hidden block">
+                  <div
+                    className={`${
+                      recipe || isLoading
+                        ? "min-[950px]:hidden block"
+                        : "min-[500px]:hidden block"
+                    }`}
+                  >
                     <Select value={experience} onValueChange={setExperience}>
-                      <SelectTrigger>
+                      <SelectTrigger className="font-medium">
                         <SelectValue placeholder="Select experience level" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="beginner">Beginner Cook</SelectItem>
-                        <SelectItem value="intermediate">Home Chef</SelectItem>
-                        <SelectItem value="advanced">Professional</SelectItem>
+                        <SelectItem value="beginner" className="font-medium">
+                          Beginner Cook
+                        </SelectItem>
+                        <SelectItem
+                          value="intermediate"
+                          className="font-medium"
+                        >
+                          Home Chef
+                        </SelectItem>
+                        <SelectItem value="advanced" className="font-medium">
+                          Professional
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
