@@ -18,6 +18,7 @@ import {
 import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
 import { generateRecipe, generateRecipeModification } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -144,13 +145,13 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
     <div className="h-full">
       <div
         className={`grid ${
-          recipe ? "grid-cols-2 print:grid-cols-1" : "grid-cols-1"
+          recipe || isLoading ? "grid-cols-2 print:grid-cols-1" : "grid-cols-1"
         } gap-6 h-full`}
       >
         {/* Left side - Chat Input */}
         <div
           className={`flex flex-col h-full overflow-hidden ${
-            recipe ? "" : "max-w-[900px] mx-auto w-full"
+            recipe || isLoading ? "" : "max-w-[900px] mx-auto w-full"
           } print:hidden`}
         >
           <div className="flex-1 min-h-0 overflow-y-auto">
@@ -463,12 +464,42 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
           </div>
         </div>
 
-        {/* Right side - Recipe Display */}
-        {recipe && (
+        {/* Right side - Recipe Display or Skeleton */}
+        {recipe ? (
           <div className="h-full overflow-y-auto print:w-full print:max-w-none">
             <RecipeDisplay content={recipe} />
           </div>
-        )}
+        ) : isLoading ? (
+          <div className="h-full p-6 space-y-4">
+            <Skeleton className="h-12 w-3/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <div className="space-y-2 mt-8">
+              {" "}
+              {/* Ingredients */}
+              <Skeleton className="h-8 w-1/4" /> {/* Section title */}
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+            </div>
+            <div className="space-y-2 mt-8">
+              {" "}
+              {/* Instructions */}
+              <Skeleton className="h-8 w-1/4" /> {/* Section title */}
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+            </div>
+            <div className="space-y-2 mt-8">
+              {" "}
+              {/* Tips */}
+              <Skeleton className="h-8 w-1/4" /> {/* Section title */}
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
