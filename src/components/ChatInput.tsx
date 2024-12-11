@@ -149,7 +149,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
       >
         {/* Left side - Chat Input */}
         <div
-          className={`flex flex-col h-full overflow-hidden ${
+          className={`flex flex-col h-full overflow-hidden print:hidden${
             recipe ? "" : "max-w-[900px] mx-auto w-full"
           }`}
         >
