@@ -144,16 +144,24 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
 
   return (
     <div className="h-full">
-      <div
-        className={`grid ${
-          recipe || isLoading ? "grid-cols-2" : "grid-cols-1"
-        } gap-6 h-full`}
+      <motion.div
+        className="flex h-full relative"
+        initial={false}
+        animate={{
+          gap: recipe || isLoading ? "1.5rem" : "0",
+        }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         {/* Left side - Chat Input */}
-        <div
-          className={`flex flex-col h-full overflow-hidden ${
-            recipe || isLoading ? "" : "max-w-[900px] mx-auto w-full"
-          } print:hidden`}
+        <motion.div
+          className="flex flex-col h-full overflow-hidden print:hidden"
+          initial={false}
+          animate={{
+            width: recipe || isLoading ? "50%" : "100%",
+            maxWidth: "900px",
+            margin: recipe || isLoading ? "0" : "0 auto",
+          }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <div className="flex-1 min-h-0 overflow-y-auto">
             <div className="grid grid-cols-1 gap-8 p-6">
@@ -463,16 +471,19 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right side - Recipe Display or Skeleton */}
         <AnimatePresence>
           {(recipe || isLoading) && (
             <motion.div
               className="h-full"
-              initial={{ x: "100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "100%", opacity: 0 }}
+              initial={{ width: 0, opacity: 0 }}
+              animate={{
+                width: "50%",
+                opacity: 1,
+              }}
+              exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               {recipe ? (
@@ -513,7 +524,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </div>
   );
 }
