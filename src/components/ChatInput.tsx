@@ -187,7 +187,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
             <CollapsibleTrigger asChild>
               <Button
                 variant="ghost"
-                className="flex items-center gap-2 p-4 md:hidden"
+                className="flex items-center gap-2 p-4 lg:hidden mx-auto"
               >
                 <span>Modify Recipe</span>
                 <ChevronDown className="h-4 w-4" />
@@ -424,12 +424,9 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                         <CollapsibleTrigger asChild>
                           <Button
                             variant="ghost"
-                            size="sm"
-                            className="flex items-center gap-2 hover:opacity-80"
+                            className="flex items-center gap-2 p-4"
                           >
-                            <h4 className="text-sm font-semibold text-foreground">
-                              Optional Extra Inputs
-                            </h4>
+                            <span>Optional Extra Inputs</span>
                             {isOpen ? (
                               <ChevronUp className="h-4 w-4" />
                             ) : (
@@ -802,12 +799,9 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                     <CollapsibleTrigger asChild>
                       <Button
                         variant="ghost"
-                        size="sm"
-                        className="flex items-center gap-2 hover:opacity-80"
+                        className="flex items-center gap-2 p-4"
                       >
-                        <h4 className="text-sm font-semibold text-foreground">
-                          Optional Extra Inputs
-                        </h4>
+                        <span>Optional Extra Inputs</span>
                         {isOpen ? (
                           <ChevronUp className="h-4 w-4" />
                         ) : (
