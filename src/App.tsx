@@ -14,21 +14,14 @@ function App() {
         </p>
       </header>
 
-      {/* Wrapper div for centering */}
-      <div className="flex justify-center w-full">
-        {/* Main content - dynamically adjust max-width */}
-        <main
-          className={`bg-white rounded-lg p-4 w-full ${
-            hasRecipe ? "max-w-[1800px]" : "max-w-[900px]"
-          } flex flex-col`}
-        >
-          <div className="flex-1 flex flex-col">
-            <div className="w-full h-full">
-              <ChatInput onRecipeChange={(recipe) => setHasRecipe(!!recipe)} />
-            </div>
+      {/* Main content */}
+      <main className="bg-white rounded-lg p-4 w-full max-w-[1800px] mx-auto flex flex-col">
+        <div className="flex-1 flex flex-col">
+          <div className="w-full h-full">
+            <ChatInput onRecipeChange={(recipe) => setHasRecipe(!!recipe)} />
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

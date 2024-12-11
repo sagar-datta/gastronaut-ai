@@ -142,12 +142,21 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
 
   return (
     <div className="h-full">
-      {!recipe ? (
-        <div className="flex flex-col h-full overflow-hidden">
+      <div
+        className={`grid ${
+          recipe ? "grid-cols-2" : "grid-cols-1"
+        } gap-6 h-full`}
+      >
+        {/* Left side - Chat Input */}
+        <div
+          className={`flex flex-col h-full overflow-hidden ${
+            recipe ? "" : "max-w-[900px] mx-auto w-full"
+          }`}
+        >
           <div className="flex-1 min-h-0 overflow-y-auto">
             <div className="grid grid-cols-1 gap-8 p-6">
               {/* Experience Level Section */}
-              <Card className="col-span-1 md:col-span-2">
+              <Card className="col-span-1">
                 <CardHeader>
                   <CardTitle>Experience Level</CardTitle>
                   <CardDescription>
@@ -170,8 +179,8 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
                 </CardContent>
               </Card>
 
-              {/* Time and Servings in a grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 col-span-1 md:col-span-2">
+              {/* Time and Servings */}
+              <div className="grid grid-cols-1 gap-8 col-span-1">
                 {/* Time Constraints */}
                 <Card className="flex flex-col">
                   <CardHeader>
@@ -276,7 +285,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
               </div>
 
               {/* Ingredients Section */}
-              <Card className="col-span-1 md:col-span-2">
+              <Card className="col-span-1">
                 <CardHeader>
                   <CardTitle>Ingredients</CardTitle>
                   <CardDescription>
@@ -298,7 +307,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
               <Collapsible
                 open={isOpen}
                 onOpenChange={setIsOpen}
-                className="w-full space-y-2 col-span-1 md:col-span-2"
+                className="w-full space-y-2 col-span-1"
               >
                 <div className="px-4">
                   <CollapsibleTrigger className="flex items-center gap-2 hover:opacity-80">
@@ -440,7 +449,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
               </Collapsible>
 
               {/* Generate Recipe Button */}
-              <div className="flex justify-center col-span-1 md:col-span-2">
+              <div className="flex justify-center col-span-1">
                 <Button
                   size="lg"
                   className="px-8"
@@ -453,99 +462,14 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
             </div>
           </div>
         </div>
-      ) : (
-        <div className="h-full">
-          <div className="max-w-[1400px] mx-auto mb-4">
-            <Button
-              variant="ghost"
-              onClick={() => {
-                setRecipe(null);
-                onRecipeChange?.(null);
-                setModifications([]);
-                setNotes("");
-                // Reset all input fields
-                setInput("");
-                setEquipment("");
-                setExperience("beginner");
-                setExclusions("");
-                setCuisine("");
-                setCookTime(15);
-                setDietaryGoal("");
-                setServings(1);
-                setMealType("");
-                setIsOpen(false);
-              }}
-              className="gap-2 print:hidden"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Input
-            </Button>
-          </div>
-          <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6">
-            <RecipeDisplay content={recipe} />
-            <div className="bg-white rounded-xl p-6 md:sticky md:top-4 h-fit border border-border shadow-[0_2px_4px_rgba(0,0,0,0.05)] print:hidden">
-              <h2 className="text-xl font-semibold mb-4">Recipe Assistant</h2>
-              <div className="flex flex-col">
-                <div
-                  className="flex-1 mb-4 min-h-[100px] max-h-[400px] overflow-y-auto pr-4 bg-muted/50 rounded-xl p-4 border border-border"
-                  ref={scrollRef}
-                >
-                  {modifications.map((mod, index) => (
-                    <div key={index} className="mb-4">
-                      {/* User's message bubble */}
-                      <div className="flex items-start gap-2 justify-end mb-2">
-                        <div className="bg-primary rounded-xl p-2 text-primary-foreground max-w-[80%] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-                          {mod.request}
-                        </div>
-                      </div>
-                      {/* AI's response bubble */}
-                      <div className="flex items-start gap-2">
-                        <div className="bg-primary/10 rounded-xl p-2 max-w-[80%] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-                          {mod.response === null ? (
-                            <div className="flex items-center gap-1 py-0.5">
-                              <span
-                                className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce"
-                                style={{ animationDelay: "0ms" }}
-                              />
-                              <span
-                                className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce"
-                                style={{ animationDelay: "150ms" }}
-                              />
-                              <span
-                                className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce"
-                                style={{ animationDelay: "300ms" }}
-                              />
-                            </div>
-                          ) : (
-                            mod.response.response
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
 
-                <div className="flex gap-2">
-                  <Textarea
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Describe your modifications (e.g., 'I don't have broccoli' or 'Make it spicier')"
-                    className="resize-none border-border rounded-xl"
-                    rows={2}
-                  />
-                  <Button
-                    onClick={() => handleModification(notes)}
-                    disabled={isProcessingMod || !notes.trim()}
-                    className="shrink-0 h-auto rounded-xl"
-                  >
-                    Send
-                  </Button>
-                </div>
-              </div>
-            </div>
+        {/* Right side - Recipe Display */}
+        {recipe && (
+          <div className="h-full overflow-y-auto">
+            <RecipeDisplay content={recipe} />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
