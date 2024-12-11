@@ -23,9 +23,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
+  scrollContainer?: React.RefObject<HTMLDivElement>;
 }
 
-export function ChatInput({ onRecipeChange }: ChatInputProps) {
+export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
   const [input, setInput] = useState("");
   const [equipment, setEquipment] = useState("");
   const [experience, setExperience] = useState("beginner");
@@ -48,6 +49,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
   >([]);
   const [isProcessingMod, setIsProcessingMod] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -63,9 +65,24 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
     setServings(Math.max(1, value[0]));
   };
 
+  const scrollToTop = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   const handleGenerateRecipe = async () => {
     try {
       setIsLoading(true);
+      if (scrollContainer?.current) {
+        scrollContainer.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
       const response = await generateRecipe({
         ingredients: input,
         experience,
@@ -79,7 +96,6 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
       });
       setRecipe(response);
       onRecipeChange?.(response);
-      console.log(response);
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -143,7 +159,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
   };
 
   return (
-    <div className="h-full">
+    <div className="h-full" ref={containerRef}>
       <motion.div
         className="flex h-full relative"
         initial={false}
