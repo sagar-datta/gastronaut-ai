@@ -206,7 +206,13 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
               </Card>
 
               {/* Time and Servings */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 col-span-1">
+              <div
+                className={`grid grid-cols-1 ${
+                  recipe || isLoading
+                    ? "[&>*]:col-span-1 min-[1255px]:grid-cols-2"
+                    : "md:grid-cols-2"
+                } gap-8 col-span-1`}
+              >
                 {/* Time Constraints */}
                 <Card className="flex flex-col">
                   <CardHeader>
