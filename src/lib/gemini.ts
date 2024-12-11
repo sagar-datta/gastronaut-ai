@@ -64,8 +64,16 @@ export async function generateRecipe({
   const prompt = `You are a professional chef creating a recipe. Please create a detailed, easy-to-follow recipe based on these specifications:
 
 INGREDIENTS MANAGEMENT:
-Required Ingredients (MUST be used in the recipe):
+Required Ingredients (MUST be used in the recipe as key components):
 ${ingredients}
+
+Note about required ingredients:
+- These ingredients should be featured prominently in the recipe
+- Create a complete dish that incorporates these ingredients
+- Add complementary ingredients to create a proper meal
+- Do not simply provide instructions for cooking the ingredients alone
+- Basic pantry items (salt, pepper, oil, etc.) can be assumed available
+- Common spices and seasonings can be added as needed
 
 ${
   optionalIngredients
