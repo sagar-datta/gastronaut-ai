@@ -20,6 +20,13 @@ import { generateRecipe, generateRecipeModification } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -191,17 +198,35 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Tabs
-                    defaultValue="beginner"
-                    value={experience}
-                    onValueChange={setExperience}
-                  >
-                    <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="beginner">Beginner Cook</TabsTrigger>
-                      <TabsTrigger value="intermediate">Home Chef</TabsTrigger>
-                      <TabsTrigger value="advanced">Professional</TabsTrigger>
-                    </TabsList>
-                  </Tabs>
+                  <div className="min-[500px]:block hidden">
+                    <Tabs
+                      defaultValue="beginner"
+                      value={experience}
+                      onValueChange={setExperience}
+                    >
+                      <TabsList className="grid w-full grid-cols-3">
+                        <TabsTrigger value="beginner">
+                          Beginner Cook
+                        </TabsTrigger>
+                        <TabsTrigger value="intermediate">
+                          Home Chef
+                        </TabsTrigger>
+                        <TabsTrigger value="advanced">Professional</TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                  </div>
+                  <div className="min-[500px]:hidden block">
+                    <Select value={experience} onValueChange={setExperience}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select experience level" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="beginner">Beginner Cook</SelectItem>
+                        <SelectItem value="intermediate">Home Chef</SelectItem>
+                        <SelectItem value="advanced">Professional</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </CardContent>
               </Card>
 
