@@ -1,5 +1,6 @@
 import { ChatInput } from "@/components/ChatInput";
 import { useState, useRef } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function App() {
   const [hasRecipe, setHasRecipe] = useState(false);
@@ -33,6 +34,7 @@ function App() {
           </div>
         </div>
       </main>
+      <SpeedInsights />
     </div>
   );
 }
