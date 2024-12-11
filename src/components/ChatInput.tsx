@@ -161,16 +161,16 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
   return (
     <div className="h-full" ref={containerRef}>
       <motion.div
-        className="flex h-full relative"
+        className="flex h-full relative print:!block print:!w-full"
         initial={false}
         animate={{
-          gap: recipe || isLoading ? "1rem" : "0",
+          gap: 0,
         }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         {/* Left side - Chat Input */}
         <motion.div
-          className="flex flex-col h-full overflow-hidden print:hidden"
+          className="flex flex-col h-full overflow-hidden print:!hidden"
           initial={false}
           animate={{
             width: recipe || isLoading ? "50%" : "100%",
@@ -493,7 +493,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
         <AnimatePresence mode="sync">
           {(recipe || isLoading) && (
             <motion.div
-              className="h-full"
+              className="h-full print:!static print:!w-full print:!block"
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: "50%", opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
@@ -507,7 +507,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="h-full p-6 space-y-4"
+                    className="h-full p-6 space-y-4 print:!hidden"
                   >
                     <Skeleton className="h-12 w-3/4" />
                     <Skeleton className="h-4 w-full" />
@@ -544,7 +544,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="h-full overflow-y-auto print:w-full print:max-w-none"
+                    className="h-full overflow-y-auto print:!w-full print:!m-0 print:!block print:!static"
                   >
                     <RecipeDisplay content={recipe} />
                   </motion.div>
