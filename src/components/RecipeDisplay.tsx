@@ -41,58 +41,14 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
     );
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
-    <div className="bg-white rounded-lg p-6 h-full overflow-y-auto max-w-[900px] mx-auto">
-      <div
-        className="prose prose-sm max-w-none dark:prose-invert 
-        prose-h1:text-3xl 
-        prose-h2:text-xl 
-        prose-h3:text-lg
-        prose-ol:text-base 
-        prose-ul:text-base
-        prose-p:text-base
-        prose-ol:mt-2
-        prose-ul:mt-2
-        [&_ol>li]:marker:text-red-500
-        [&_ol>li]:marker:font-bold
-        prose-strong:text-red-500
-        print:max-w-full
-        print:prose-h1:text-2xl
-        print:prose-h2:text-xl
-        print:prose-h3:text-lg
-        [&_ol>li]:mb-4
-        [&_ol>li]:block
-        [&_ol>li]:break-inside-avoid-page
-        [&_ol>li]:break-before-auto
-        [&_h2]:break-before-page
-        print:prose-h2:mt-0
-        [&_p]:break-inside-avoid-page
-        [&_ul]:break-inside-avoid-page
-        [&_ol]:break-inside-avoid-page"
-      >
-        <ReactMarkdown
-          components={{
-            h1: ({ children }) => (
-              <h1 className="flex items-center justify-between gap-4">
-                <span>{children}</span>
-                <Button
-                  onClick={handlePrint}
-                  variant="outline"
-                  className="gap-2 print:hidden ml-auto"
-                >
-                  <Printer className="h-4 w-4" />
-                  Print Recipe
-                </Button>
-              </h1>
-            ),
-          }}
-        >
-          {formatContent(content)}
-        </ReactMarkdown>
+    <div className="prose max-w-none p-6">
+      <div className="space-y-4">
+        {content.split("\n\n").map((section, index) => (
+          <div key={index} className="print:!break-inside-avoid-page">
+            <ReactMarkdown>{section}</ReactMarkdown>
+          </div>
+        ))}
       </div>
     </div>
   );

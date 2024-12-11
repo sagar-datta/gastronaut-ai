@@ -58,6 +58,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false);
+  const [optionalIngredients, setOptionalIngredients] = useState("");
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -94,6 +95,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
       }
       const response = await generateRecipe({
         ingredients: input,
+        optionalIngredients,
         experience,
         cookTime,
         servings,
@@ -207,7 +209,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
               >
                 {/* Existing chat input content */}
                 <div className="flex-1 min-h-0 overflow-y-auto">
-                  <div className="grid grid-cols-1 gap-8 p-6">
+                  <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
                     {/* Experience Level Section */}
                     <Card className="col-span-1">
                       <CardHeader>
@@ -404,13 +406,34 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                           worry about being too precise!
                         </CardDescription>
                       </CardHeader>
-                      <CardContent>
-                        <Textarea
-                          value={input}
-                          onChange={(e) => setInput(e.target.value)}
-                          placeholder="e.g., 2 chicken breasts, a bag of rice, some carrots, onions..."
-                          className="flex-1 min-h-[120px] resize-none"
-                        />
+                      <CardContent className="space-y-6">
+                        <div className="space-y-2">
+                          <div className="font-medium">
+                            Required Ingredients
+                          </div>
+                          <Textarea
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder="e.g., 2 chicken breasts, a bag of rice..."
+                            className="flex-1 min-h-[100px] resize-none"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <div className="font-medium flex sm:items-center sm:flex-row flex-col gap-2">
+                            Optional Ingredients
+                            <span className="text-sm font-normal text-muted-foreground">
+                              (Nice to have, but not essential)
+                            </span>
+                          </div>
+                          <Textarea
+                            value={optionalIngredients}
+                            onChange={(e) =>
+                              setOptionalIngredients(e.target.value)
+                            }
+                            placeholder="e.g., fresh herbs, spices, garnishes..."
+                            className="flex-1 min-h-[100px] resize-none"
+                          />
+                        </div>
                       </CardContent>
                     </Card>
 
@@ -420,7 +443,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                       onOpenChange={setIsOpen}
                       className="w-full space-y-2 col-span-1"
                     >
-                      <div className="px-4">
+                      <div className="flex justify-center">
                         <CollapsibleTrigger asChild>
                           <Button
                             variant="ghost"
@@ -591,7 +614,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
           >
             {/* Existing chat input content */}
             <div className="flex-1 min-h-0 overflow-y-auto">
-              <div className="grid grid-cols-1 gap-8 p-6">
+              <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
                 {/* Experience Level Section */}
                 <Card className="col-span-1">
                   <CardHeader>
@@ -779,13 +802,30 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                       worry about being too precise!
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <Textarea
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      placeholder="e.g., 2 chicken breasts, a bag of rice, some carrots, onions..."
-                      className="flex-1 min-h-[120px] resize-none"
-                    />
+                  <CardContent className="space-y-6">
+                    <div className="space-y-2">
+                      <div className="font-medium">Required Ingredients</div>
+                      <Textarea
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        placeholder="e.g., 2 chicken breasts, a bag of rice..."
+                        className="flex-1 min-h-[100px] resize-none"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="font-medium flex sm:items-center sm:flex-row flex-col gap-2">
+                        Optional Ingredients
+                        <span className="text-sm font-normal text-muted-foreground">
+                          (Nice to have, but not essential)
+                        </span>
+                      </div>
+                      <Textarea
+                        value={optionalIngredients}
+                        onChange={(e) => setOptionalIngredients(e.target.value)}
+                        placeholder="e.g., fresh herbs, spices, garnishes..."
+                        className="flex-1 min-h-[100px] resize-none"
+                      />
+                    </div>
                   </CardContent>
                 </Card>
 
@@ -795,7 +835,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                   onOpenChange={setIsOpen}
                   className="w-full space-y-2 col-span-1"
                 >
-                  <div className="px-4">
+                  <div className="flex justify-center">
                     <CollapsibleTrigger asChild>
                       <Button
                         variant="ghost"
@@ -1008,7 +1048,9 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                     transition={{ duration: 0.3 }}
                     className="h-full overflow-y-auto print:!w-full print:!max-w-none"
                   >
-                    <RecipeDisplay content={recipe} />
+                    <div className="print:!break-inside-avoid-page">
+                      <RecipeDisplay content={recipe} />
+                    </div>
                   </motion.div>
                 ) : null}
               </AnimatePresence>
