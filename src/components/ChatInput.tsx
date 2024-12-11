@@ -164,7 +164,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
         className="flex h-full relative"
         initial={false}
         animate={{
-          gap: recipe || isLoading ? "1.5rem" : "0",
+          gap: recipe || isLoading ? "0rem" : "0",
         }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
