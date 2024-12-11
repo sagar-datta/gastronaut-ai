@@ -144,14 +144,14 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
     <div className="h-full">
       <div
         className={`grid ${
-          recipe ? "grid-cols-2" : "grid-cols-1"
+          recipe ? "grid-cols-2 print:grid-cols-1" : "grid-cols-1"
         } gap-6 h-full`}
       >
         {/* Left side - Chat Input */}
         <div
-          className={`flex flex-col h-full overflow-hidden print:hidden${
+          className={`flex flex-col h-full overflow-hidden ${
             recipe ? "" : "max-w-[900px] mx-auto w-full"
-          }`}
+          } print:hidden`}
         >
           <div className="flex-1 min-h-0 overflow-y-auto">
             <div className="grid grid-cols-1 gap-8 p-6">
@@ -465,7 +465,7 @@ export function ChatInput({ onRecipeChange }: ChatInputProps) {
 
         {/* Right side - Recipe Display */}
         {recipe && (
-          <div className="h-full overflow-y-auto">
+          <div className="h-full overflow-y-auto print:w-full print:max-w-none">
             <RecipeDisplay content={recipe} />
           </div>
         )}
