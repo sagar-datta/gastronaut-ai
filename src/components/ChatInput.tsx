@@ -187,7 +187,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
             <CollapsibleTrigger asChild>
               <Button
                 variant="ghost"
-                className="w-full flex items-center justify-between p-4 lg:hidden"
+                className="flex items-center gap-2 p-4 md:hidden"
               >
                 <span>Modify Recipe</span>
                 <ChevronDown className="h-4 w-4" />
@@ -421,11 +421,15 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                       className="w-full space-y-2 col-span-1"
                     >
                       <div className="px-4">
-                        <CollapsibleTrigger className="flex items-center gap-2 hover:opacity-80">
-                          <h4 className="text-sm font-semibold text-foreground">
-                            Optional Extra Inputs
-                          </h4>
-                          <Button variant="ghost" size="sm" className="w-9 p-0">
+                        <CollapsibleTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="flex items-center gap-2 hover:opacity-80"
+                          >
+                            <h4 className="text-sm font-semibold text-foreground">
+                              Optional Extra Inputs
+                            </h4>
                             {isOpen ? (
                               <ChevronUp className="h-4 w-4" />
                             ) : (
@@ -795,11 +799,15 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                   className="w-full space-y-2 col-span-1"
                 >
                   <div className="px-4">
-                    <CollapsibleTrigger className="flex items-center gap-2 hover:opacity-80">
-                      <h4 className="text-sm font-semibold text-foreground">
-                        Optional Extra Inputs
-                      </h4>
-                      <Button variant="ghost" size="sm" className="w-9 p-0">
+                    <CollapsibleTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="flex items-center gap-2 hover:opacity-80"
+                      >
+                        <h4 className="text-sm font-semibold text-foreground">
+                          Optional Extra Inputs
+                        </h4>
                         {isOpen ? (
                           <ChevronUp className="h-4 w-4" />
                         ) : (
