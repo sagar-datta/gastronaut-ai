@@ -69,15 +69,38 @@ ${ingredients}
 
 ${
   optionalIngredients
-    ? `Optional Available Ingredients (can be used if they enhance the dish):
+    ? `Optional Available Ingredients (user has these available):
 ${optionalIngredients}
 
-Note:
-- These ingredients are available but not required
-- Use only if they improve the recipe
-- Can be used in any quantity needed`
-    : ""
-}
+Note about optional ingredients:
+- These are simply ingredients the user has available
+- They may not all make culinary sense with the required ingredients
+- Use professional judgment to determine which (if any) would enhance the dish
+- Only incorporate ingredients that make sense for the recipe
+- Ignore ingredients that would clash or not complement the dish
+- Consider traditional and modern flavor combinations
+- Focus on ingredients that will improve the final result
+
+IMPORTANT CULINARY GUIDELINES:
+1. The final recipe MUST be culinarily sound and appetizing
+2. Do NOT combine ingredients that clash in flavor or texture
+3. Maintain traditional or logical flavor profiles
+4. Reject any optional ingredients that would create unusual or unpleasant combinations
+5. Focus on creating a cohesive, well-balanced dish
+6. Consider cultural and traditional cooking practices
+7. Avoid experimental or questionable flavor combinations
+8. Ensure all ingredient combinations follow established culinary principles
+9. The recipe should be something you would confidently serve in a restaurant
+
+CRITICAL RECIPE REQUIREMENTS:
+1. NEVER combine dessert items (like ice cream) with savory main dishes
+2. Create a complete, well-seasoned dish (not just plain ingredients)
+3. Add appropriate aromatics, seasonings, and complementary ingredients
+4. Ensure the recipe follows established cooking techniques
+5. Optional ingredients should only be used if they genuinely enhance the dish
+6. The final dish must be something commonly served in restaurants
+7. If optional ingredients don't fit the dish, ignore them completely
+8. Focus on creating a proper, complete recipe that makes culinary sense
 
 Additional Ingredients:
 - Basic pantry items can be assumed available (salt, pepper, oil, etc.)
@@ -85,6 +108,9 @@ Additional Ingredients:
 - Additional ingredients can be suggested if they significantly enhance the dish
 - Keep any extra ingredients simple and commonly available
 - Consider the specified cuisine style when suggesting additions
+- All additions must maintain culinary coherence`
+    : ""
+}
 
 MANDATORY RESTRICTIONS:
 ${
