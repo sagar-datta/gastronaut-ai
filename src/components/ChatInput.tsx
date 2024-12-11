@@ -8,14 +8,14 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Slider } from "@/components/ui/slider";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { generateRecipe } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -46,25 +46,9 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [recipe, setRecipe] = useState<string | null>(null);
-  const [notes, setNotes] = useState("");
-  const [modifications, setModifications] = useState<
-    Array<{
-      request: string;
-      response: { recipe: string; response: string } | null;
-      timestamp: Date;
-    }>
-  >([]);
-  const [isProcessingMod, setIsProcessingMod] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false);
   const [optionalIngredients, setOptionalIngredients] = useState("");
-
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [modifications]);
 
   const handleTimeChange = (value: number[]) => {
     setCookTime(Math.max(15, value[0]));
@@ -72,15 +56,6 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
 
   const handleServingsChange = (value: number[]) => {
     setServings(Math.max(1, value[0]));
-  };
-
-  const scrollToTop = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
   };
 
   const handleGenerateRecipe = async () => {

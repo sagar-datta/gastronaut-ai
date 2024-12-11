@@ -1,13 +1,8 @@
 import { ChatInput } from "@/components/ChatInput";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
 function App() {
-  const [hasRecipe, setHasRecipe] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleRecipeChange = (recipe: string | null) => {
-    setHasRecipe(!!recipe);
-  };
 
   return (
     <div
@@ -26,10 +21,7 @@ function App() {
       <main className="bg-white rounded-lg p-4 w-full max-w-[1800px] mx-auto flex flex-col">
         <div className="flex-1 flex flex-col">
           <div className="w-full h-full">
-            <ChatInput
-              onRecipeChange={handleRecipeChange}
-              scrollContainer={containerRef}
-            />
+            <ChatInput scrollContainer={containerRef} />
           </div>
         </div>
       </main>
