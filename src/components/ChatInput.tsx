@@ -16,7 +16,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp, ArrowLeft } from "lucide-react";
-import { generateRecipe, generateRecipeModification } from "@/lib/gemini";
+import { generateRecipe } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence } from "framer-motion";
@@ -111,61 +111,6 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
       console.error("Error:", error);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleModification = async (input: string) => {
-    const newModification = {
-      request: input,
-      response: null,
-      timestamp: new Date(),
-    };
-    setModifications((prev) => [...prev, newModification]);
-    setNotes("");
-
-    setIsProcessingMod(true);
-    try {
-      const response = await generateRecipeModification({
-        originalRecipe: recipe!,
-        modification: input,
-      });
-
-      // Update the modifications with the response
-      setModifications((prev) =>
-        prev.map((mod, index) =>
-          index === prev.length - 1
-            ? {
-                ...mod,
-                response: {
-                  recipe: response.proposedRecipe,
-                  response: response.suggestedChanges,
-                },
-              }
-            : mod
-        )
-      );
-
-      // Update the main recipe display
-      setRecipe(response.proposedRecipe);
-      onRecipeChange?.(response.proposedRecipe);
-    } catch (error) {
-      console.error("Error:", error);
-      setModifications((prev) =>
-        prev.map((mod, index) =>
-          index === prev.length - 1
-            ? {
-                ...mod,
-                response: {
-                  recipe: recipe!,
-                  response:
-                    "Failed to process modification. Please try again with a different request.",
-                },
-              }
-            : mod
-        )
-      );
-    } finally {
-      setIsProcessingMod(false);
     }
   };
 
