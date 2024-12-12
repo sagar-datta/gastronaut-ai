@@ -1,12 +1,11 @@
 import { ChatInput } from "@/components/ChatInput";
-import { Button } from "@/components/ui/button";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 
 function App() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const [recipe, setRecipe] = useState<string | null>(null);
-  const [canGenerate, setCanGenerate] = useState(false);
+  const [, setCanGenerate] = useState(false);
 
   return (
     <div

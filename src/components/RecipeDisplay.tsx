@@ -1,24 +1,29 @@
 import ReactMarkdown, { Components } from "react-markdown";
 import { Checkbox } from "./ui/checkbox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
+
+export type CheckedItems = {
+  [key: string]: {
+    text: string;
+    type: "ingredients" | "equipment";
+    checked: boolean;
+  };
+};
 
 type RecipeDisplayProps = {
   content: string;
+  onItemsChange?: (items: CheckedItems) => void;
 };
 
-// Add these helper functions at the top of the component
-const isIngredientsSection = (text: string) =>
-  text.toLowerCase().includes("## ingredients");
+export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
+  // Update the state to include more information about checked items
+  const [checkedItems, setCheckedItems] = useState<CheckedItems>({});
 
-const isEquipmentSection = (text: string) =>
-  text.toLowerCase().includes("## equipment needed");
-
-export function RecipeDisplay({ content }: RecipeDisplayProps) {
-  // Add state to track checked items
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
-    {}
-  );
+  // Add effect to notify parent of changes
+  useEffect(() => {
+    onItemsChange?.(checkedItems);
+  }, [checkedItems, onItemsChange]);
 
   const sections = content.split("\n\n");
 
@@ -59,9 +64,6 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
       const itemText = children?.toString() || "";
 
       // Find the next section header after the current item
-      const nextSectionIndex = content
-        .slice(content.indexOf(itemText))
-        .search(/\n## /);
       const currentSection = content
         .slice(0, content.indexOf(itemText))
         .split(/\n## /)
@@ -80,11 +82,15 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
           <li className="!break-inside-avoid-page flex items-start gap-2 print:!break-inside-avoid">
             <Checkbox
               id={itemKey}
-              checked={checkedItems[itemKey]}
+              checked={checkedItems[itemKey]?.checked ?? false}
               onCheckedChange={(checked) => {
                 setCheckedItems((prev) => ({
                   ...prev,
-                  [itemKey]: checked === true,
+                  [itemKey]: {
+                    text: itemText,
+                    type: sectionType,
+                    checked: checked === true,
+                  },
                 }));
               }}
               className="mt-1 print:hidden"

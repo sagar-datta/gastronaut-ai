@@ -33,6 +33,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { type CheckedItems } from "./RecipeDisplay";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -96,33 +97,85 @@ export function ChatInput({
   const [isHovered, setIsHovered] = useState(false);
   const [isPrintHovered, setIsPrintHovered] = useState(false);
   const [isPrintMobileHovered, setIsPrintMobileHovered] = useState(false);
+  const [itemsToRemove, setItemsToRemove] = useState<CheckedItems>({});
+  const hasItemsToRemove = Object.values(itemsToRemove).some(
+    (item) => item.checked
+  );
+  const [allRemovedItems, setAllRemovedItems] = useState<Set<string>>(
+    new Set()
+  );
+
+  const getButtonText = (isSmallScreen: boolean) => {
+    if (isLoading) return "Generating...";
+    if (hasItemsToRemove) return isSmallScreen ? "Remove" : "Remove Items";
+    return isSmallScreen
+      ? externalRecipe
+        ? "Regenerate"
+        : "Generate"
+      : externalRecipe
+      ? "Regenerate Recipe"
+      : "Generate Recipe";
+  };
 
   const handleGenerateRecipe = useCallback(async () => {
-    if (!input.trim()) return;
+    if (!input.trim() && !hasItemsToRemove) return;
 
     try {
       setIsLoading(true);
       onLoadingChange?.(true);
       setIsCollapsibleOpen(false);
+
       if (scrollContainer?.current) {
         scrollContainer.current.scrollIntoView({
           behavior: "smooth",
           block: "start",
         });
       }
-      const response = await generateRecipe({
-        ingredients: input,
-        optionalIngredients,
-        experience,
-        cookTime,
-        servings,
-        cuisine,
-        mealType,
-        dietaryGoal,
-        exclusions,
-        equipment,
-      });
+
+      let response;
+      if (hasItemsToRemove) {
+        const newItemsToRemove = Object.values(itemsToRemove)
+          .filter((item) => item.checked)
+          .map((item) => item.text);
+
+        const updatedRemovedItems = new Set([
+          ...allRemovedItems,
+          ...newItemsToRemove,
+        ]);
+        setAllRemovedItems(updatedRemovedItems);
+
+        response = await generateRecipe({
+          originalRecipe: externalRecipe,
+          itemsToRemove: Array.from(updatedRemovedItems),
+          ingredients: input,
+          optionalIngredients,
+          experience,
+          cookTime,
+          servings,
+          cuisine,
+          mealType,
+          dietaryGoal,
+          exclusions,
+          equipment,
+        });
+      } else {
+        setAllRemovedItems(new Set());
+        response = await generateRecipe({
+          ingredients: input,
+          optionalIngredients,
+          experience,
+          cookTime,
+          servings,
+          cuisine,
+          mealType,
+          dietaryGoal,
+          exclusions,
+          equipment,
+        });
+      }
+
       onRecipeChange?.(response);
+      setItemsToRemove({});
     } catch (error) {
       console.error("Error:", error);
     } finally {
@@ -143,6 +196,10 @@ export function ChatInput({
     onRecipeChange,
     onLoadingChange,
     scrollContainer,
+    hasItemsToRemove,
+    itemsToRemove,
+    externalRecipe,
+    allRemovedItems,
   ]);
 
   // Update parent components when input changes - only update canGenerate state
@@ -1612,7 +1669,10 @@ export function ChatInput({
                     className="h-full overflow-y-auto print:!w-full print:!max-w-none"
                   >
                     <div className="print:!break-inside-avoid-page">
-                      <RecipeDisplay content={externalRecipe} />
+                      <RecipeDisplay
+                        content={externalRecipe}
+                        onItemsChange={setItemsToRemove}
+                      />
                     </div>
                   </motion.div>
                 ) : null}
@@ -1646,13 +1706,26 @@ export function ChatInput({
                     size="lg"
                     className="lg:hidden"
                     onClick={() => {
-                      window.scrollTo({
-                        top: 0,
-                        behavior: "smooth",
-                      });
-                      requestAnimationFrame(() => {
-                        setIsCollapsibleOpen((prev) => !prev);
-                      });
+                      const container = document.documentElement;
+                      const startPosition = container.scrollTop;
+                      const duration = 50; // Super short duration, almost instant
+                      const startTime = performance.now();
+
+                      const scroll = (currentTime: number) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+
+                        // Simple linear animation for fastest execution
+                        container.scrollTop = startPosition * (1 - progress);
+
+                        if (progress < 1) {
+                          requestAnimationFrame(scroll);
+                        } else {
+                          setIsCollapsibleOpen((prev) => !prev);
+                        }
+                      };
+
+                      requestAnimationFrame(scroll);
                     }}
                   >
                     <span className="sm:hidden">Modify</span>
@@ -1666,31 +1739,27 @@ export function ChatInput({
                       <Button
                         size="lg"
                         className="px-8"
-                        disabled={isLoading || !input.trim()}
+                        disabled={
+                          isLoading || (!input.trim() && !hasItemsToRemove)
+                        }
                         onClick={handleGenerateRecipe}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                       >
-                        {isLoading ? (
-                          "Generating..."
-                        ) : (
-                          <>
-                            <span className="sm:hidden">
-                              {externalRecipe ? "Regenerate" : "Generate"}
-                            </span>
-                            <span className="hidden sm:inline">
-                              {externalRecipe
-                                ? "Regenerate Recipe"
-                                : "Generate Recipe"}
-                            </span>
-                          </>
-                        )}
+                        <span className="sm:hidden">{getButtonText(true)}</span>
+                        <span className="hidden sm:inline">
+                          {getButtonText(false)}
+                        </span>
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent className="lg:block">
                       <p>
                         Press {getOSShortcut()} to{" "}
-                        {externalRecipe ? "regenerate" : "generate"}
+                        {hasItemsToRemove
+                          ? "remove"
+                          : externalRecipe
+                          ? "regenerate"
+                          : "generate"}
                       </p>
                     </TooltipContent>
                   </Tooltip>

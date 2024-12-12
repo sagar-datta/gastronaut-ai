@@ -13,6 +13,8 @@ interface RecipeInput {
   dietaryGoal?: string;
   exclusions?: string;
   equipment?: string;
+  originalRecipe?: string | null;
+  itemsToRemove?: string[];
 }
 
 const getExperienceDescription = (level: string) => {
@@ -60,7 +62,148 @@ export async function generateRecipe({
   dietaryGoal,
   exclusions,
   equipment,
+  originalRecipe,
+  itemsToRemove,
 }: RecipeInput): Promise<string> {
+  if (originalRecipe && itemsToRemove?.length) {
+    const modificationPrompt = `You are a professional chef modifying an existing recipe. Here's the task:
+
+ORIGINAL RECIPE:
+${originalRecipe}
+
+ITEMS TO REMOVE:
+${itemsToRemove.join("\n")}
+
+CRITICAL NOTE ABOUT REMOVED ITEMS:
+- This list includes ALL previously removed items
+- NONE of these items should appear in the modified recipe
+- Do not reintroduce any of these items, even as alternatives
+- If suggesting replacements, ensure they are different from all removed items
+
+TASK:
+1. Modify the recipe to remove these items while maintaining a delicious and coherent dish
+2. Replace removed items with suitable alternatives where necessary
+3. Adjust quantities and instructions accordingly
+4. Maintain the same style and format as the original recipe
+5. Keep all other ingredients that weren't removed
+
+MANDATORY CONSTRAINTS:
+${
+  exclusions
+    ? `The following ingredients and their derivatives MUST NOT be used under any circumstances:
+${exclusions}
+
+You must ensure:
+1. None of these ingredients appear in the recipe
+2. No derivatives or related ingredients are used
+3. No suggested substitutions include these items
+4. No cross-contamination risks are introduced
+5. All replacements are completely free of these items`
+    : ""
+}
+
+${
+  dietaryGoal
+    ? `DIETARY REQUIREMENTS:
+Primary Goal: ${dietaryGoal}
+
+This recipe MUST strictly adhere to these dietary specifications:
+1. For specific diets (e.g., vegetarian, vegan, kosher):
+   - Exclude ALL non-compliant ingredients
+   - Ensure no cross-contamination suggestions
+   - Verify all suggested substitutes are compliant
+   
+2. For macronutrient goals (e.g., high-protein, low-carb):
+   - Prioritize ingredients that match the dietary goal
+   - Include approximate macronutrient ratios
+   - Suggest modifications to further align with the goal
+   - Focus cooking techniques that support the dietary requirement
+
+3. For health-specific diets:
+   - Strictly avoid any non-compliant ingredients
+   - Consider ingredient interactions
+   - Include relevant nutritional notes`
+    : ""
+}
+
+COOKING PARAMETERS:
+Experience Level:
+${getExperienceDescription(experience)}
+
+Time Constraints:
+- Maximum Total Time Allowed: ${cookTime} minutes
+This is a STRICT maximum time limit that includes:
+1. All preparation time (washing, chopping, measuring)
+2. All cooking time (heating, cooking, baking)
+3. Any resting or cooling time required
+4. Any sauce or garnish preparation
+The recipe MUST be completable within ${cookTime} minutes by someone of the specified experience level.
+
+${
+  cuisine
+    ? `Cuisine Style:
+- The recipe should maintain ${cuisine} cuisine elements where possible
+- Use authentic techniques and flavor profiles
+- Adapt traditional methods to available ingredients
+- Maintain cultural authenticity while accommodating changes`
+    : ""
+}
+
+${
+  mealType
+    ? `Meal Context:
+- Time of Day: Consider appropriate dishes for ${mealType}
+- Meal Type: Adapt recipe complexity and portion size accordingly
+- Consider traditional meal patterns for this time of day
+- Ensure the recipe suits the intended dining occasion`
+    : ""
+}
+
+${
+  equipment
+    ? `Available Equipment:
+${equipment}
+
+Equipment Guidelines:
+- These are the available cooking tools
+- Adapt techniques to use available equipment
+- Suggest alternative methods if needed
+- Basic kitchen equipment can be assumed available
+- Consider equipment limitations in timing estimates`
+    : ""
+}
+
+Serving Size: ${servings} ${servings === 1 ? "person" : "people"}
+
+IMPORTANT GUIDELINES:
+1. If an item can't be simply removed, suggest a suitable replacement
+2. Maintain the dish's core identity where possible
+3. If the dish becomes impractical after removals, create a new but similar recipe
+4. Keep any non-removed ingredients in the new version
+5. Maintain the same level of detail in instructions
+6. Ensure all measurements and timings are adjusted accordingly
+7. Keep the same markdown formatting structure
+
+Format the recipe exactly as the original, maintaining all sections:
+- Recipe Name
+- Description
+- Ingredients
+- Equipment Needed
+- Instructions
+- Cooking Tips
+- Time Breakdown`;
+
+    try {
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const result = await model.generateContent(modificationPrompt);
+      const response = await result.response;
+      return response.text();
+    } catch (error) {
+      console.error("Error modifying recipe:", error);
+      throw new Error("Failed to modify recipe");
+    }
+  }
+
   const prompt = `You are a professional chef creating a recipe. Please create a detailed, easy-to-follow recipe based on these specifications:
 
 INGREDIENTS MANAGEMENT:
