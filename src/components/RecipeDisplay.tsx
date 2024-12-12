@@ -35,11 +35,11 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
   // Custom component to handle headings
   const components = {
     h1: ({ children }: { children: React.ReactNode }) => (
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <h1 className="mb-0">{children}</h1>
         <Button
           variant="outline"
-          className="print:hidden"
+          className="print:hidden w-full sm:w-auto"
           onClick={() => window.print()}
         >
           Print Recipe
