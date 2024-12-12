@@ -512,7 +512,11 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                         onClick={handleGenerateRecipe}
                         disabled={isLoading || !input.trim()}
                       >
-                        {isLoading ? "Generating..." : "Generate Recipe"}
+                        {isLoading
+                          ? "Generating..."
+                          : recipe
+                          ? "Regenerate Recipe"
+                          : "Generate Recipe"}
                       </Button>
                     </div>
                   </div>
