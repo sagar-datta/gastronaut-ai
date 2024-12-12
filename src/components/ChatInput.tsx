@@ -1672,7 +1672,10 @@ export function ChatInput({
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent className="lg:block">
-                      <p>Press {getOSShortcut()} to generate</p>
+                      <p>
+                        Press {getOSShortcut()} to{" "}
+                        {externalRecipe ? "regenerate" : "generate"}
+                      </p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
