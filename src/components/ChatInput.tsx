@@ -1001,9 +1001,9 @@ export function ChatInput({
             className="absolute inset-0 bg-white/95 backdrop-blur-[12px] transition-all duration-500"
             style={{
               maskImage:
-                "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)",
+                "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)",
               WebkitMaskImage:
-                "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)",
+                "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)",
             }}
           />
 
@@ -1025,7 +1025,7 @@ export function ChatInput({
                 </Button>
               </div>
 
-              {externalRecipe && (
+              {externalRecipe && !isLoading && (
                 <div className="pointer-events-auto">
                   <Button
                     size="lg"
