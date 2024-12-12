@@ -79,6 +79,7 @@ export function ChatInput({
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false);
   const [optionalIngredients, setOptionalIngredients] = useState("");
   const [hasSetHandler, setHasSetHandler] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleGenerateRecipe = useCallback(async () => {
     if (!input.trim()) return;
@@ -1644,13 +1645,15 @@ export function ChatInput({
                 )}
 
                 <TooltipProvider>
-                  <Tooltip>
+                  <Tooltip open={isHovered}>
                     <TooltipTrigger asChild>
                       <Button
                         size="lg"
                         className="px-8"
                         disabled={isLoading || !input.trim()}
                         onClick={handleGenerateRecipe}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
                       >
                         {isLoading ? (
                           "Generating..."
@@ -1668,7 +1671,7 @@ export function ChatInput({
                         )}
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent className="hidden lg:block">
+                    <TooltipContent className="lg:block">
                       <p>Press {getOSShortcut()} to generate</p>
                     </TooltipContent>
                   </Tooltip>
