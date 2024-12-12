@@ -27,6 +27,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -35,6 +41,21 @@ interface ChatInputProps {
   scrollContainer?: React.RefObject<HTMLDivElement>;
   recipe: string | null;
 }
+
+const getOSShortcut = () => {
+  // Check if running in browser environment
+  if (typeof window === "undefined") return "Ctrl + ↵";
+
+  const platform = window.navigator.platform.toLowerCase();
+
+  if (platform.includes("mac")) {
+    return "⌘ + ↵";
+  } else if (platform.includes("win")) {
+    return "Ctrl + ↵";
+  } else {
+    return "Ctrl + Enter";
+  }
+};
 
 export function ChatInput({
   onRecipeChange,
@@ -1622,30 +1643,36 @@ export function ChatInput({
                   </Button>
                 )}
 
-                <Button
-                  size="lg"
-                  className="px-8"
-                  disabled={isLoading || !input.trim()}
-                  onClick={handleGenerateRecipe}
-                >
-                  {isLoading ? (
-                    "Generating..."
-                  ) : (
-                    <>
-                      <span className="sm:hidden">
-                        {externalRecipe ? "Regenerate" : "Generate"}
-                      </span>
-                      <span className="hidden sm:inline">
-                        {externalRecipe
-                          ? "Regenerate Recipe"
-                          : "Generate Recipe"}
-                        <span className="ml-2 opacity-60 text-sm hidden lg:inline">
-                          (⌘ + ↵)
-                        </span>
-                      </span>
-                    </>
-                  )}
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="lg"
+                        className="px-8"
+                        disabled={isLoading || !input.trim()}
+                        onClick={handleGenerateRecipe}
+                      >
+                        {isLoading ? (
+                          "Generating..."
+                        ) : (
+                          <>
+                            <span className="sm:hidden">
+                              {externalRecipe ? "Regenerate" : "Generate"}
+                            </span>
+                            <span className="hidden sm:inline">
+                              {externalRecipe
+                                ? "Regenerate Recipe"
+                                : "Generate Recipe"}
+                            </span>
+                          </>
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="hidden lg:block">
+                      <p>Press {getOSShortcut()} to generate</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
 
                 {externalRecipe && !isLoading && (
                   <>
