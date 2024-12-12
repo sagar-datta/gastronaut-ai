@@ -57,6 +57,20 @@ const getOSShortcut = () => {
   }
 };
 
+const getPrintShortcut = () => {
+  if (typeof window === "undefined") return "Ctrl + P";
+
+  const platform = window.navigator.platform.toLowerCase();
+
+  if (platform.includes("mac")) {
+    return "⌘ + P";
+  } else if (platform.includes("win")) {
+    return "Ctrl + P";
+  } else {
+    return "Ctrl + P";
+  }
+};
+
 export function ChatInput({
   onRecipeChange,
   onLoadingChange,
@@ -80,6 +94,8 @@ export function ChatInput({
   const [optionalIngredients, setOptionalIngredients] = useState("");
   const [hasSetHandler, setHasSetHandler] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isPrintHovered, setIsPrintHovered] = useState(false);
+  const [isPrintMobileHovered, setIsPrintMobileHovered] = useState(false);
 
   const handleGenerateRecipe = useCallback(async () => {
     if (!input.trim()) return;
@@ -1682,23 +1698,46 @@ export function ChatInput({
 
                 {externalRecipe && !isLoading && (
                   <>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="px-8 sm:flex hidden items-center gap-2"
-                      onClick={() => window.print()}
-                    >
-                      <Printer className="h-4 w-4" />
-                      Print Recipe
-                    </Button>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="px-4 sm:hidden flex items-center"
-                      onClick={() => window.print()}
-                    >
-                      <Printer className="h-4 w-4" />
-                    </Button>
+                    <TooltipProvider>
+                      <Tooltip open={isPrintHovered}>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size="lg"
+                            variant="outline"
+                            className="px-8 sm:flex hidden items-center gap-2"
+                            onClick={() => window.print()}
+                            onMouseEnter={() => setIsPrintHovered(true)}
+                            onMouseLeave={() => setIsPrintHovered(false)}
+                          >
+                            <Printer className="h-4 w-4" />
+                            Print Recipe
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent className="lg:block">
+                          <p>Press {getPrintShortcut()} to print</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+
+                    <TooltipProvider>
+                      <Tooltip open={isPrintMobileHovered}>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size="lg"
+                            variant="outline"
+                            className="px-4 sm:hidden flex items-center"
+                            onClick={() => window.print()}
+                            onMouseEnter={() => setIsPrintMobileHovered(true)}
+                            onMouseLeave={() => setIsPrintMobileHovered(false)}
+                          >
+                            <Printer className="h-4 w-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent className="lg:block">
+                          <p>Press {getPrintShortcut()} to print</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </>
                 )}
               </div>
