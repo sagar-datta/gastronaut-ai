@@ -15,7 +15,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Printer } from "lucide-react";
 import { generateRecipe } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -993,21 +993,53 @@ export function ChatInput({
         </AnimatePresence>
       </motion.div>
 
-      {/* Add the floating button */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t print:hidden z-50">
-        <div className="w-full max-w-[1800px] mx-auto flex justify-center">
-          <Button
-            size="lg"
-            className="px-8"
-            disabled={isLoading || !input.trim()}
-            onClick={handleGenerateRecipe}
-          >
-            {isLoading
-              ? "Generating..."
-              : externalRecipe
-              ? "Regenerate Recipe"
-              : "Generate Recipe"}
-          </Button>
+      {/* Add the floating button with progressive blur effect */}
+      <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
+        <div className="relative">
+          {/* Single blur layer with mask gradient - click-through */}
+          <div
+            className="absolute inset-0 bg-white/95 backdrop-blur-[12px] transition-all duration-500"
+            style={{
+              maskImage:
+                "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)",
+            }}
+          />
+
+          {/* Button container - only this should be interactive */}
+          <div className="relative pb-6 pt-24">
+            <div className="w-full max-w-[1800px] mx-auto flex justify-center gap-2 px-4">
+              <div className="pointer-events-auto">
+                <Button
+                  size="lg"
+                  className="px-8"
+                  disabled={isLoading || !input.trim()}
+                  onClick={handleGenerateRecipe}
+                >
+                  {isLoading
+                    ? "Generating..."
+                    : externalRecipe
+                    ? "Regenerate Recipe"
+                    : "Generate Recipe"}
+                </Button>
+              </div>
+
+              {externalRecipe && (
+                <div className="pointer-events-auto">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="px-8 flex items-center gap-2"
+                    onClick={() => window.print()}
+                  >
+                    <Printer className="h-4 w-4" />
+                    Print Recipe
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

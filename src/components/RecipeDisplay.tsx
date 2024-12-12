@@ -36,32 +36,30 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
   // Custom component to handle headings
   const components = {
     h1: ({ children }: { children: React.ReactNode }) => (
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <h1 className="mb-0">{children}</h1>
-        <div className="flex justify-start">
-          <Button
-            variant="outline"
-            className="print:hidden flex items-center gap-2"
-            onClick={() => window.print()}
-          >
-            <Printer className="h-4 w-4" />
-            Print Recipe
-          </Button>
-        </div>
-      </div>
+      <h1 className="mb-0 print:!break-before-page">{children}</h1>
     ),
     h2: ({ children }: { children: React.ReactNode }) => (
-      <div className="!break-inside-avoid-page !break-after-auto">
-        <h2>{children}</h2>
-      </div>
+      <h2 className="print:!break-before-page">{children}</h2>
+    ),
+    ul: ({ children }: { children: React.ReactNode }) => (
+      <ul className="!break-inside-avoid-page">{children}</ul>
+    ),
+    ol: ({ children }: { children: React.ReactNode }) => (
+      <ol className="!break-inside-avoid-page">{children}</ol>
+    ),
+    li: ({ children }: { children: React.ReactNode }) => (
+      <li className="!break-inside-avoid">{children}</li>
+    ),
+    p: ({ children }: { children: React.ReactNode }) => (
+      <p className="!break-inside-avoid">{children}</p>
     ),
   };
 
   return (
-    <div className="prose max-w-none p-6 print:p-0 print:my-0">
+    <div className="prose max-w-none p-6 print:p-0 print:my-0 print:!break-after-auto">
       <div className="space-y-4 print:space-y-2">
-        {/* Title with Print Button */}
-        <div className="!break-inside-avoid-page">
+        {/* Title */}
+        <div className="print:!break-before-avoid print:!break-after-avoid">
           <ReactMarkdown components={components as Partial<Components>}>
             {titleSection}
           </ReactMarkdown>
@@ -69,7 +67,7 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
 
         {/* Description */}
         {filteredSections.slice(1, ingredientsIndex).map((section, index) => (
-          <div key={index} className="!break-inside-avoid-page">
+          <div key={index} className="print:!break-inside-avoid-page">
             <ReactMarkdown components={components as Partial<Components>}>
               {section}
             </ReactMarkdown>
@@ -78,7 +76,7 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
 
         {/* Ingredients section */}
         {ingredientsSection && (
-          <div className="!break-inside-avoid-page">
+          <div className="print:!break-before-page print:!break-after-auto">
             <ReactMarkdown components={components as Partial<Components>}>
               {ingredientsSection}
             </ReactMarkdown>
@@ -87,7 +85,7 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
 
         {/* Equipment section */}
         {equipmentSection && (
-          <div className="!break-inside-avoid-page">
+          <div className="print:!break-before-page print:!break-after-auto">
             <ReactMarkdown components={components as Partial<Components>}>
               {equipmentSection}
             </ReactMarkdown>
@@ -95,13 +93,20 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         )}
 
         {/* Remaining sections */}
-        {filteredSections.slice(ingredientsIndex + 1).map((section, index) => (
-          <div key={index} className="!break-inside-avoid-page">
-            <ReactMarkdown components={components as Partial<Components>}>
-              {section}
-            </ReactMarkdown>
-          </div>
-        ))}
+        {filteredSections
+          .slice(ingredientsIndex + 1)
+          .map((section, index, array) => (
+            <div
+              key={index}
+              className={`print:!break-before-page ${
+                index === array.length - 1 ? "print:!break-after-auto" : ""
+              }`}
+            >
+              <ReactMarkdown components={components as Partial<Components>}>
+                {section}
+              </ReactMarkdown>
+            </div>
+          ))}
       </div>
     </div>
   );
