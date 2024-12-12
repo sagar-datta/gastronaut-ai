@@ -147,7 +147,7 @@ export function ChatInput({
             <CollapsibleTrigger asChild>
               <Button
                 variant="ghost"
-                className="flex items-center gap-2 p-4 lg:hidden mx-auto"
+                className="flex items-center gap-2 p-4 lg:hidden mx-auto mb-4"
               >
                 <span>Modify Recipe</span>
                 <ChevronDown className="h-4 w-4" />
@@ -1030,11 +1030,19 @@ export function ChatInput({
                   <Button
                     size="lg"
                     variant="outline"
-                    className="px-8 flex items-center gap-2"
+                    className="px-8 sm:flex hidden items-center gap-2"
                     onClick={() => window.print()}
                   >
                     <Printer className="h-4 w-4" />
                     Print Recipe
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="px-4 sm:hidden flex items-center"
+                    onClick={() => window.print()}
+                  >
+                    <Printer className="h-4 w-4" />
                   </Button>
                 </div>
               )}
