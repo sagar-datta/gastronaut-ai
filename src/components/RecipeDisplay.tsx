@@ -1,5 +1,6 @@
 import ReactMarkdown, { Components } from "react-markdown";
 import { Button } from "./ui/button";
+import { Printer } from "lucide-react";
 
 type RecipeDisplayProps = {
   content: string;
@@ -40,9 +41,10 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         <div className="flex justify-start">
           <Button
             variant="outline"
-            className="print:hidden"
+            className="print:hidden flex items-center gap-2"
             onClick={() => window.print()}
           >
+            <Printer className="h-4 w-4" />
             Print Recipe
           </Button>
         </div>
