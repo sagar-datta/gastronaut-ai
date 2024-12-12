@@ -37,13 +37,15 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
     h1: ({ children }: { children: React.ReactNode }) => (
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <h1 className="mb-0">{children}</h1>
-        <Button
-          variant="outline"
-          className="print:hidden w-full sm:w-auto"
-          onClick={() => window.print()}
-        >
-          Print Recipe
-        </Button>
+        <div className="flex justify-start">
+          <Button
+            variant="outline"
+            className="print:hidden"
+            onClick={() => window.print()}
+          >
+            Print Recipe
+          </Button>
+        </div>
       </div>
     ),
     h2: ({ children }: { children: React.ReactNode }) => (
