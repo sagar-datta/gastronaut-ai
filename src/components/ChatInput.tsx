@@ -144,10 +144,411 @@ export function ChatInput({
             open={isCollapsibleOpen}
             onOpenChange={setIsCollapsibleOpen}
           >
-            <CollapsibleContent
-              forceMount
-              className="hidden lg:block data-[state=open]:block"
-            >
+            <AnimatePresence>
+              {isCollapsibleOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{
+                    duration: 0.4,
+                    ease: "easeOut",
+                    opacity: { duration: 0.3 },
+                  }}
+                  className="overflow-hidden lg:hidden"
+                >
+                  <div className="flex-1 min-h-0">
+                    <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
+                      {/* Experience Level Section */}
+                      <Card className="col-span-1">
+                        <CardHeader>
+                          <CardTitle>Experience Level</CardTitle>
+                          <CardDescription>
+                            Select your comfort level in the kitchen to get
+                            personalized recipe suggestions
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div
+                            className={`${
+                              externalRecipe || isLoading
+                                ? "min-[950px]:block hidden"
+                                : "min-[500px]:block hidden"
+                            }`}
+                          >
+                            <Tabs
+                              defaultValue="beginner"
+                              value={experience}
+                              onValueChange={setExperience}
+                            >
+                              <TabsList className="grid w-full grid-cols-3">
+                                <TabsTrigger value="beginner">
+                                  Beginner Cook
+                                </TabsTrigger>
+                                <TabsTrigger value="intermediate">
+                                  Home Chef
+                                </TabsTrigger>
+                                <TabsTrigger value="advanced">
+                                  Professional
+                                </TabsTrigger>
+                              </TabsList>
+                            </Tabs>
+                          </div>
+                          <div
+                            className={`${
+                              externalRecipe || isLoading
+                                ? "min-[950px]:hidden block"
+                                : "min-[500px]:hidden block"
+                            }`}
+                          >
+                            <Select
+                              value={experience}
+                              onValueChange={setExperience}
+                            >
+                              <SelectTrigger className="font-medium">
+                                <SelectValue placeholder="Select experience level" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem
+                                  value="beginner"
+                                  className="font-medium"
+                                >
+                                  Beginner Cook
+                                </SelectItem>
+                                <SelectItem
+                                  value="intermediate"
+                                  className="font-medium"
+                                >
+                                  Home Chef
+                                </SelectItem>
+                                <SelectItem
+                                  value="advanced"
+                                  className="font-medium"
+                                >
+                                  Professional
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {/* Time and Servings */}
+                      <div
+                        className={`grid grid-cols-1 ${
+                          externalRecipe || isLoading
+                            ? "[&>*]:col-span-1 min-[1255px]:grid-cols-2"
+                            : "md:grid-cols-2"
+                        } gap-8 col-span-1`}
+                      >
+                        {/* Time Constraints */}
+                        <Card className="flex flex-col">
+                          <CardHeader>
+                            <CardTitle>Time Available</CardTitle>
+                            <CardDescription>
+                              How much time do you have to cook?
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent className="flex-1 flex flex-col justify-end">
+                            <div className="space-y-4">
+                              <div className="flex items-center justify-center gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="icon"
+                                  disabled={cookTime <= 15}
+                                  onClick={() =>
+                                    setCookTime((prev) =>
+                                      Math.max(15, prev - 5)
+                                    )
+                                  }
+                                >
+                                  -
+                                </Button>
+                                <div className="text-lg min-w-[120px] text-center">
+                                  <span className="font-bold">{cookTime}</span>{" "}
+                                  <span className="text-muted-foreground">
+                                    minutes
+                                  </span>
+                                </div>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="icon"
+                                  disabled={cookTime >= 180}
+                                  onClick={() =>
+                                    setCookTime((prev) =>
+                                      Math.min(180, prev + 5)
+                                    )
+                                  }
+                                >
+                                  +
+                                </Button>
+                              </div>
+                              <Slider
+                                value={[cookTime]}
+                                onValueChange={handleTimeChange}
+                                min={0}
+                                max={180}
+                                step={5}
+                                className="pt-2"
+                              />
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Serving Size */}
+                        <Card className="flex flex-col">
+                          <CardHeader>
+                            <CardTitle>Serving Size</CardTitle>
+                            <CardDescription>
+                              How many people are you cooking for?
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent className="flex-1 flex flex-col justify-end">
+                            <div className="space-y-4">
+                              <div className="flex items-center justify-center gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="icon"
+                                  disabled={servings <= 1}
+                                  onClick={() =>
+                                    setServings((prev) => Math.max(1, prev - 1))
+                                  }
+                                >
+                                  -
+                                </Button>
+                                <div className="text-lg min-w-[120px] text-center">
+                                  <span className="font-bold">{servings}</span>{" "}
+                                  <span className="text-muted-foreground">
+                                    {servings === 1 ? "person" : "people"}
+                                  </span>
+                                </div>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="icon"
+                                  disabled={servings >= 18}
+                                  onClick={() =>
+                                    setServings((prev) =>
+                                      Math.min(18, prev + 1)
+                                    )
+                                  }
+                                >
+                                  +
+                                </Button>
+                              </div>
+                              <Slider
+                                value={[servings]}
+                                onValueChange={handleServingsChange}
+                                min={0}
+                                max={18}
+                                step={1}
+                                className="pt-2"
+                              />
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      {/* Ingredients Section */}
+                      <Card className="col-span-1">
+                        <CardHeader>
+                          <CardTitle>Ingredients</CardTitle>
+                          <CardDescription>
+                            List your ingredients with approximate amounts -
+                            don't worry about being too precise!
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                          <div className="space-y-2">
+                            <div className="font-medium">
+                              Required Ingredients
+                            </div>
+                            <Textarea
+                              value={input}
+                              onChange={(e) => setInput(e.target.value)}
+                              placeholder="e.g., 2 chicken breasts, a bag of rice..."
+                              className="flex-1 min-h-[100px] resize-none"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <div className="font-medium flex sm:items-center sm:flex-row flex-col gap-2">
+                              Optional Ingredients
+                              <span className="text-sm font-normal text-muted-foreground">
+                                (Nice to have, but not essential)
+                              </span>
+                            </div>
+                            <Textarea
+                              value={optionalIngredients}
+                              onChange={(e) =>
+                                setOptionalIngredients(e.target.value)
+                              }
+                              placeholder="e.g., fresh herbs, spices, garnishes..."
+                              className="flex-1 min-h-[100px] resize-none"
+                            />
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {/* Additional Settings Collapsible */}
+                      <Collapsible
+                        open={isOpen}
+                        onOpenChange={setIsOpen}
+                        className="w-full space-y-2 col-span-1"
+                      >
+                        <div className="flex justify-center">
+                          <CollapsibleTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              className="flex items-center gap-2 p-4"
+                            >
+                              <span>Optional Extra Inputs</span>
+                              {isOpen ? (
+                                <ChevronUp className="h-4 w-4" />
+                              ) : (
+                                <ChevronDown className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </CollapsibleTrigger>
+                        </div>
+                        <CollapsibleContent className="space-y-8">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* Cuisine Preferences */}
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                  Cuisine Preferences
+                                  <span className="text-sm font-normal text-muted-foreground">
+                                    (Optional)
+                                  </span>
+                                </CardTitle>
+                                <CardDescription>
+                                  Describe your preferred style of cooking or
+                                  specific cuisines you'd like to explore
+                                </CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <Textarea
+                                  value={cuisine}
+                                  onChange={(e) => setCuisine(e.target.value)}
+                                  placeholder="e.g., I love spicy Indian food, or I'd like to try making authentic Italian pasta..."
+                                  className="flex-1 min-h-[100px] resize-none"
+                                />
+                              </CardContent>
+                            </Card>
+
+                            {/* Meal Type */}
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                  Meal Type
+                                  <span className="text-sm font-normal text-muted-foreground">
+                                    (Optional)
+                                  </span>
+                                </CardTitle>
+                                <CardDescription>
+                                  Describe what kind of meal you're planning to
+                                  make and its context
+                                </CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <Textarea
+                                  value={mealType}
+                                  onChange={(e) => setMealType(e.target.value)}
+                                  placeholder="e.g., Post-workout dinner, light lunch for work, weekend brunch with friends..."
+                                  className="flex-1 min-h-[100px] resize-none"
+                                />
+                              </CardContent>
+                            </Card>
+
+                            {/* Dietary Goals */}
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                  Dietary Goals
+                                  <span className="text-sm font-normal text-muted-foreground">
+                                    (Optional)
+                                  </span>
+                                </CardTitle>
+                                <CardDescription>
+                                  Tell us about your nutritional preferences or
+                                  dietary objectives
+                                </CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <Textarea
+                                  value={dietaryGoal}
+                                  onChange={(e) =>
+                                    setDietaryGoal(e.target.value)
+                                  }
+                                  placeholder="e.g., I'm looking for high-protein meals for muscle gain, or I want to reduce carbs..."
+                                  className="flex-1 min-h-[100px] resize-none"
+                                />
+                              </CardContent>
+                            </Card>
+
+                            {/* Dietary Restrictions */}
+                            <Card>
+                              <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                  Dietary Restrictions
+                                  <span className="text-sm font-normal text-muted-foreground">
+                                    (Optional)
+                                  </span>
+                                </CardTitle>
+                                <CardDescription>
+                                  Tell us about any allergies, intolerances, or
+                                  ingredients you'd like to avoid
+                                </CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <Textarea
+                                  value={exclusions}
+                                  onChange={(e) =>
+                                    setExclusions(e.target.value)
+                                  }
+                                  placeholder="e.g., peanuts, dairy, shellfish, mushrooms..."
+                                  className="flex-1 min-h-[70px] resize-none"
+                                />
+                              </CardContent>
+                            </Card>
+
+                            {/* Equipment Section */}
+                            <Card className="col-span-1 md:col-span-2">
+                              <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                  Cooking Equipment
+                                  <span className="text-sm font-normal text-muted-foreground">
+                                    (Optional)
+                                  </span>
+                                </CardTitle>
+                                <CardDescription>
+                                  Tell us what cooking equipment you have
+                                  available - this helps us suggest suitable
+                                  recipes
+                                </CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <Textarea
+                                  value={equipment}
+                                  onChange={(e) => setEquipment(e.target.value)}
+                                  placeholder="e.g., oven, stovetop, slow cooker, air fryer..."
+                                  className="flex-1 min-h-[70px] resize-none"
+                                />
+                              </CardContent>
+                            </Card>
+                          </div>
+                        </CollapsibleContent>
+                      </Collapsible>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <CollapsibleContent forceMount className="hidden lg:block">
               <motion.div
                 className="flex flex-col h-full overflow-hidden print:!hidden"
                 initial={false}
@@ -1008,8 +1409,13 @@ export function ChatInput({
                     size="lg"
                     className="lg:hidden"
                     onClick={() => {
-                      setIsCollapsibleOpen(!isCollapsibleOpen);
-                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                      requestAnimationFrame(() => {
+                        setIsCollapsibleOpen((prev) => !prev);
+                      });
                     }}
                   >
                     <span className="sm:hidden">Modify</span>
