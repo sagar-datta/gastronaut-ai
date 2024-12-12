@@ -136,17 +136,22 @@ export function ChatInput({
       if (hasItemsToRemove) {
         const newItemsToRemove = Object.values(itemsToRemove)
           .filter((item) => item.checked)
-          .map((item) => item.text);
-
-        const updatedRemovedItems = new Set([
-          ...allRemovedItems,
-          ...newItemsToRemove,
-        ]);
-        setAllRemovedItems(updatedRemovedItems);
+          .reduce(
+            (acc, item) => {
+              if (item.type === "ingredients") {
+                acc.ingredients.push(item.text);
+              } else if (item.type === "equipment") {
+                acc.equipment.push(item.text);
+              }
+              return acc;
+            },
+            { ingredients: [], equipment: [] } as {
+              ingredients: string[];
+              equipment: string[];
+            }
+          );
 
         response = await generateRecipe({
-          originalRecipe: externalRecipe,
-          itemsToRemove: Array.from(updatedRemovedItems),
           ingredients: input,
           optionalIngredients,
           experience,
@@ -157,6 +162,7 @@ export function ChatInput({
           dietaryGoal,
           exclusions,
           equipment,
+          itemsToRemove: newItemsToRemove,
         });
       } else {
         setAllRemovedItems(new Set());
