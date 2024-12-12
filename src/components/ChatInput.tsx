@@ -395,7 +395,40 @@ export function ChatInput({
                       {/* Additional Settings Collapsible */}
                       <Collapsible
                         open={isOpen}
-                        onOpenChange={setIsOpen}
+                        onOpenChange={(open) => {
+                          if (!open) {
+                            // Get the trigger button position before animation starts
+                            const trigger = document.querySelector(
+                              "[data-optional-trigger]"
+                            );
+                            if (trigger) {
+                              const rect = trigger.getBoundingClientRect();
+                              const scrollTarget =
+                                window.scrollY +
+                                rect.top -
+                                window.innerHeight +
+                                rect.height +
+                                100;
+
+                              // First scroll to position
+                              new Promise<void>((resolve) => {
+                                window.scrollTo({
+                                  top: scrollTarget,
+                                  behavior: "smooth",
+                                });
+
+                                // Wait for scroll to complete (roughly 500ms)
+                                setTimeout(resolve, 500);
+                              }).then(() => {
+                                // Then close the collapsible
+                                setIsOpen(open);
+                              });
+                            }
+                          } else {
+                            // If opening, just set state immediately
+                            setIsOpen(open);
+                          }
+                        }}
                         className="w-full space-y-2 col-span-1"
                       >
                         <div className="flex justify-center">
@@ -403,6 +436,7 @@ export function ChatInput({
                             <Button
                               variant="ghost"
                               className="flex items-center gap-2 p-4"
+                              data-optional-trigger
                             >
                               <span>Optional Extra Inputs</span>
                               {isOpen ? (
@@ -814,7 +848,40 @@ export function ChatInput({
                     {/* Additional Settings Collapsible */}
                     <Collapsible
                       open={isOpen}
-                      onOpenChange={setIsOpen}
+                      onOpenChange={(open) => {
+                        if (!open) {
+                          // Get the trigger button position before animation starts
+                          const trigger = document.querySelector(
+                            "[data-optional-trigger]"
+                          );
+                          if (trigger) {
+                            const rect = trigger.getBoundingClientRect();
+                            const scrollTarget =
+                              window.scrollY +
+                              rect.top -
+                              window.innerHeight +
+                              rect.height +
+                              100;
+
+                            // First scroll to position
+                            new Promise<void>((resolve) => {
+                              window.scrollTo({
+                                top: scrollTarget,
+                                behavior: "smooth",
+                              });
+
+                              // Wait for scroll to complete (roughly 500ms)
+                              setTimeout(resolve, 500);
+                            }).then(() => {
+                              // Then close the collapsible
+                              setIsOpen(open);
+                            });
+                          }
+                        } else {
+                          // If opening, just set state immediately
+                          setIsOpen(open);
+                        }
+                      }}
                       className="w-full space-y-2 col-span-1"
                     >
                       <div className="flex justify-center">
@@ -822,6 +889,7 @@ export function ChatInput({
                           <Button
                             variant="ghost"
                             className="flex items-center gap-2 p-4"
+                            data-optional-trigger
                           >
                             <span>Optional Extra Inputs</span>
                             {isOpen ? (
@@ -1220,7 +1288,40 @@ export function ChatInput({
                 {/* Additional Settings Collapsible */}
                 <Collapsible
                   open={isOpen}
-                  onOpenChange={setIsOpen}
+                  onOpenChange={(open) => {
+                    if (!open) {
+                      // Get the trigger button position before animation starts
+                      const trigger = document.querySelector(
+                        "[data-optional-trigger]"
+                      );
+                      if (trigger) {
+                        const rect = trigger.getBoundingClientRect();
+                        const scrollTarget =
+                          window.scrollY +
+                          rect.top -
+                          window.innerHeight +
+                          rect.height +
+                          100;
+
+                        // First scroll to position
+                        new Promise<void>((resolve) => {
+                          window.scrollTo({
+                            top: scrollTarget,
+                            behavior: "smooth",
+                          });
+
+                          // Wait for scroll to complete (roughly 500ms)
+                          setTimeout(resolve, 500);
+                        }).then(() => {
+                          // Then close the collapsible
+                          setIsOpen(open);
+                        });
+                      }
+                    } else {
+                      // If opening, just set state immediately
+                      setIsOpen(open);
+                    }
+                  }}
                   className="w-full space-y-2 col-span-1"
                 >
                   <div className="flex justify-center">
@@ -1228,6 +1329,7 @@ export function ChatInput({
                       <Button
                         variant="ghost"
                         className="flex items-center gap-2 p-4"
+                        data-optional-trigger
                       >
                         <span>Optional Extra Inputs</span>
                         {isOpen ? (
