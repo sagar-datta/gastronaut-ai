@@ -50,7 +50,7 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
       <h2 className="print:!break-before-page">{children}</h2>
     ),
     ul: ({ children }: { children: React.ReactNode }) => (
-      <ul className="!break-inside-avoid-page list-none pl-0 space-y-2">
+      <ul className="!break-inside-avoid-page list-none pl-0 space-y-2 print:!break-inside-avoid">
         {children}
       </ul>
     ),
@@ -77,7 +77,7 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         const itemKey = `${sectionType}-${itemText}`;
 
         return (
-          <li className="!break-inside-avoid flex items-start gap-2">
+          <li className="!break-inside-avoid-page flex items-start gap-2 print:!break-inside-avoid">
             <Checkbox
               id={itemKey}
               checked={checkedItems[itemKey]}
@@ -91,7 +91,7 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
             />
             <label
               htmlFor={itemKey}
-              className="leading-relaxed cursor-pointer print:before:content-['•'] print:before:mr-2 print:before:inline-block"
+              className="leading-relaxed cursor-pointer print:before:content-['•'] print:before:mr-2 print:before:inline-block print:!break-inside-avoid"
             >
               {children}
             </label>
@@ -99,7 +99,11 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
         );
       }
 
-      return <li className="!break-inside-avoid">{children}</li>;
+      return (
+        <li className="!break-inside-avoid-page print:!break-inside-avoid">
+          {children}
+        </li>
+      );
     },
     p: ({ children }: { children: React.ReactNode }) => (
       <p className="!break-inside-avoid">{children}</p>
@@ -107,7 +111,7 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
   };
 
   return (
-    <div className="prose max-w-none p-6 print:p-0 print:my-0 print:!break-after-auto">
+    <div className="prose max-w-none p-6 print:p-0 print:my-0 print:!break-after-auto [&_*]:!break-inside-avoid-page print:[&_p]:!orphans-3 print:[&_p]:!widows-3">
       <div className="space-y-4 print:space-y-2">
         <div className="print:!break-before-avoid print:!break-after-avoid">
           <ReactMarkdown components={components as Partial<Components>}>
