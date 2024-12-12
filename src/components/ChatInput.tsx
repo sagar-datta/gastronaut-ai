@@ -144,15 +144,6 @@ export function ChatInput({
             open={isCollapsibleOpen}
             onOpenChange={setIsCollapsibleOpen}
           >
-            <CollapsibleTrigger asChild>
-              <Button
-                variant="ghost"
-                className="flex items-center gap-2 p-4 lg:hidden mx-auto mb-4"
-              >
-                <span>Modify Recipe</span>
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </CollapsibleTrigger>
             <CollapsibleContent
               forceMount
               className="hidden lg:block data-[state=open]:block"
@@ -1010,7 +1001,19 @@ export function ChatInput({
           {/* Button container - only this should be interactive */}
           <div className="relative pb-6 pt-24">
             <div className="w-full max-w-[1800px] mx-auto flex justify-center gap-2 px-4">
-              <div className="pointer-events-auto">
+              <div className="pointer-events-auto flex gap-2 items-center">
+                {externalRecipe && !isLoading && (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="lg:hidden"
+                    onClick={() => setIsCollapsibleOpen(!isCollapsibleOpen)}
+                  >
+                    <span className="sm:hidden">Modify</span>
+                    <span className="hidden sm:inline">Modify Recipe</span>
+                  </Button>
+                )}
+
                 <Button
                   size="lg"
                   className="px-8"
@@ -1032,29 +1035,29 @@ export function ChatInput({
                     </>
                   )}
                 </Button>
-              </div>
 
-              {externalRecipe && !isLoading && (
-                <div className="pointer-events-auto">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="px-8 sm:flex hidden items-center gap-2"
-                    onClick={() => window.print()}
-                  >
-                    <Printer className="h-4 w-4" />
-                    Print Recipe
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="px-4 sm:hidden flex items-center"
-                    onClick={() => window.print()}
-                  >
-                    <Printer className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
+                {externalRecipe && !isLoading && (
+                  <>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="px-8 sm:flex hidden items-center gap-2"
+                      onClick={() => window.print()}
+                    >
+                      <Printer className="h-4 w-4" />
+                      Print Recipe
+                    </Button>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="px-4 sm:hidden flex items-center"
+                      onClick={() => window.print()}
+                    >
+                      <Printer className="h-4 w-4" />
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
