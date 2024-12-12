@@ -91,7 +91,7 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
             />
             <label
               htmlFor={itemKey}
-              className="text-sm leading-relaxed cursor-pointer print:before:content-['•'] print:before:mr-2 print:before:inline-block"
+              className="leading-relaxed cursor-pointer print:before:content-['•'] print:before:mr-2 print:before:inline-block"
             >
               {children}
             </label>
