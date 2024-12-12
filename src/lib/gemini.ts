@@ -242,14 +242,14 @@ Format the recipe in markdown using this exact structure:
 ## Description
 [Write an appetizing description of the dish in 2-3 sentences. Include what makes it special and what to expect from the final result.]
 
-## Equipment Needed
-- [List essential equipment and tools required]
-- [Include any optional but helpful tools]
-
 ## Ingredients
 For [number] servings:
 - [List each ingredient with precise measurements]
 - [Group optional ingredients separately if used]
+
+## Equipment Needed
+- [List essential equipment and tools required]
+- [Include any optional but helpful tools]
 
 ## Instructions
 1. [Clear, actionable step]
