@@ -1007,7 +1007,10 @@ export function ChatInput({
                     variant="outline"
                     size="lg"
                     className="lg:hidden"
-                    onClick={() => setIsCollapsibleOpen(!isCollapsibleOpen)}
+                    onClick={() => {
+                      setIsCollapsibleOpen(!isCollapsibleOpen);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
                   >
                     <span className="sm:hidden">Modify</span>
                     <span className="hidden sm:inline">Modify Recipe</span>
