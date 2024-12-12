@@ -504,8 +504,8 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                       </CollapsibleContent>
                     </Collapsible>
 
-                    {/* Generate and Print Recipe Buttons */}
-                    <div className="flex justify-center col-span-1 gap-4">
+                    {/* Generate Recipe Button */}
+                    <div className="flex justify-center col-span-1">
                       <Button
                         size="lg"
                         className="px-8"
@@ -518,17 +518,6 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                           ? "Regenerate Recipe"
                           : "Generate Recipe"}
                       </Button>
-
-                      {recipe && (
-                        <Button
-                          size="lg"
-                          variant="outline"
-                          className="px-8"
-                          onClick={() => window.print()}
-                        >
-                          Print Recipe
-                        </Button>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -910,8 +899,8 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                   </CollapsibleContent>
                 </Collapsible>
 
-                {/* Generate and Print Recipe Buttons */}
-                <div className="flex justify-center col-span-1 gap-4">
+                {/* Generate Recipe Button */}
+                <div className="flex justify-center col-span-1">
                   <Button
                     size="lg"
                     className="px-8"
@@ -920,17 +909,6 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                   >
                     {isLoading ? "Generating..." : "Generate Recipe"}
                   </Button>
-
-                  {recipe && (
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="px-8"
-                      onClick={() => window.print()}
-                    >
-                      Print Recipe
-                    </Button>
-                  )}
                 </div>
               </div>
             </div>

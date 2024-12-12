@@ -1,4 +1,5 @@
 import ReactMarkdown, { Components } from "react-markdown";
+import { Button } from "./ui/button";
 
 type RecipeDisplayProps = {
   content: string;
@@ -23,6 +24,9 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
   const ingredientsSection =
     ingredientsIndex !== -1 ? sections[ingredientsIndex] : null;
 
+  // Get the title section (first section)
+  const titleSection = sections[0];
+
   // Remove equipment section from its original position
   const filteredSections = sections.filter(
     (_, index) => index !== equipmentIndex
@@ -30,6 +34,18 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
 
   // Custom component to handle headings
   const components = {
+    h1: ({ children }: { children: React.ReactNode }) => (
+      <div className="flex justify-between items-center">
+        <h1 className="mb-0">{children}</h1>
+        <Button
+          variant="outline"
+          className="print:hidden"
+          onClick={() => window.print()}
+        >
+          Print Recipe
+        </Button>
+      </div>
+    ),
     h2: ({ children }: { children: React.ReactNode }) => (
       <div className="!break-inside-avoid-page !break-after-auto">
         <h2>{children}</h2>
@@ -40,8 +56,15 @@ export function RecipeDisplay({ content }: RecipeDisplayProps) {
   return (
     <div className="prose max-w-none p-6 print:p-0 print:my-0">
       <div className="space-y-4 print:space-y-2">
-        {/* Title and Description */}
-        {filteredSections.slice(0, ingredientsIndex).map((section, index) => (
+        {/* Title with Print Button */}
+        <div className="!break-inside-avoid-page">
+          <ReactMarkdown components={components as Partial<Components>}>
+            {titleSection}
+          </ReactMarkdown>
+        </div>
+
+        {/* Description */}
+        {filteredSections.slice(1, ingredientsIndex).map((section, index) => (
           <div key={index} className="!break-inside-avoid-page">
             <ReactMarkdown components={components as Partial<Components>}>
               {section}
