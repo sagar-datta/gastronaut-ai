@@ -1017,11 +1017,20 @@ export function ChatInput({
                   disabled={isLoading || !input.trim()}
                   onClick={handleGenerateRecipe}
                 >
-                  {isLoading
-                    ? "Generating..."
-                    : externalRecipe
-                    ? "Regenerate Recipe"
-                    : "Generate Recipe"}
+                  {isLoading ? (
+                    "Generating..."
+                  ) : (
+                    <>
+                      <span className="sm:hidden">
+                        {externalRecipe ? "Regenerate" : "Generate"}
+                      </span>
+                      <span className="hidden sm:inline">
+                        {externalRecipe
+                          ? "Regenerate Recipe"
+                          : "Generate Recipe"}
+                      </span>
+                    </>
+                  )}
                 </Button>
               </div>
 
