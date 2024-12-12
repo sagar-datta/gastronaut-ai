@@ -8,7 +8,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Slider } from "@/components/ui/slider";
 import {
   Collapsible,
@@ -30,10 +30,19 @@ import {
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
+  onLoadingChange?: (isLoading: boolean) => void;
+  onCanGenerateChange?: (canGenerate: boolean) => void;
   scrollContainer?: React.RefObject<HTMLDivElement>;
+  recipe: string | null;
 }
 
-export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
+export function ChatInput({
+  onRecipeChange,
+  onLoadingChange,
+  onCanGenerateChange,
+  scrollContainer,
+  recipe: externalRecipe,
+}: ChatInputProps) {
   const [input, setInput] = useState("");
   const [equipment, setEquipment] = useState("");
   const [experience, setExperience] = useState("beginner");
@@ -45,22 +54,17 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
   const [mealType, setMealType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [recipe, setRecipe] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false);
   const [optionalIngredients, setOptionalIngredients] = useState("");
+  const [hasSetHandler, setHasSetHandler] = useState(false);
 
-  const handleTimeChange = (value: number[]) => {
-    setCookTime(Math.max(15, value[0]));
-  };
+  const handleGenerateRecipe = useCallback(async () => {
+    if (!input.trim()) return;
 
-  const handleServingsChange = (value: number[]) => {
-    setServings(Math.max(1, value[0]));
-  };
-
-  const handleGenerateRecipe = async () => {
     try {
       setIsLoading(true);
+      onLoadingChange?.(true);
       setIsCollapsibleOpen(false);
       if (scrollContainer?.current) {
         scrollContainer.current.scrollIntoView({
@@ -80,13 +84,47 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
         exclusions,
         equipment,
       });
-      setRecipe(response);
       onRecipeChange?.(response);
     } catch (error) {
       console.error("Error:", error);
     } finally {
       setIsLoading(false);
+      onLoadingChange?.(false);
     }
+  }, [
+    input,
+    optionalIngredients,
+    experience,
+    cookTime,
+    servings,
+    cuisine,
+    mealType,
+    dietaryGoal,
+    exclusions,
+    equipment,
+    onRecipeChange,
+    onLoadingChange,
+    scrollContainer,
+  ]);
+
+  // Update parent components when input changes - only update canGenerate state
+  useEffect(() => {
+    onCanGenerateChange?.(!!input.trim());
+  }, [input, onCanGenerateChange]);
+
+  // Set the generate handler only once on mount
+  useEffect(() => {
+    if (!hasSetHandler) {
+      setHasSetHandler(true);
+    }
+  }, []); // Empty dependency array - only run once on mount
+
+  const handleTimeChange = (value: number[]) => {
+    setCookTime(Math.max(15, value[0]));
+  };
+
+  const handleServingsChange = (value: number[]) => {
+    setServings(Math.max(1, value[0]));
   };
 
   return (
@@ -100,7 +138,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         {/* Chat Input Section */}
-        {recipe || isLoading ? (
+        {externalRecipe || isLoading ? (
           <Collapsible
             className="w-full lg:w-1/2 lg:max-w-[900px] print:!hidden"
             open={isCollapsibleOpen}
@@ -142,7 +180,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                       <CardContent>
                         <div
                           className={`${
-                            recipe || isLoading
+                            externalRecipe || isLoading
                               ? "min-[950px]:block hidden"
                               : "min-[500px]:block hidden"
                           }`}
@@ -167,7 +205,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                         </div>
                         <div
                           className={`${
-                            recipe || isLoading
+                            externalRecipe || isLoading
                               ? "min-[950px]:hidden block"
                               : "min-[500px]:hidden block"
                           }`}
@@ -207,7 +245,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                     {/* Time and Servings */}
                     <div
                       className={`grid grid-cols-1 ${
-                        recipe || isLoading
+                        externalRecipe || isLoading
                           ? "[&>*]:col-span-1 min-[1255px]:grid-cols-2"
                           : "md:grid-cols-2"
                       } gap-8 col-span-1`}
@@ -503,22 +541,6 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                         </div>
                       </CollapsibleContent>
                     </Collapsible>
-
-                    {/* Generate Recipe Button */}
-                    <div className="flex justify-center col-span-1">
-                      <Button
-                        size="lg"
-                        className="px-8"
-                        onClick={handleGenerateRecipe}
-                        disabled={isLoading || !input.trim()}
-                      >
-                        {isLoading
-                          ? "Generating..."
-                          : recipe
-                          ? "Regenerate Recipe"
-                          : "Generate Recipe"}
-                      </Button>
-                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -551,7 +573,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                   <CardContent>
                     <div
                       className={`${
-                        recipe || isLoading
+                        externalRecipe || isLoading
                           ? "min-[950px]:block hidden"
                           : "min-[500px]:block hidden"
                       }`}
@@ -576,7 +598,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                     </div>
                     <div
                       className={`${
-                        recipe || isLoading
+                        externalRecipe || isLoading
                           ? "min-[950px]:hidden block"
                           : "min-[500px]:hidden block"
                       }`}
@@ -607,7 +629,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                 {/* Time and Servings */}
                 <div
                   className={`grid grid-cols-1 ${
-                    recipe || isLoading
+                    externalRecipe || isLoading
                       ? "[&>*]:col-span-1 min-[1255px]:grid-cols-2"
                       : "md:grid-cols-2"
                   } gap-8 col-span-1`}
@@ -898,18 +920,6 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                     </div>
                   </CollapsibleContent>
                 </Collapsible>
-
-                {/* Generate Recipe Button */}
-                <div className="flex justify-center col-span-1">
-                  <Button
-                    size="lg"
-                    className="px-8"
-                    onClick={handleGenerateRecipe}
-                    disabled={isLoading || !input.trim()}
-                  >
-                    {isLoading ? "Generating..." : "Generate Recipe"}
-                  </Button>
-                </div>
               </div>
             </div>
           </motion.div>
@@ -917,7 +927,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
 
         {/* Recipe Display Section */}
         <AnimatePresence mode="sync">
-          {(recipe || isLoading) && (
+          {(externalRecipe || isLoading) && (
             <motion.div
               className="w-full lg:w-1/2 print:!static print:!w-full print:!block"
               initial={{ opacity: 0 }}
@@ -963,7 +973,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                       <Skeleton className="h-4 w-3/4" />
                     </div>
                   </motion.div>
-                ) : recipe ? (
+                ) : externalRecipe ? (
                   <motion.div
                     key="recipe"
                     initial={{ opacity: 0 }}
@@ -973,7 +983,7 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
                     className="h-full overflow-y-auto print:!w-full print:!max-w-none"
                   >
                     <div className="print:!break-inside-avoid-page">
-                      <RecipeDisplay content={recipe} />
+                      <RecipeDisplay content={externalRecipe} />
                     </div>
                   </motion.div>
                 ) : null}
@@ -982,6 +992,24 @@ export function ChatInput({ onRecipeChange, scrollContainer }: ChatInputProps) {
           )}
         </AnimatePresence>
       </motion.div>
+
+      {/* Add the floating button */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t print:hidden z-50">
+        <div className="w-full max-w-[1800px] mx-auto flex justify-center">
+          <Button
+            size="lg"
+            className="px-8"
+            disabled={isLoading || !input.trim()}
+            onClick={handleGenerateRecipe}
+          >
+            {isLoading
+              ? "Generating..."
+              : externalRecipe
+              ? "Regenerate Recipe"
+              : "Generate Recipe"}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
