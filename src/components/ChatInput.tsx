@@ -127,6 +127,32 @@ export function ChatInput({
     setServings(Math.max(1, value[0]));
   };
 
+  // Add keyboard shortcut handler
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Check if the screen is large enough (lg breakpoint is typically 1024px)
+      if (window.innerWidth < 1024) return;
+
+      // Check for Command/Control + Enter
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+        e.preventDefault(); // Prevent default behavior
+
+        // Only trigger if button would be enabled
+        if (!isLoading && input.trim()) {
+          handleGenerateRecipe();
+        }
+      }
+    };
+
+    // Add event listener
+    window.addEventListener("keydown", handleKeyPress);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleGenerateRecipe, isLoading, input]); // Dependencies for the effect
+
   return (
     <div className="h-full" ref={containerRef}>
       <motion.div
@@ -1613,6 +1639,9 @@ export function ChatInput({
                         {externalRecipe
                           ? "Regenerate Recipe"
                           : "Generate Recipe"}
+                        <span className="ml-2 opacity-60 text-sm hidden lg:inline">
+                          (⌘ + ↵)
+                        </span>
                       </span>
                     </>
                   )}
