@@ -309,13 +309,22 @@ export function ChatInput({
                               onValueChange={setExperience}
                             >
                               <TabsList className="grid w-full grid-cols-3">
-                                <TabsTrigger value="beginner">
+                                <TabsTrigger
+                                  value="beginner"
+                                  className="data-[state=active]:text-[#433633]"
+                                >
                                   Beginner Cook
                                 </TabsTrigger>
-                                <TabsTrigger value="intermediate">
+                                <TabsTrigger
+                                  value="intermediate"
+                                  className="data-[state=active]:text-[#433633]"
+                                >
                                   Home Chef
                                 </TabsTrigger>
-                                <TabsTrigger value="advanced">
+                                <TabsTrigger
+                                  value="advanced"
+                                  className="data-[state=active]:text-[#433633]"
+                                >
                                   Professional
                                 </TabsTrigger>
                               </TabsList>
@@ -332,25 +341,25 @@ export function ChatInput({
                               value={experience}
                               onValueChange={setExperience}
                             >
-                              <SelectTrigger className="font-medium">
+                              <SelectTrigger className="font-medium text-[#433633]">
                                 <SelectValue placeholder="Select experience level" />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectItem
                                   value="beginner"
-                                  className="font-medium"
+                                  className="font-medium text-[#433633]"
                                 >
                                   Beginner Cook
                                 </SelectItem>
                                 <SelectItem
                                   value="intermediate"
-                                  className="font-medium"
+                                  className="font-medium text-[#433633]"
                                 >
                                   Home Chef
                                 </SelectItem>
                                 <SelectItem
                                   value="advanced"
-                                  className="font-medium"
+                                  className="font-medium text-[#433633]"
                                 >
                                   Professional
                                 </SelectItem>
@@ -389,12 +398,15 @@ export function ChatInput({
                                       Math.max(15, prev - 5)
                                     )
                                   }
+                                  className="text-[#433633] disabled:text-[#5C5552]"
                                 >
                                   -
                                 </Button>
                                 <div className="text-lg min-w-[120px] text-center">
-                                  <span className="font-bold">{cookTime}</span>{" "}
-                                  <span className="text-muted-foreground">
+                                  <span className="font-bold text-[#433633]">
+                                    {cookTime}
+                                  </span>{" "}
+                                  <span className="text-[#5C5552]">
                                     minutes
                                   </span>
                                 </div>
@@ -408,6 +420,7 @@ export function ChatInput({
                                       Math.min(180, prev + 5)
                                     )
                                   }
+                                  className="text-[#433633] disabled:text-[#5C5552]"
                                 >
                                   +
                                 </Button>
@@ -447,8 +460,10 @@ export function ChatInput({
                                   -
                                 </Button>
                                 <div className="text-lg min-w-[120px] text-center">
-                                  <span className="font-bold">{servings}</span>{" "}
-                                  <span className="text-muted-foreground">
+                                  <span className="font-bold text-[#433633]">
+                                    {servings}
+                                  </span>{" "}
+                                  <span className="text-[#5C5552]">
                                     {servings === 1 ? "person" : "people"}
                                   </span>
                                 </div>
@@ -490,7 +505,7 @@ export function ChatInput({
                         </CardHeader>
                         <CardContent className="space-y-6">
                           <div className="space-y-2">
-                            <div className="font-medium">
+                            <div className="font-medium text-[#433633]">
                               Required Ingredients
                             </div>
                             <Textarea
@@ -502,8 +517,10 @@ export function ChatInput({
                           </div>
                           <div className="space-y-2">
                             <div className="font-medium flex sm:items-center sm:flex-row flex-col gap-2">
-                              Optional Ingredients
-                              <span className="text-sm font-normal text-muted-foreground">
+                              <span className="text-[#433633]">
+                                Optional Ingredients
+                              </span>
+                              <span className="text-sm font-normal text-[#5C5552]">
                                 (Nice to have, but not essential)
                               </span>
                             </div>
@@ -562,7 +579,7 @@ export function ChatInput({
                           <CollapsibleTrigger asChild>
                             <Button
                               variant="ghost"
-                              className="flex items-center gap-2 p-4"
+                              className="flex items-center gap-2 p-4 text-[#433633] hover:bg-[#E3E0DE]"
                               data-optional-trigger
                             >
                               <span>Optional Extra Inputs</span>
@@ -594,7 +611,7 @@ export function ChatInput({
                                     <CardHeader>
                                       <CardTitle className="flex items-center gap-2">
                                         Cuisine Preferences
-                                        <span className="text-sm font-normal text-muted-foreground">
+                                        <span className="text-sm font-normal text-[#5C5552]">
                                           (Optional)
                                         </span>
                                       </CardTitle>
@@ -621,7 +638,7 @@ export function ChatInput({
                                     <CardHeader>
                                       <CardTitle className="flex items-center gap-2">
                                         Meal Type
-                                        <span className="text-sm font-normal text-muted-foreground">
+                                        <span className="text-sm font-normal text-[#5C5552]">
                                           (Optional)
                                         </span>
                                       </CardTitle>
@@ -647,7 +664,7 @@ export function ChatInput({
                                     <CardHeader>
                                       <CardTitle className="flex items-center gap-2">
                                         Dietary Goals
-                                        <span className="text-sm font-normal text-muted-foreground">
+                                        <span className="text-sm font-normal text-[#5C5552]">
                                           (Optional)
                                         </span>
                                       </CardTitle>
@@ -673,7 +690,7 @@ export function ChatInput({
                                     <CardHeader>
                                       <CardTitle className="flex items-center gap-2">
                                         Dietary Restrictions
-                                        <span className="text-sm font-normal text-muted-foreground">
+                                        <span className="text-sm font-normal text-[#5C5552]">
                                           (Optional)
                                         </span>
                                       </CardTitle>
@@ -700,7 +717,7 @@ export function ChatInput({
                                     <CardHeader>
                                       <CardTitle className="flex items-center gap-2">
                                         Cooking Equipment
-                                        <span className="text-sm font-normal text-muted-foreground">
+                                        <span className="text-sm font-normal text-[#5C5552]">
                                           (Optional)
                                         </span>
                                       </CardTitle>
@@ -768,13 +785,22 @@ export function ChatInput({
                             onValueChange={setExperience}
                           >
                             <TabsList className="grid w-full grid-cols-3">
-                              <TabsTrigger value="beginner">
+                              <TabsTrigger
+                                value="beginner"
+                                className="data-[state=active]:text-[#433633]"
+                              >
                                 Beginner Cook
                               </TabsTrigger>
-                              <TabsTrigger value="intermediate">
+                              <TabsTrigger
+                                value="intermediate"
+                                className="data-[state=active]:text-[#433633]"
+                              >
                                 Home Chef
                               </TabsTrigger>
-                              <TabsTrigger value="advanced">
+                              <TabsTrigger
+                                value="advanced"
+                                className="data-[state=active]:text-[#433633]"
+                              >
                                 Professional
                               </TabsTrigger>
                             </TabsList>
@@ -791,25 +817,25 @@ export function ChatInput({
                             value={experience}
                             onValueChange={setExperience}
                           >
-                            <SelectTrigger className="font-medium">
+                            <SelectTrigger className="font-medium text-[#433633]">
                               <SelectValue placeholder="Select experience level" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem
                                 value="beginner"
-                                className="font-medium"
+                                className="font-medium text-[#433633]"
                               >
                                 Beginner Cook
                               </SelectItem>
                               <SelectItem
                                 value="intermediate"
-                                className="font-medium"
+                                className="font-medium text-[#433633]"
                               >
                                 Home Chef
                               </SelectItem>
                               <SelectItem
                                 value="advanced"
-                                className="font-medium"
+                                className="font-medium text-[#433633]"
                               >
                                 Professional
                               </SelectItem>
@@ -846,14 +872,15 @@ export function ChatInput({
                                 onClick={() =>
                                   setCookTime((prev) => Math.max(15, prev - 5))
                                 }
+                                className="text-[#433633] disabled:text-[#5C5552]"
                               >
                                 -
                               </Button>
                               <div className="text-lg min-w-[120px] text-center">
-                                <span className="font-bold">{cookTime}</span>{" "}
-                                <span className="text-muted-foreground">
-                                  minutes
-                                </span>
+                                <span className="font-bold text-[#433633]">
+                                  {cookTime}
+                                </span>{" "}
+                                <span className="text-[#5C5552]">minutes</span>
                               </div>
                               <Button
                                 type="button"
@@ -863,6 +890,7 @@ export function ChatInput({
                                 onClick={() =>
                                   setCookTime((prev) => Math.min(180, prev + 5))
                                 }
+                                className="text-[#433633] disabled:text-[#5C5552]"
                               >
                                 +
                               </Button>
@@ -902,8 +930,10 @@ export function ChatInput({
                                 -
                               </Button>
                               <div className="text-lg min-w-[120px] text-center">
-                                <span className="font-bold">{servings}</span>{" "}
-                                <span className="text-muted-foreground">
+                                <span className="font-bold text-[#433633]">
+                                  {servings}
+                                </span>{" "}
+                                <span className="text-[#5C5552]">
                                   {servings === 1 ? "person" : "people"}
                                 </span>
                               </div>
@@ -943,7 +973,7 @@ export function ChatInput({
                       </CardHeader>
                       <CardContent className="space-y-6">
                         <div className="space-y-2">
-                          <div className="font-medium">
+                          <div className="font-medium text-[#433633]">
                             Required Ingredients
                           </div>
                           <Textarea
@@ -955,8 +985,10 @@ export function ChatInput({
                         </div>
                         <div className="space-y-2">
                           <div className="font-medium flex sm:items-center sm:flex-row flex-col gap-2">
-                            Optional Ingredients
-                            <span className="text-sm font-normal text-muted-foreground">
+                            <span className="text-[#433633]">
+                              Optional Ingredients
+                            </span>
+                            <span className="text-sm font-normal text-[#5C5552]">
                               (Nice to have, but not essential)
                             </span>
                           </div>
@@ -1015,7 +1047,7 @@ export function ChatInput({
                         <CollapsibleTrigger asChild>
                           <Button
                             variant="ghost"
-                            className="flex items-center gap-2 p-4"
+                            className="flex items-center gap-2 p-4 text-[#433633] hover:bg-[#E3E0DE]"
                             data-optional-trigger
                           >
                             <span>Optional Extra Inputs</span>
@@ -1047,7 +1079,7 @@ export function ChatInput({
                                   <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                       Cuisine Preferences
-                                      <span className="text-sm font-normal text-muted-foreground">
+                                      <span className="text-sm font-normal text-[#5C5552]">
                                         (Optional)
                                       </span>
                                     </CardTitle>
@@ -1073,7 +1105,7 @@ export function ChatInput({
                                   <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                       Meal Type
-                                      <span className="text-sm font-normal text-muted-foreground">
+                                      <span className="text-sm font-normal text-[#5C5552]">
                                         (Optional)
                                       </span>
                                     </CardTitle>
@@ -1099,7 +1131,7 @@ export function ChatInput({
                                   <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                       Dietary Goals
-                                      <span className="text-sm font-normal text-muted-foreground">
+                                      <span className="text-sm font-normal text-[#5C5552]">
                                         (Optional)
                                       </span>
                                     </CardTitle>
@@ -1125,7 +1157,7 @@ export function ChatInput({
                                   <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                       Dietary Restrictions
-                                      <span className="text-sm font-normal text-muted-foreground">
+                                      <span className="text-sm font-normal text-[#5C5552]">
                                         (Optional)
                                       </span>
                                     </CardTitle>
@@ -1151,7 +1183,7 @@ export function ChatInput({
                                   <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                       Cooking Equipment
-                                      <span className="text-sm font-normal text-muted-foreground">
+                                      <span className="text-sm font-normal text-[#5C5552]">
                                         (Optional)
                                       </span>
                                     </CardTitle>
@@ -1221,13 +1253,22 @@ export function ChatInput({
                         onValueChange={setExperience}
                       >
                         <TabsList className="grid w-full grid-cols-3">
-                          <TabsTrigger value="beginner">
+                          <TabsTrigger
+                            value="beginner"
+                            className="data-[state=active]:text-[#433633]"
+                          >
                             Beginner Cook
                           </TabsTrigger>
-                          <TabsTrigger value="intermediate">
+                          <TabsTrigger
+                            value="intermediate"
+                            className="data-[state=active]:text-[#433633]"
+                          >
                             Home Chef
                           </TabsTrigger>
-                          <TabsTrigger value="advanced">
+                          <TabsTrigger
+                            value="advanced"
+                            className="data-[state=active]:text-[#433633]"
+                          >
                             Professional
                           </TabsTrigger>
                         </TabsList>
@@ -1241,20 +1282,26 @@ export function ChatInput({
                       }`}
                     >
                       <Select value={experience} onValueChange={setExperience}>
-                        <SelectTrigger className="font-medium">
+                        <SelectTrigger className="font-medium text-[#433633]">
                           <SelectValue placeholder="Select experience level" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="beginner" className="font-medium">
+                          <SelectItem
+                            value="beginner"
+                            className="font-medium text-[#433633]"
+                          >
                             Beginner Cook
                           </SelectItem>
                           <SelectItem
                             value="intermediate"
-                            className="font-medium"
+                            className="font-medium text-[#433633]"
                           >
                             Home Chef
                           </SelectItem>
-                          <SelectItem value="advanced" className="font-medium">
+                          <SelectItem
+                            value="advanced"
+                            className="font-medium text-[#433633]"
+                          >
                             Professional
                           </SelectItem>
                         </SelectContent>
@@ -1290,14 +1337,15 @@ export function ChatInput({
                             onClick={() =>
                               setCookTime((prev) => Math.max(15, prev - 5))
                             }
+                            className="text-[#433633] disabled:text-[#5C5552]"
                           >
                             -
                           </Button>
                           <div className="text-lg min-w-[120px] text-center">
-                            <span className="font-bold">{cookTime}</span>{" "}
-                            <span className="text-muted-foreground">
-                              minutes
-                            </span>
+                            <span className="font-bold text-[#433633]">
+                              {cookTime}
+                            </span>{" "}
+                            <span className="text-[#5C5552]">minutes</span>
                           </div>
                           <Button
                             type="button"
@@ -1307,6 +1355,7 @@ export function ChatInput({
                             onClick={() =>
                               setCookTime((prev) => Math.min(180, prev + 5))
                             }
+                            className="text-[#433633] disabled:text-[#5C5552]"
                           >
                             +
                           </Button>
@@ -1346,8 +1395,10 @@ export function ChatInput({
                             -
                           </Button>
                           <div className="text-lg min-w-[120px] text-center">
-                            <span className="font-bold">{servings}</span>{" "}
-                            <span className="text-muted-foreground">
+                            <span className="font-bold text-[#433633]">
+                              {servings}
+                            </span>{" "}
+                            <span className="text-[#5C5552]">
                               {servings === 1 ? "person" : "people"}
                             </span>
                           </div>
@@ -1387,7 +1438,9 @@ export function ChatInput({
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="space-y-2">
-                      <div className="font-medium">Required Ingredients</div>
+                      <div className="font-medium text-[#433633]">
+                        Required Ingredients
+                      </div>
                       <Textarea
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
@@ -1397,8 +1450,10 @@ export function ChatInput({
                     </div>
                     <div className="space-y-2">
                       <div className="font-medium flex sm:items-center sm:flex-row flex-col gap-2">
-                        Optional Ingredients
-                        <span className="text-sm font-normal text-muted-foreground">
+                        <span className="text-[#433633]">
+                          Optional Ingredients
+                        </span>
+                        <span className="text-sm font-normal text-[#5C5552]">
                           (Nice to have, but not essential)
                         </span>
                       </div>
@@ -1455,7 +1510,7 @@ export function ChatInput({
                     <CollapsibleTrigger asChild>
                       <Button
                         variant="ghost"
-                        className="flex items-center gap-2 p-4"
+                        className="flex items-center gap-2 p-4 text-[#433633] hover:bg-[#E3E0DE]"
                         data-optional-trigger
                       >
                         <span>Optional Extra Inputs</span>
@@ -1487,7 +1542,7 @@ export function ChatInput({
                               <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                   Cuisine Preferences
-                                  <span className="text-sm font-normal text-muted-foreground">
+                                  <span className="text-sm font-normal text-[#5C5552]">
                                     (Optional)
                                   </span>
                                 </CardTitle>
@@ -1511,7 +1566,7 @@ export function ChatInput({
                               <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                   Meal Type
-                                  <span className="text-sm font-normal text-muted-foreground">
+                                  <span className="text-sm font-normal text-[#5C5552]">
                                     (Optional)
                                   </span>
                                 </CardTitle>
@@ -1535,7 +1590,7 @@ export function ChatInput({
                               <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                   Dietary Goals
-                                  <span className="text-sm font-normal text-muted-foreground">
+                                  <span className="text-sm font-normal text-[#5C5552]">
                                     (Optional)
                                   </span>
                                 </CardTitle>
@@ -1561,7 +1616,7 @@ export function ChatInput({
                               <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                   Dietary Restrictions
-                                  <span className="text-sm font-normal text-muted-foreground">
+                                  <span className="text-sm font-normal text-[#5C5552]">
                                     (Optional)
                                   </span>
                                 </CardTitle>
@@ -1587,7 +1642,7 @@ export function ChatInput({
                               <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                   Cooking Equipment
-                                  <span className="text-sm font-normal text-muted-foreground">
+                                  <span className="text-sm font-normal text-[#5C5552]">
                                     (Optional)
                                   </span>
                                 </CardTitle>
@@ -1710,7 +1765,7 @@ export function ChatInput({
                   <Button
                     variant="outline"
                     size="lg"
-                    className="lg:hidden"
+                    className="lg:hidden text-[#433633]"
                     onClick={() => {
                       const container = document.documentElement;
                       const startPosition = container.scrollTop;
@@ -1781,12 +1836,12 @@ export function ChatInput({
                           <Button
                             size="lg"
                             variant="outline"
-                            className="px-8 sm:flex hidden items-center gap-2"
+                            className="px-8 sm:flex hidden items-center gap-2 text-[#433633]"
                             onClick={() => window.print()}
                             onMouseEnter={() => setIsPrintHovered(true)}
                             onMouseLeave={() => setIsPrintHovered(false)}
                           >
-                            <Printer className="h-4 w-4" />
+                            <Printer className="h-4 w-4 text-[#433633]" />
                             Print Recipe
                           </Button>
                         </TooltipTrigger>
@@ -1804,12 +1859,12 @@ export function ChatInput({
                           <Button
                             size="lg"
                             variant="outline"
-                            className="px-4 sm:hidden flex items-center"
+                            className="px-4 sm:hidden flex items-center text-[#433633]"
                             onClick={() => window.print()}
                             onMouseEnter={() => setIsPrintMobileHovered(true)}
                             onMouseLeave={() => setIsPrintMobileHovered(false)}
                           >
-                            <Printer className="h-4 w-4" />
+                            <Printer className="h-4 w-4 text-[#433633]" />
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent className="hidden lg:block">
