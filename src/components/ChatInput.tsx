@@ -1740,7 +1740,7 @@ export function ChatInput({
                 )}
 
                 <TooltipProvider>
-                  <Tooltip open={isHovered}>
+                  <Tooltip open={isHovered && window.innerWidth >= 1024}>
                     <TooltipTrigger asChild>
                       <Button
                         size="lg"
@@ -1758,7 +1758,7 @@ export function ChatInput({
                         </span>
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent className="lg:block">
+                    <TooltipContent className="hidden lg:block">
                       <p>
                         Press {getOSShortcut()} to{" "}
                         {hasItemsToRemove
@@ -1774,7 +1774,9 @@ export function ChatInput({
                 {externalRecipe && !isLoading && (
                   <>
                     <TooltipProvider>
-                      <Tooltip open={isPrintHovered}>
+                      <Tooltip
+                        open={isPrintHovered && window.innerWidth >= 1024}
+                      >
                         <TooltipTrigger asChild>
                           <Button
                             size="lg"
@@ -1788,14 +1790,16 @@ export function ChatInput({
                             Print Recipe
                           </Button>
                         </TooltipTrigger>
-                        <TooltipContent className="lg:block">
+                        <TooltipContent className="hidden lg:block">
                           <p>Press {getPrintShortcut()} to print</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
 
                     <TooltipProvider>
-                      <Tooltip open={isPrintMobileHovered}>
+                      <Tooltip
+                        open={isPrintMobileHovered && window.innerWidth >= 1024}
+                      >
                         <TooltipTrigger asChild>
                           <Button
                             size="lg"
@@ -1808,7 +1812,7 @@ export function ChatInput({
                             <Printer className="h-4 w-4" />
                           </Button>
                         </TooltipTrigger>
-                        <TooltipContent className="lg:block">
+                        <TooltipContent className="hidden lg:block">
                           <p>Press {getPrintShortcut()} to print</p>
                         </TooltipContent>
                       </Tooltip>
