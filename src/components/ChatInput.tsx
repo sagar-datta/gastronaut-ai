@@ -287,7 +287,7 @@ export function ChatInput({
                   <div className="flex-1 min-h-0">
                     <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
                       {/* Experience Level Section */}
-                      <Card className="col-span-1">
+                      <Card>
                         <CardHeader>
                           <CardTitle>Experience Level</CardTitle>
                           <CardDescription>
@@ -746,7 +746,7 @@ export function ChatInput({
                 <div className="flex-1 min-h-0 overflow-y-auto">
                   <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
                     {/* Experience Level Section */}
-                    <Card className="col-span-1">
+                    <Card>
                       <CardHeader>
                         <CardTitle>Experience Level</CardTitle>
                         <CardDescription>
@@ -1199,7 +1199,7 @@ export function ChatInput({
             <div className="flex-1 min-h-0 overflow-y-auto">
               <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
                 {/* Experience Level Section */}
-                <Card className="col-span-1">
+                <Card>
                   <CardHeader>
                     <CardTitle>Experience Level</CardTitle>
                     <CardDescription>
@@ -1693,7 +1693,7 @@ export function ChatInput({
         <div className="relative">
           {/* Single blur layer with mask gradient - click-through */}
           <div
-            className="absolute inset-0 bg-white/95 backdrop-blur-[12px] transition-all duration-500"
+            className="absolute inset-0 bg-[hsl(var(--app-background))]/95 backdrop-blur-[12px] transition-all duration-500"
             style={{
               maskImage:
                 "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)",
