@@ -41,7 +41,7 @@ An AI-powered culinary companion that generates personalized recipes based on yo
 1. Clone the repository
 
 ```bash
-git clone [repository-url]
+git clone https://github.com/sagar-datta/recipe-generator-ai.git
 ```
 
 2. Install dependencies
