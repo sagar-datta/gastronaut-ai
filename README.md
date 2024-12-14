@@ -62,10 +62,6 @@ VITE_GOOGLE_API_KEY=your_gemini_api_key
 npm run dev
 ```
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
