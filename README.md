@@ -1,50 +1,71 @@
-# React + TypeScript + Vite
+# Gastronaut AI 🍳
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An AI-powered culinary companion that generates personalized recipes based on your available ingredients, cooking experience, and dietary preferences.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Ingredient-Based Recipe Generation**: Input your available ingredients and get custom recipes
+- **Experience Level Adaptation**: Recipes tailored to your cooking expertise (Beginner, Home Chef, or Professional)
+- **Time Management**: Set your available cooking time and get recipes that fit your schedule
+- **Dietary Customization**: Specify dietary goals, restrictions, and cuisine preferences
+- **Equipment Consideration**: Recipes adapted to your available kitchen equipment
+- **Print-Friendly**: Easy recipe printing functionality
+- **Responsive Design**: Works seamlessly on mobile and desktop devices
 
-## Expanding the ESLint configuration
+## Technology Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Frontend
 
-- Configure the top-level `parserOptions` property like this:
+- **React 18** with **TypeScript**
+- **Vite** for fast development and building
+- **Tailwind CSS** for styling
+- **Shadcn/ui** for UI components
+- **Radix UI** for accessible component primitives
+- **Framer Motion** for smooth animations
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### AI Integration
+
+- **Google's Gemini Pro** for recipe generation
+- Custom prompt engineering for culinary expertise
+
+### Key Libraries
+
+- `@radix-ui` for foundational components
+- `class-variance-authority` for component variants
+- `clsx` and `tailwind-merge` for class management
+- `lucide-react` for icons
+- `react-markdown` for recipe formatting
+
+## Getting Started
+
+1. Clone the repository
+
+```bash
+git clone [repository-url]
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Install dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
 ```
+
+3. Set up environment variables
+
+```bash
+VITE_GOOGLE_API_KEY=your_gemini_api_key
+```
+
+4. Start the development server
+
+```bash
+npm run dev
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
