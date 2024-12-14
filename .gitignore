@@ -35,8 +35,12 @@ yarn-error.log*
 
 # Vite default files
 src/assets/react.svg
-public/vite.svg
+
 
 # Optional configuration files
 tsconfig.node.json
 tsconfig.app.json
+
+# Generated/Cache Files
+.DS_Store
+**/ .DS_Store
