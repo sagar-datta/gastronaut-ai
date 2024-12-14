@@ -34,7 +34,6 @@ yarn-error.log*
 *.sw?
 
 # Vite default files
-src/vite-env.d.ts
 src/assets/react.svg
 public/vite.svg
 
