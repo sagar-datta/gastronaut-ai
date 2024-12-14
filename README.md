@@ -1,42 +1,48 @@
 # Gastronaut AI 🍳
 
-An AI-powered culinary companion that generates personalized recipes based on your available ingredients, cooking experience, and dietary preferences.
+A modern recipe generation application that leverages AI to create personalized recipes based on available ingredients and user preferences.
 
-## Features
+## Try It Out
 
-- **Ingredient-Based Recipe Generation**: Input your available ingredients and get custom recipes
-- **Experience Level Adaptation**: Recipes tailored to your cooking expertise (Beginner, Home Chef, or Professional)
-- **Time Management**: Set your available cooking time and get recipes that fit your schedule
-- **Dietary Customization**: Specify dietary goals, restrictions, and cuisine preferences
-- **Equipment Consideration**: Recipes adapted to your available kitchen equipment
-- **Print-Friendly**: Easy recipe printing functionality
-- **Responsive Design**: Works seamlessly on mobile and desktop devices
+🚀 **Live Demo**: [sagar-datta.github.io/gastronaut-ai](https://sagar-datta.github.io/gastronaut-ai/)
 
-## Technology Stack
+Test the application by providing your ingredients and preferences to generate custom recipes in real-time.
 
-### Frontend
+## Core Features
 
-- **React 18** with **TypeScript**
-- **Vite** for fast development and building
-- **Tailwind CSS** for styling
-- **Shadcn/ui** for UI components
-- **Radix UI** for accessible component primitives
-- **Framer Motion** for smooth animations
+- **Smart Recipe Generation**: Algorithmic recipe creation from user-provided ingredients
+- **Adaptive Difficulty**: Dynamic recipe complexity based on user experience level
+- **Time Optimization**: Recipe generation within specified time constraints
+- **Dietary Specifications**: Support for various dietary requirements and restrictions
+- **Equipment Adaptation**: Recipe methods tailored to available kitchen equipment
+- **Print Integration**: Optimized recipe formatting for printing
+- **Responsive Interface**: Full mobile and desktop browser support
 
-### AI Integration
+## Technical Stack
 
-- **Google's Gemini Pro** for recipe generation
-- Custom prompt engineering for culinary expertise
+### Frontend Architecture
 
-### Key Libraries
+- **React 18** with **TypeScript** for type-safe development
+- **Vite** as the build tool and development server
+- **Tailwind CSS** for utility-first styling
+- **Shadcn/ui** for component architecture
+- **Radix UI** for accessible primitive components
+- **Framer Motion** for UI animations
 
-- `@radix-ui` for foundational components
-- `class-variance-authority` for component variants
-- `clsx` and `tailwind-merge` for class management
-- `lucide-react` for icons
-- `react-markdown` for recipe formatting
+### AI Implementation
 
-## Getting Started
+- **Google's Gemini Pro** API integration
+- Custom prompt engineering for recipe generation
+
+### Core Dependencies
+
+- `@radix-ui` for foundational UI components
+- `class-variance-authority` for component variant management
+- `clsx` and `tailwind-merge` for class name handling
+- `lucide-react` for iconography
+- `react-markdown` for recipe text processing
+
+## Development Setup
 
 1. Clone the repository
 
@@ -50,13 +56,13 @@ git clone https://github.com/sagar-datta/gastronaut-ai.git
 npm install
 ```
 
-3. Set up environment variables
+3. Configure environment variables
 
 ```bash
 VITE_GOOGLE_API_KEY=your_gemini_api_key
 ```
 
-4. Start the development server
+4. Launch development server
 
 ```bash
 npm run dev
@@ -64,4 +70,4 @@ npm run dev
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is distributed under the MIT License - see the [LICENSE](LICENSE) file for details.
