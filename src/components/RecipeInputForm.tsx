@@ -152,7 +152,7 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
                 ease: "easeOut",
                 opacity: { duration: 0.3 },
               }}
-              className="overflow-hidden"
+              className=""
             >
               <OptionalSettings
                 isOpen={isOpen}
