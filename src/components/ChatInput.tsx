@@ -340,7 +340,7 @@ export function ChatInput({
                       />
                     </div>
                   </motion.div>
-                ) : null}
+                ) : <></>}
               </AnimatePresence>
             </motion.div>
           )}
