@@ -326,7 +326,7 @@ export function ChatInput({
         isLoading={isLoading}
         hasItemsToRemove={hasItemsToRemove}
         getButtonText={getButtonText}
-        getOSShortcut={() => getOSShortcut("generate")}
+        getOSShortcut={getOSShortcut}
         handleGenerateRecipe={handleGenerateRecipe}
         setIsCollapsibleOpen={setIsCollapsibleOpen}
         input={input}
