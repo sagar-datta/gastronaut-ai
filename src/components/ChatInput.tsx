@@ -13,7 +13,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CheckedItems } from "./RecipeDisplay";
-import { RecipeInputForm } from "./RecipeInputForm";
+import { RecipeInputForm } from "./RecipeInputForm"; import { FloatingButtonContainer } from "./FloatingButtonContainer";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
