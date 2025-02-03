@@ -269,6 +269,8 @@ export function ChatInput({
               setServings={setServings}
               mealType={mealType}
               setMealType={setMealType}
+              equipment={equipment}
+              setEquipment={setEquipment}
               isOpen={isOpen}
               setIsOpen={setIsOpen}
               isLoading={isLoading}
@@ -334,7 +336,9 @@ export function ChatInput({
                     />
                   </div>
                 </motion.div>
-              ) : ( <></> )}
+              ) : (
+                <></>
+              )}
             </AnimatePresence>
           </motion.div>
         </AnimatePresence>
