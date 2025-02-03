@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExperienceLevelInput } from "./ExperienceLevelInput";
@@ -35,6 +31,8 @@ interface RecipeInputFormProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
   externalRecipe: string | null;
+  equipment: string;
+  setEquipment: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
@@ -60,6 +58,8 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
   setIsOpen,
   isLoading,
   externalRecipe,
+  equipment,
+  setEquipment,
 }) => {
   return (
     <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
@@ -165,9 +165,14 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
                 setDietaryGoal={setDietaryGoal}
                 exclusions={exclusions}
                 setExclusions={setExclusions}
+                equipment={equipment}
+                setEquipment={setEquipment}
               />
             </motion.div>
           )}
         </AnimatePresence>
       </Collapsible>
     </div>
+  );
+};
+export default RecipeInputForm;
