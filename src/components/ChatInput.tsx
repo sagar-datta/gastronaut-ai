@@ -1,12 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -428,140 +420,20 @@ export function ChatInput({
                             }}
                             className="overflow-hidden"
                           >
-                            <div className="space-y-8">
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                {/* Cuisine Preferences */}
-                                <Card>
-                                  <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                      Cuisine Preferences
-                                      <span className="text-sm font-normal text-[#5C5552]">
-                                        (Optional)
-                                      </span>
-                                    </CardTitle>
-                                    <CardDescription>
-                                      Describe your preferred style of cooking
-                                      or specific cuisines you'd like to explore
-                                    </CardDescription>
-                                  </CardHeader>
-                                  <CardContent>
-                                    <Textarea
-                                      value={cuisine}
-                                      onChange={(e) =>
-                                        setCuisine(e.target.value)
-                                      }
-                                      placeholder="e.g., I love spicy Indian food, or I'd like to try making authentic Italian pasta..."
-                                      className="flex-1 min-h-[100px] resize-none"
-                                    />
-                                  </CardContent>
-                                </Card>
-
-                                {/* Meal Type */}
-                                <Card>
-                                  <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                      Meal Type
-                                      <span className="text-sm font-normal text-[#5C5552]">
-                                        (Optional)
-                                      </span>
-                                    </CardTitle>
-                                    <CardDescription>
-                                      Describe what kind of meal you're planning
-                                      to make and its context
-                                    </CardDescription>
-                                  </CardHeader>
-                                  <CardContent>
-                                    <Textarea
-                                      value={mealType}
-                                      onChange={(e) =>
-                                        setMealType(e.target.value)
-                                      }
-                                      placeholder="e.g., Post-workout dinner, light lunch for work, weekend brunch with friends..."
-                                      className="flex-1 min-h-[100px] resize-none"
-                                    />
-                                  </CardContent>
-                                </Card>
-
-                                {/* Dietary Goals */}
-                                <Card>
-                                  <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                      Dietary Goals
-                                      <span className="text-sm font-normal text-[#5C5552]">
-                                        (Optional)
-                                      </span>
-                                    </CardTitle>
-                                    <CardDescription>
-                                      Tell us about your nutritional preferences
-                                      or dietary objectives
-                                    </CardDescription>
-                                  </CardHeader>
-                                  <CardContent>
-                                    <Textarea
-                                      value={dietaryGoal}
-                                      onChange={(e) =>
-                                        setDietaryGoal(e.target.value)
-                                      }
-                                      placeholder="e.g., I'm looking for high-protein meals for muscle gain, or I want to reduce carbs..."
-                                      className="flex-1 min-h-[100px] resize-none"
-                                    />
-                                  </CardContent>
-                                </Card>
-
-                                {/* Dietary Restrictions */}
-                                <Card>
-                                  <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                      Dietary Restrictions
-                                      <span className="text-sm font-normal text-[#5C5552]">
-                                        (Optional)
-                                      </span>
-                                    </CardTitle>
-                                    <CardDescription>
-                                      Tell us about any allergies, intolerances,
-                                      or ingredients you'd like to avoid
-                                    </CardDescription>
-                                  </CardHeader>
-                                  <CardContent>
-                                    <Textarea
-                                      value={exclusions}
-                                      onChange={(e) =>
-                                        setExclusions(e.target.value)
-                                      }
-                                      placeholder="e.g., peanuts, dairy, shellfish, mushrooms..."
-                                      className="flex-1 min-h-[70px] resize-none"
-                                    />
-                                  </CardContent>
-                                </Card>
-
-                                {/* Equipment Section */}
-                                <Card className="col-span-1 md:col-span-2">
-                                  <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                      Cooking Equipment
-                                      <span className="text-sm font-normal text-[#5C5552]">
-                                        (Optional)
-                                      </span>
-                                    </CardTitle>
-                                    <CardDescription>
-                                      Tell us what cooking equipment you have
-                                      available - this helps us suggest suitable
-                                      recipes
-                                    </CardDescription>
-                                  </CardHeader>
-                                  <CardContent>
-                                    <Textarea
-                                      value={equipment}
-                                      onChange={(e) =>
-                                        setEquipment(e.target.value)
-                                      }
-                                      placeholder="e.g., oven, stovetop, slow cooker, air fryer..."
-                                      className="flex-1 min-h-[70px] resize-none"
-                                    />
-                                  </CardContent>
-                                </Card>
-                              </div>
-                            </div>
+                            <OptionalSettings
+                              isOpen={isOpen}
+                              setIsOpen={setIsOpen}
+                              cuisine={cuisine}
+                              setCuisine={setCuisine}
+                              mealType={mealType}
+                              setMealType={setMealType}
+                              dietaryGoal={dietaryGoal}
+                              setDietaryGoal={setDietaryGoal}
+                              exclusions={exclusions}
+                              setExclusions={setExclusions}
+                              equipment={equipment}
+                              setEquipment={setEquipment}
+                            />
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -605,44 +477,12 @@ export function ChatInput({
                 />
 
                 {/* Ingredients Section */}
-                <Card className="col-span-1">
-                  <CardHeader>
-                    <CardTitle>Ingredients</CardTitle>
-                    <CardDescription>
-                      List your ingredients with approximate amounts - don't
-                      worry about being too precise!
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="space-y-2">
-                      <div className="font-medium text-[#433633]">
-                        Required Ingredients
-                      </div>
-                      <Textarea
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder="e.g., 2 chicken breasts, a bag of rice..."
-                        className="flex-1 min-h-[100px] resize-none"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="font-medium flex sm:items-center sm:flex-row flex-col gap-2">
-                        <span className="text-[#433633]">
-                          Optional Ingredients
-                        </span>
-                        <span className="text-sm font-normal text-[#5C5552]">
-                          (Nice to have, but not essential)
-                        </span>
-                      </div>
-                      <Textarea
-                        value={optionalIngredients}
-                        onChange={(e) => setOptionalIngredients(e.target.value)}
-                        placeholder="e.g., fresh herbs, spices, garnishes..."
-                        className="flex-1 min-h-[100px] resize-none"
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
+                <IngredientsInput
+                  input={input}
+                  optionalIngredients={optionalIngredients}
+                  setInput={setInput}
+                  setOptionalIngredients={setOptionalIngredients}
+                />
 
                 {/* Additional Settings Collapsible */}
                 <Collapsible
@@ -711,134 +551,20 @@ export function ChatInput({
                         }}
                         className="overflow-hidden"
                       >
-                        <div className="space-y-8">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* Cuisine Preferences */}
-                            <Card>
-                              <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                  Cuisine Preferences
-                                  <span className="text-sm font-normal text-[#5C5552]">
-                                    (Optional)
-                                  </span>
-                                </CardTitle>
-                                <CardDescription>
-                                  Describe your preferred style of cooking or
-                                  specific cuisines you'd like to explore
-                                </CardDescription>
-                              </CardHeader>
-                              <CardContent>
-                                <Textarea
-                                  value={cuisine}
-                                  onChange={(e) => setCuisine(e.target.value)}
-                                  placeholder="e.g., I love spicy Indian food, or I'd like to try making authentic Italian pasta..."
-                                  className="flex-1 min-h-[100px] resize-none"
-                                />
-                              </CardContent>
-                            </Card>
-
-                            {/* Meal Type */}
-                            <Card>
-                              <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                  Meal Type
-                                  <span className="text-sm font-normal text-[#5C5552]">
-                                    (Optional)
-                                  </span>
-                                </CardTitle>
-                                <CardDescription>
-                                  Describe what kind of meal you're planning to
-                                  make and its context
-                                </CardDescription>
-                              </CardHeader>
-                              <CardContent>
-                                <Textarea
-                                  value={mealType}
-                                  onChange={(e) => setMealType(e.target.value)}
-                                  placeholder="e.g., Post-workout dinner, light lunch for work, weekend brunch with friends..."
-                                  className="flex-1 min-h-[100px] resize-none"
-                                />
-                              </CardContent>
-                            </Card>
-
-                            {/* Dietary Goals */}
-                            <Card>
-                              <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                  Dietary Goals
-                                  <span className="text-sm font-normal text-[#5C5552]">
-                                    (Optional)
-                                  </span>
-                                </CardTitle>
-                                <CardDescription>
-                                  Tell us about your nutritional preferences or
-                                  dietary objectives
-                                </CardDescription>
-                              </CardHeader>
-                              <CardContent>
-                                <Textarea
-                                  value={dietaryGoal}
-                                  onChange={(e) =>
-                                    setDietaryGoal(e.target.value)
-                                  }
-                                  placeholder="e.g., I'm looking for high-protein meals for muscle gain, or I want to reduce carbs..."
-                                  className="flex-1 min-h-[100px] resize-none"
-                                />
-                              </CardContent>
-                            </Card>
-
-                            {/* Dietary Restrictions */}
-                            <Card>
-                              <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                  Dietary Restrictions
-                                  <span className="text-sm font-normal text-[#5C5552]">
-                                    (Optional)
-                                  </span>
-                                </CardTitle>
-                                <CardDescription>
-                                  Tell us about any allergies, intolerances, or
-                                  ingredients you'd like to avoid
-                                </CardDescription>
-                              </CardHeader>
-                              <CardContent>
-                                <Textarea
-                                  value={exclusions}
-                                  onChange={(e) =>
-                                    setExclusions(e.target.value)
-                                  }
-                                  placeholder="e.g., peanuts, dairy, shellfish, mushrooms..."
-                                  className="flex-1 min-h-[70px] resize-none"
-                                />
-                              </CardContent>
-                            </Card>
-
-                            {/* Equipment Section */}
-                            <Card className="col-span-1 md:col-span-2">
-                              <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                  Cooking Equipment
-                                  <span className="text-sm font-normal text-[#5C5552]">
-                                    (Optional)
-                                  </span>
-                                </CardTitle>
-                                <CardDescription>
-                                  Tell us what cooking equipment you have
-                                  available - this helps us suggest suitable
-                                  recipes
-                                </CardDescription>
-                              </CardHeader>
-                              <CardContent>
-                                <Textarea
-                                  value={equipment}
-                                  onChange={(e) => setEquipment(e.target.value)}
-                                  placeholder="e.g., oven, stovetop, slow cooker, air fryer..."
-                                  className="flex-1 min-h-[70px] resize-none"
-                                />
-                              </CardContent>
-                            </Card>
-                          </div>
-                        </div>
+                        <OptionalSettings
+                          isOpen={isOpen}
+                          setIsOpen={setIsOpen}
+                          cuisine={cuisine}
+                          setCuisine={setCuisine}
+                          mealType={mealType}
+                          setMealType={setMealType}
+                          dietaryGoal={dietaryGoal}
+                          setDietaryGoal={setDietaryGoal}
+                          exclusions={exclusions}
+                          setExclusions={setExclusions}
+                          equipment={equipment}
+                          setEquipment={setEquipment}
+                        />
                       </motion.div>
                     )}
                   </AnimatePresence>
