@@ -118,7 +118,7 @@ export function FloatingButtonContainer({
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent className="hidden lg:block">
-                        {/* Keep tooltip always open for now - can be adjusted */}
+                        <p>Press {getOSShortcut()} to print</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
@@ -135,7 +135,7 @@ export function FloatingButtonContainer({
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent className="hidden lg:block">
-                        {/* Keep tooltip always open for now - can be adjusted */}
+                        <p>Press {getOSShortcut()} to print</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
