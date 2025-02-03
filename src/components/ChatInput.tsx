@@ -41,6 +41,7 @@ const getOSShortcut = () => {
     return "Ctrl + Enter";
   }
 };
+\ No newline at end of file
 
 const getPrintShortcut = () => {
   if (typeof window === "undefined") return "Ctrl + P";
