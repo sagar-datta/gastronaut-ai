@@ -23,11 +23,11 @@ const getOSShortcut = () => {
   const platform = window.navigator.platform.toLowerCase();
 
   if (platform.includes("mac")) {
-    return "⌘";
+    return "⌘ + ↵";
   } else if (platform.includes("win")) {
-    return "Ctrl";
+    return "Ctrl + ↵";
   } else {
-    return "Ctrl + Enter";
+    return "Ctrl + ↵";
   }
 };
 

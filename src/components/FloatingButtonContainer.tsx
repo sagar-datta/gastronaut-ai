@@ -93,8 +93,7 @@ export function FloatingButtonContainer({
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent className="hidden lg:block">
-                    <p>
-                      Press {getOSShortcut()} to{" "}
+                    <p>Press {getOSShortcut()} + ↵ to
                       {hasItemsToRemove
                         ? "remove"
                         : externalRecipe
