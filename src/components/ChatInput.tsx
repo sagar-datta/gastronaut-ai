@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,7 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { type CheckedItems } from "./RecipeDisplay";
+import { CheckedItems } from "./RecipeDisplay";
 import { RecipeInputForm } from "./RecipeInputForm";
 
 interface ChatInputProps {
@@ -245,38 +245,36 @@ export function ChatInput({
       >
         {/* Chat Input Section */}
         <AnimatePresence>
-          {(externalRecipe || isLoading) && (
-            <Collapsible
-              className="w-full lg:w-1/2 lg:max-w-[900px] print:!hidden"
-              open={isCollapsibleOpen}
-              onOpenChange={setIsCollapsibleOpen}
-            >
-              <RecipeInputForm
-                input={input}
-                setInput={setInput}
-                optionalIngredients={optionalIngredients}
-                setOptionalIngredients={setOptionalIngredients}
-                experience={experience}
-                setExperience={setExperience}
-                exclusions={exclusions}
-                setExclusions={setExclusions}
-                cuisine={cuisine}
-                setCuisine={setCuisine}
-                cookTime={cookTime}
-                setCookTime={setCookTime}
-                dietaryGoal={dietaryGoal}
-                setDietaryGoal={setDietaryGoal}
-                servings={servings}
-                setServings={setServings}
-                mealType={mealType}
-                setMealType={setMealType}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                isLoading={isLoading}
-                externalRecipe={externalRecipe}
-              />
-            </Collapsible>
-          )}
+          <Collapsible
+            className="w-full lg:w-1/2 lg:max-w-[900px] print:!hidden"
+            open={isCollapsibleOpen}
+            onOpenChange={setIsCollapsibleOpen}
+          >
+            <RecipeInputForm
+              input={input}
+              setInput={setInput}
+              optionalIngredients={optionalIngredients}
+              setOptionalIngredients={setOptionalIngredients}
+              experience={experience}
+              setExperience={setExperience}
+              exclusions={exclusions}
+              setExclusions={setExclusions}
+              cuisine={cuisine}
+              setCuisine={setCuisine}
+              cookTime={cookTime}
+              setCookTime={setCookTime}
+              dietaryGoal={dietaryGoal}
+              setDietaryGoal={setDietaryGoal}
+              servings={servings}
+              setServings={setServings}
+              mealType={mealType}
+              setMealType={setMealType}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              isLoading={isLoading}
+              externalRecipe={externalRecipe}
+            />
+          </Collapsible>
         </AnimatePresence>
 
         {/* Recipe Display Section */}
