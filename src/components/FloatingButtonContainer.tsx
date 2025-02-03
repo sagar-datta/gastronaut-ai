@@ -74,7 +74,7 @@ export function FloatingButtonContainer({
                 </Button>
               )}
               <TooltipProvider>
-                <Tooltip> {/* tooltip shows on hover*/}
+                <Tooltip delayDuration={50}> {/* tooltip shows on hover with shorter delay */}
                   <TooltipTrigger asChild>
                     <Button
                       size="lg"
@@ -105,7 +105,7 @@ export function FloatingButtonContainer({
               {externalRecipe && !isLoading && (
                 <>
                   <TooltipProvider>
-                    <Tooltip> {/* Keep tooltip always open for now - can be adjusted */}
+                    <Tooltip delayDuration={50}> {/* Keep tooltip always open for now - can be adjusted with shorter delay */}
                       <TooltipTrigger asChild>
                         <Button
                           size="lg"
@@ -123,7 +123,7 @@ export function FloatingButtonContainer({
                     </Tooltip>
                   </TooltipProvider>
                   <TooltipProvider>
-                    <Tooltip> {/* Keep tooltip always open for now - can be adjusted */}
+                    <Tooltip delayDuration={50}> {/* Keep tooltip always open for now - can be adjusted with shorter delay */}
                       <TooltipTrigger asChild>
                         <Button
                           size="lg"
