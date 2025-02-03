@@ -74,7 +74,9 @@ export function FloatingButtonContainer({
                 </Button>
               )}
               <TooltipProvider>
-                <Tooltip delayDuration={50}> {/* tooltip shows on hover with shorter delay */}
+                <Tooltip delayDuration={50}>
+                  {" "}
+                  {/* tooltip shows on hover with shorter delay */}
                   <TooltipTrigger asChild>
                     <Button
                       size="lg"
@@ -105,7 +107,9 @@ export function FloatingButtonContainer({
               {externalRecipe && !isLoading && (
                 <>
                   <TooltipProvider>
-                    <Tooltip delayDuration={50}> {/* Keep tooltip always open for now - can be adjusted with shorter delay */}
+                    <Tooltip delayDuration={50}>
+                      {" "}
+                      {/* Keep tooltip always open for now - can be adjusted with shorter delay */}
                       <TooltipTrigger asChild>
                         <Button
                           size="lg"
@@ -115,23 +119,6 @@ export function FloatingButtonContainer({
                         >
                           <Printer className="h-4 w-4 text-[#433633]" />
                           Print Recipe
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent className="hidden lg:block">
-                        <p>Press {getOSShortcut()} + P to print</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                  <TooltipProvider>
-                    <Tooltip delayDuration={50}> {/* Keep tooltip always open for now - can be adjusted with shorter delay */}
-                      <TooltipTrigger asChild>
-                        <Button
-                          size="lg"
-                          variant="outline"
-                          className="px-4 sm:hidden flex items-center text-[#433633]"
-                          onClick={() => window.print()}
-                        >
-                          <Printer className="h-4 w-4 text-[#433633]" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent className="hidden lg:block">

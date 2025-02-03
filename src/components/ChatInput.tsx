@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Button } from "@/components/ui/button";
 import { Collapsible } from "@/components/ui/collapsible";
-import { Printer } from "lucide-react";
 import { generateRecipe } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { CheckedItems } from "./RecipeDisplay";
-import { RecipeInputForm } from "./RecipeInputForm"; import { FloatingButtonContainer } from "./FloatingButtonContainer";
+import { RecipeInputForm } from "./RecipeInputForm";
+import { FloatingButtonContainer } from "./FloatingButtonContainer";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -35,20 +28,6 @@ const getOSShortcut = () => {
     return "Ctrl + ↵";
   } else {
     return "Ctrl + Enter";
-  }
-};
-
-const getPrintShortcut = () => {
-  if (typeof window === "undefined") return "Ctrl + P";
-
-  const platform = window.navigator.platform.toLowerCase();
-
-  if (platform.includes("mac")) {
-    return "⌘ + P";
-  } else if (platform.includes("win")) {
-    return "Ctrl + P";
-  } else {
-    return "Ctrl + P";
   }
 };
 
@@ -74,9 +53,6 @@ export function ChatInput({
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false);
   const [optionalIngredients, setOptionalIngredients] = useState("");
   const [hasSetHandler, setHasSetHandler] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isPrintHovered, setIsPrintHovered] = useState(false);
-  const [isPrintMobileHovered, setIsPrintMobileHovered] = useState(false);
   const [itemsToRemove, setItemsToRemove] = useState<CheckedItems>({});
   const hasItemsToRemove = Object.values(itemsToRemove).some(
     (item) => item.checked
@@ -247,9 +223,7 @@ export function ChatInput({
         <AnimatePresence>
           <Collapsible
             className={`w-full lg:max-w-screen-lg print:!hidden ${
-              externalRecipe || isLoading
-                ? "lg:w-1/2"
-                : ""
+              externalRecipe || isLoading ? "lg:w-1/2" : ""
             }`}
             open={isCollapsibleOpen}
             onOpenChange={setIsCollapsibleOpen}
@@ -348,19 +322,17 @@ export function ChatInput({
           </AnimatePresence>
         ) : null}
       </motion.div>
-+
-+      <FloatingButtonContainer
-+        externalRecipe={externalRecipe}
-+        isLoading={isLoading}
-+        hasItemsToRemove={hasItemsToRemove}
-+        getButtonText={getButtonText}
-+        getOSShortcut={getOSShortcut}
-+        handleGenerateRecipe={handleGenerateRecipe}
-+        setIsCollapsibleOpen={setIsCollapsibleOpen}
-+        input={input}
-+      />
-+    </div>
-+
-+
+
+      <FloatingButtonContainer
+        externalRecipe={externalRecipe}
+        isLoading={isLoading}
+        hasItemsToRemove={hasItemsToRemove}
+        getButtonText={getButtonText}
+        getOSShortcut={getOSShortcut}
+        handleGenerateRecipe={handleGenerateRecipe}
+        setIsCollapsibleOpen={setIsCollapsibleOpen}
+        input={input}
+      />
+    </div>
   );
 }
