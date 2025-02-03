@@ -122,7 +122,7 @@ export function FloatingButtonContainer({
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent className="hidden lg:block">
-                        <p>Press {getOSShortcut()} + P</p>
+                        <p>Press {getOSShortcut()} + P to print</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
