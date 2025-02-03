@@ -8,17 +8,27 @@ Visit [sagar-datta.github.io/gastronaut-ai](https://sagar-datta.github.io/gastro
 
 ### Local Development
 
+Clone the repository:
+
 ```bash
-# Clone repository
 git clone https://github.com/sagar-datta/gastronaut-ai.git
+```
 
-# Install dependencies
+Install dependencies:
+
+```bash
 npm install
+```
 
-# Set up environment variable
+Set up environment variable:
+
+```bash
 VITE_GOOGLE_API_KEY=your_gemini_api_key
+```
 
-# Start development server
+Start development server:
+
+```bash
 npm run dev
 ```
 
