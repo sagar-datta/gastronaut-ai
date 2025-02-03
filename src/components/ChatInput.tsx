@@ -244,37 +244,40 @@ export function ChatInput({
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         {/* Chat Input Section */}
-        {externalRecipe || isLoading ? (
-          <Collapsible
-            className="w-full lg:w-1/2 lg:max-w-[900px] print:!hidden"
-            open={isCollapsibleOpen}
-            onOpenChange={setIsCollapsibleOpen}
-          >
-            <RecipeInputForm
-              input={input}
-              setInput={setInput}
-              optionalIngredients={optionalIngredients}
-              setOptionalIngredients={setOptionalIngredients}
-              experience={experience}
-              setExperience={setExperience}
-              exclusions={exclusions}
-              setExclusions={setExclusions}
-              cuisine={cuisine}
-              setCuisine={setCuisine}
-              cookTime={cookTime}
-              setCookTime={setCookTime}
-              dietaryGoal={dietaryGoal}
-              setDietaryGoal={setDietaryGoal}
-              servings={servings}
-              setServings={setServings}
-              mealType={mealType}
-              setMealType={setMealType}
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-              isLoading={isLoading}
-              externalRecipe={externalRecipe}
-            />
-          
+        <AnimatePresence>
+          {(externalRecipe || isLoading) && (
+            <Collapsible
+              className="w-full lg:w-1/2 lg:max-w-[900px] print:!hidden"
+              open={isCollapsibleOpen}
+              onOpenChange={setIsCollapsibleOpen}
+            >
+              <RecipeInputForm
+                input={input}
+                setInput={setInput}
+                optionalIngredients={optionalIngredients}
+                setOptionalIngredients={setOptionalIngredients}
+                experience={experience}
+                setExperience={setExperience}
+                exclusions={exclusions}
+                setExclusions={setExclusions}
+                cuisine={cuisine}
+                setCuisine={setCuisine}
+                cookTime={cookTime}
+                setCookTime={setCookTime}
+                dietaryGoal={dietaryGoal}
+                setDietaryGoal={setDietaryGoal}
+                servings={servings}
+                setServings={setServings}
+                mealType={mealType}
+                setMealType={setMealType}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                isLoading={isLoading}
+                externalRecipe={externalRecipe}
+              />
+            </Collapsible>
+          )}
+        </AnimatePresence>
 
         {/* Recipe Display Section */}
         <AnimatePresence mode="sync">
