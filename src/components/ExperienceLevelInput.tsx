@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   CardContent,
@@ -21,12 +22,12 @@ interface ExperienceLevelInputProps {
   isLoading: boolean;
 }
 
-export function ExperienceLevelInput({
+const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
   experience,
   setExperience,
   externalRecipe,
   isLoading,
-}: ExperienceLevelInputProps) {
+}) => {
   return (
     <Card>
       <CardHeader>
@@ -107,4 +108,6 @@ export function ExperienceLevelInput({
       </CardContent>
     </Card>
   );
-}
+};
+
+export { ExperienceLevelInput };

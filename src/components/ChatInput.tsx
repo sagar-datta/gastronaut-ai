@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -7,9 +7,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { useState, useRef, useEffect, useCallback } from "react";
 import { Slider } from "@/components/ui/slider";
 import {
   Collapsible,
@@ -21,13 +19,6 @@ import { generateRecipe } from "@/lib/gemini";
 import { RecipeDisplay } from "./RecipeDisplay";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Tooltip,
   TooltipContent,
@@ -294,87 +285,12 @@ export function ChatInput({
                   <div className="flex-1 min-h-0">
                     <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
                       {/* Experience Level Section */}
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Experience Level</CardTitle>
-                          <CardDescription>
-                            Select your comfort level in the kitchen to get
-                            personalized recipe suggestions
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div
-                            className={`${
-                              externalRecipe || isLoading
-                                ? "min-[950px]:block hidden"
-                                : "min-[500px]:block hidden"
-                            }`}
-                          >
-                            <Tabs
-                              defaultValue="beginner"
-                              value={experience}
-                              onValueChange={setExperience}
-                            >
-                              <TabsList className="grid w-full grid-cols-3">
-                                <TabsTrigger
-                                  value="beginner"
-                                  className="data-[state=active]:text-[#433633]"
-                                >
-                                  Beginner Cook
-                                </TabsTrigger>
-                                <TabsTrigger
-                                  value="intermediate"
-                                  className="data-[state=active]:text-[#433633]"
-                                >
-                                  Home Chef
-                                </TabsTrigger>
-                                <TabsTrigger
-                                  value="advanced"
-                                  className="data-[state=active]:text-[#433633]"
-                                >
-                                  Professional
-                                </TabsTrigger>
-                              </TabsList>
-                            </Tabs>
-                          </div>
-                          <div
-                            className={`${
-                              externalRecipe || isLoading
-                                ? "min-[950px]:hidden block"
-                                : "min-[500px]:hidden block"
-                            }`}
-                          >
-                            <Select
-                              value={experience}
-                              onValueChange={setExperience}
-                            >
-                              <SelectTrigger className="font-medium text-[#433633]">
-                                <SelectValue placeholder="Select experience level" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem
-                                  value="beginner"
-                                  className="font-medium text-[#433633]"
-                                >
-                                  Beginner Cook
-                                </SelectItem>
-                                <SelectItem
-                                  value="intermediate"
-                                  className="font-medium text-[#433633]"
-                                >
-                                  Home Chef
-                                </SelectItem>
-                                <SelectItem
-                                  value="advanced"
-                                  className="font-medium text-[#433633]"
-                                >
-                                  Professional
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </CardContent>
-                      </Card>
+                      <ExperienceLevelInput
+                        experience={experience}
+                        setExperience={setExperience}
+                        externalRecipe={externalRecipe}
+                        isLoading={isLoading}
+                      />
 
                       {/* Time and Servings */}
                       <div
@@ -737,7 +653,6 @@ export function ChatInput({
                               // Wait for scroll to complete (roughly 500ms)
                               setTimeout(resolve, 500);
                             }).then(() => {
-                              // Then close the collapsible
                               setIsOpen(open);
                             });
                           }
@@ -936,84 +851,12 @@ export function ChatInput({
             <div className="flex-1 min-h-0 overflow-y-auto">
               <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
                 {/* Experience Level Section */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Experience Level</CardTitle>
-                    <CardDescription>
-                      Select your comfort level in the kitchen to get
-                      personalized recipe suggestions
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div
-                      className={`${
-                        externalRecipe || isLoading
-                          ? "min-[950px]:block hidden"
-                          : "min-[500px]:block hidden"
-                      }`}
-                    >
-                      <Tabs
-                        defaultValue="beginner"
-                        value={experience}
-                        onValueChange={setExperience}
-                      >
-                        <TabsList className="grid w-full grid-cols-3">
-                          <TabsTrigger
-                            value="beginner"
-                            className="data-[state=active]:text-[#433633]"
-                          >
-                            Beginner Cook
-                          </TabsTrigger>
-                          <TabsTrigger
-                            value="intermediate"
-                            className="data-[state=active]:text-[#433633]"
-                          >
-                            Home Chef
-                          </TabsTrigger>
-                          <TabsTrigger
-                            value="advanced"
-                            className="data-[state=active]:text-[#433633]"
-                          >
-                            Professional
-                          </TabsTrigger>
-                        </TabsList>
-                      </Tabs>
-                    </div>
-                    <div
-                      className={`${
-                        externalRecipe || isLoading
-                          ? "min-[950px]:hidden block"
-                          : "min-[500px]:hidden block"
-                      }`}
-                    >
-                      <Select value={experience} onValueChange={setExperience}>
-                        <SelectTrigger className="font-medium text-[#433633]">
-                          <SelectValue placeholder="Select experience level" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem
-                            value="beginner"
-                            className="font-medium text-[#433633]"
-                          >
-                            Beginner Cook
-                          </SelectItem>
-                          <SelectItem
-                            value="intermediate"
-                            className="font-medium text-[#433633]"
-                          >
-                            Home Chef
-                          </SelectItem>
-                          <SelectItem
-                            value="advanced"
-                            className="font-medium text-[#433633]"
-                          >
-                            Professional
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </CardContent>
-                </Card>
+                <ExperienceLevelInput
+                  experience={experience}
+                  setExperience={setExperience}
+                  externalRecipe={externalRecipe}
+                  isLoading={isLoading}
+                />
 
                 {/* Time and Servings */}
                 <div
@@ -1200,7 +1043,6 @@ export function ChatInput({
                           // Wait for scroll to complete (roughly 500ms)
                           setTimeout(resolve, 500);
                         }).then(() => {
-                          // Then close the collapsible
                           setIsOpen(open);
                         });
                       }
