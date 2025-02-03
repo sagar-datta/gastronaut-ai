@@ -236,14 +236,10 @@ export function ChatInput({
   return (
     <div className="h-full" ref={containerRef}>
       <motion.div
-        className={`flex flex-col h-full relative print:!block print:!w-full  ${
+        className={`flex flex-col h-full relative print:!block print:!w-full ${
           externalRecipe || isLoading
             ? "lg:flex-row"
-            : "lg:justify-center lg:items-start" // Add centering classes here
-        } ${
-          !(externalRecipe || isLoading)
-            ? "items-center" // Center items on smaller screens too when no recipe
-            : ""
+            : "lg:justify-center lg:items-center items-center" // Center when no recipe
         }`}
         initial={false}
         animate={{
