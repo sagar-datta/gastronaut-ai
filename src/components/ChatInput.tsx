@@ -16,18 +16,21 @@ interface ChatInputProps {
   recipe: string | null;
 }
 
-const getOSShortcut = () => {
+const getOSShortcut = (action: 'generate' | 'print') => {
   // Check if running in browser environment
-  if (typeof window === "undefined") return "Ctrl + ↵";
+  if (typeof window === "undefined") return "Ctrl";
 
   const platform = window.navigator.platform.toLowerCase();
 
   if (platform.includes("mac")) {
-    return "⌘ + ↵";
+    if (action === 'generate')
+      return "⌘ + ↵";
+    else
+      return "⌘";
   } else if (platform.includes("win")) {
-    return "Ctrl + ↵";
+    return "Ctrl";
   } else {
-    return "Ctrl + ↵";
+    return "Ctrl";
   }
 };
 

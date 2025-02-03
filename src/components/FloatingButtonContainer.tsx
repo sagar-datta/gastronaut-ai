@@ -93,7 +93,7 @@ export function FloatingButtonContainer({
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent className="hidden lg:block">
-                    <p>Press {getOSShortcut()} + ↵ to
+                    <p>Press {getOSShortcut('generate')} + ↵ to
                       {hasItemsToRemove
                         ? "remove"
                         : externalRecipe
@@ -121,7 +121,7 @@ export function FloatingButtonContainer({
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent className="hidden lg:block">
-                        <p>Press {getOSShortcut()} + P to print</p>
+                        <p>Press {getOSShortcut('print')} + P</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
