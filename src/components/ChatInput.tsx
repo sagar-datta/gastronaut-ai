@@ -288,7 +288,7 @@ export function ChatInput({
         </AnimatePresence>
  
         {/* Recipe Display Section */}
-        {(externalRecipe || isLoading) && (
+        {externalRecipe || isLoading ? (
           <AnimatePresence mode="sync">
             <motion.div
               className="w-full lg:w-1/2 print:!static print:!w-full print:!block"
@@ -330,28 +330,28 @@ export function ChatInput({
                     </div>
                   </motion.div>
                 ) : externalRecipe ? (
-                 <motion.div
-                   key="recipe"
-                   initial={{ opacity: 0 }}
-                   animate={{ opacity: 1 }}
-                   exit={{ opacity: 0 }}
-                   transition={{ duration: 0.3 }}
-                   className="h-full overflow-y-auto print:!w-full print:!max-w-none"
-                 >
-                   <div className="print:!break-inside-avoid-page">
-                     <RecipeDisplay
-                       content={externalRecipe}
-                       onItemsChange={setItemsToRemove}
-                     />
-                   </div>
-                 </motion.div>
+                  <motion.div
+                    key="recipe"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="h-full overflow-y-auto print:!w-full print:!max-w-none"
+                  >
+                    <div className="print:!break-inside-avoid-page">
+                      <RecipeDisplay
+                        content={externalRecipe}
+                        onItemsChange={setItemsToRemove}
+                      />
+                    </div>
+                  </motion.div>
                 ) : (
-                  <></>
+                  null
                 )}
               </AnimatePresence>
             </motion.div>
           </AnimatePresence>
-        )}
+        ) : null}
       </motion.div>
 
       {/* Add the floating button with progressive blur effect */}
