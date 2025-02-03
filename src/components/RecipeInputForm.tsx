@@ -133,7 +133,11 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
               data-optional-trigger
             >
               <span>Optional Extra Inputs</span>
-              {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              {isOpen ? (
+                <ChevronUp className="h-4 w-4" />
+              ) : (
+                <ChevronDown className="h-4 w-4" />
+              )}
             </Button>
           </CollapsibleTrigger>
         </div>
