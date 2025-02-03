@@ -17,10 +17,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { type CheckedItems } from "./RecipeDisplay";
-import { ExperienceLevelInput } from "./ExperienceLevelInput";
-import { IngredientsInput } from "./IngredientsInput";
-import OptionalSettings from "./OptionalSettings";
-import { TimeServingsInput } from "./TimeServingsInput";
+import { RecipeInputForm } from "./RecipeInputForm";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -253,326 +250,31 @@ export function ChatInput({
             open={isCollapsibleOpen}
             onOpenChange={setIsCollapsibleOpen}
           >
-            <AnimatePresence>
-              {isCollapsibleOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{
-                    duration: 0.4,
-                    ease: "easeOut",
-                    opacity: { duration: 0.3 },
-                  }}
-                  className="overflow-hidden lg:hidden"
-                >
-                  <div className="flex-1 min-h-0">
-                    <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
-                      {/* Experience Level Section */}
-                      <ExperienceLevelInput
-                        experience={experience}
-                        setExperience={setExperience}
-                        externalRecipe={externalRecipe}
-                        isLoading={isLoading}
-                      />
-
-                      {/*Time and Servings */}
-                      <TimeServingsInput
-                        cookTime={cookTime}
-                        setCookTime={setCookTime}
-                        servings={servings}
-                        setServings={setServings}
-                        externalRecipe={externalRecipe}
-                        isLoading={isLoading}
-                      />
-
-                      {/* Ingredients Section */}
-                      <IngredientsInput
-                        input={input}
-                        optionalIngredients={optionalIngredients}
-                        setInput={setInput}
-                        setOptionalIngredients={setOptionalIngredients}
-                      />
-
-                      {/* Additional Settings Collapsible */}
-                      <OptionalSettings
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        cuisine={cuisine}
-                        setCuisine={setCuisine}
-                        mealType={mealType}
-                        setMealType={setMealType}
-                        dietaryGoal={dietaryGoal}
-                        setDietaryGoal={setDietaryGoal}
-                        exclusions={exclusions}
-                        setExclusions={setExclusions}
-                        equipment={equipment}
-                        setEquipment={setEquipment}
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <CollapsibleContent forceMount className="hidden lg:block">
-              <motion.div
-                className="flex flex-col h-full overflow-hidden print:!hidden"
-                initial={false}
-                animate={{
-                  width: "100%",
-                }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-              >
-                {/* Existing chat input content */}
-                <div className="flex-1 min-h-0 overflow-y-auto">
-                  <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
-                    {/* Experience Level Section */}
-                    <ExperienceLevelInput
-                      experience={experience}
-                      setExperience={setExperience}
-                      externalRecipe={externalRecipe}
-                      isLoading={isLoading}
-                    />
-
-                    {/* Time and Servings */}
-                    <TimeServingsInput
-                      cookTime={cookTime}
-                      setCookTime={setCookTime}
-                      servings={servings}
-                      setServings={setServings}
-                      externalRecipe={externalRecipe}
-                      isLoading={isLoading}
-                    />
-
-                    {/* Ingredients Section */}
-                    <IngredientsInput
-                      input={input}
-                      optionalIngredients={optionalIngredients}
-                      setInput={setInput}
-                      setOptionalIngredients={setOptionalIngredients}
-                    />
-
-                    {/* Additional Settings Collapsible */}
-                    <Collapsible
-                      open={isOpen}
-                      onOpenChange={(open) => {
-                        if (!open) {
-                          // Get the trigger button position before animation starts
-                          const trigger = document.querySelector(
-                            "[data-optional-trigger]"
-                          );
-                          if (trigger) {
-                            const rect = trigger.getBoundingClientRect();
-                            const scrollTarget =
-                              window.scrollY +
-                              rect.top -
-                              window.innerHeight +
-                              rect.height +
-                              100;
-
-                            // First scroll to position
-                            new Promise<void>((resolve) => {
-                              window.scrollTo({
-                                top: scrollTarget,
-                                behavior: "smooth",
-                              });
-
-                              // Wait for scroll to complete (roughly 500ms)
-                              setTimeout(resolve, 500);
-                            }).then(() => {
-                              setIsOpen(open);
-                            });
-                          }
-                        } else {
-                          // If opening, just set state immediately
-                          setIsOpen(open);
-                        }
-                      }}
-                      className="w-full space-y-2 col-span-1"
-                    >
-                      <div className="flex justify-center">
-                        <CollapsibleTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            className="flex items-center gap-2 p-4 text-[#433633] hover:bg-[#E3E0DE]"
-                            data-optional-trigger
-                          >
-                            <span>Optional Extra Inputs</span>
-                            {isOpen ? (
-                              <ChevronUp className="h-4 w-4" />
-                            ) : (
-                              <ChevronDown className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </CollapsibleTrigger>
-                      </div>
-                      <AnimatePresence>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{
-                              duration: 0.4,
-                              ease: "easeOut",
-                              opacity: { duration: 0.3 },
-                            }}
-                            className="overflow-hidden"
-                          >
-                            <OptionalSettings
-                              isOpen={isOpen}
-                              setIsOpen={setIsOpen}
-                              cuisine={cuisine}
-                              setCuisine={setCuisine}
-                              mealType={mealType}
-                              setMealType={setMealType}
-                              dietaryGoal={dietaryGoal}
-                              setDietaryGoal={setDietaryGoal}
-                              exclusions={exclusions}
-                              setExclusions={setExclusions}
-                              equipment={equipment}
-                              setEquipment={setEquipment}
-                            />
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </Collapsible>
-                  </div>
-                </div>
-              </motion.div>
-            </CollapsibleContent>
-          </Collapsible>
-        ) : (
-          // Original chat input when no recipe
-          <motion.div
-            className="flex flex-col h-full overflow-hidden print:!hidden"
-            initial={false}
-            animate={{
-              width: "100%",
-              maxWidth: "900px",
-              margin: "0 auto",
-            }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          >
-            {/* Existing chat input content */}
-            <div className="flex-1 min-h-0 overflow-y-auto">
-              <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
-                {/* Experience Level Section */}
-                <ExperienceLevelInput
-                  experience={experience}
-                  setExperience={setExperience}
-                  externalRecipe={externalRecipe}
-                  isLoading={isLoading}
-                />
-
-                {/* Time and Servings */}
-                <TimeServingsInput
-                  cookTime={cookTime}
-                  setCookTime={setCookTime}
-                  servings={servings}
-                  setServings={setServings}
-                  externalRecipe={externalRecipe}
-                  isLoading={isLoading}
-                />
-
-                {/* Ingredients Section */}
-                <IngredientsInput
-                  input={input}
-                  optionalIngredients={optionalIngredients}
-                  setInput={setInput}
-                  setOptionalIngredients={setOptionalIngredients}
-                />
-
-                {/* Additional Settings Collapsible */}
-                <Collapsible
-                  open={isOpen}
-                  onOpenChange={(open) => {
-                    if (!open) {
-                      // Get the trigger button position before animation starts
-                      const trigger = document.querySelector(
-                        "[data-optional-trigger]"
-                      );
-                      if (trigger) {
-                        const rect = trigger.getBoundingClientRect();
-                        const scrollTarget =
-                          window.scrollY +
-                          rect.top -
-                          window.innerHeight +
-                          rect.height +
-                          100;
-
-                        // First scroll to position
-                        new Promise<void>((resolve) => {
-                          window.scrollTo({
-                            top: scrollTarget,
-                            behavior: "smooth",
-                          });
-
-                          // Wait for scroll to complete (roughly 500ms)
-                          setTimeout(resolve, 500);
-                        }).then(() => {
-                          setIsOpen(open);
-                        });
-                      }
-                    } else {
-                      // If opening, just set state immediately
-                      setIsOpen(open);
-                    }
-                  }}
-                  className="w-full space-y-2 col-span-1"
-                >
-                  <div className="flex justify-center">
-                    <CollapsibleTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="flex items-center gap-2 p-4 text-[#433633] hover:bg-[#E3E0DE]"
-                        data-optional-trigger
-                      >
-                        <span>Optional Extra Inputs</span>
-                        {isOpen ? (
-                          <ChevronUp className="h-4 w-4" />
-                        ) : (
-                          <ChevronDown className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </CollapsibleTrigger>
-                  </div>
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{
-                          duration: 0.4,
-                          ease: "easeOut",
-                          opacity: { duration: 0.3 },
-                        }}
-                        className="overflow-hidden"
-                      >
-                        <OptionalSettings
-                          isOpen={isOpen}
-                          setIsOpen={setIsOpen}
-                          cuisine={cuisine}
-                          setCuisine={setCuisine}
-                          mealType={mealType}
-                          setMealType={setMealType}
-                          dietaryGoal={dietaryGoal}
-                          setDietaryGoal={setDietaryGoal}
-                          exclusions={exclusions}
-                          setExclusions={setExclusions}
-                          equipment={equipment}
-                          setEquipment={setEquipment}
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </Collapsible>
-              </div>
-            </div>
-          </motion.div>
-        )}
+            <RecipeInputForm
+              input={input}
+              setInput={setInput}
+              optionalIngredients={optionalIngredients}
+              setOptionalIngredients={setOptionalIngredients}
+              experience={experience}
+              setExperience={setExperience}
+              exclusions={exclusions}
+              setExclusions={setExclusions}
+              cuisine={cuisine}
+              setCuisine={setCuisine}
+              cookTime={cookTime}
+              setCookTime={setCookTime}
+              dietaryGoal={dietaryGoal}
+              setDietaryGoal={setDietaryGoal}
+              servings={servings}
+              setServings={setServings}
+              mealType={mealType}
+              setMealType={setMealType}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              isLoading={isLoading}
+              externalRecipe={externalRecipe}
+            />
+          
 
         {/* Recipe Display Section */}
         <AnimatePresence mode="sync">
@@ -621,7 +323,6 @@ export function ChatInput({
                       <Skeleton className="h-4 w-full" />
                       <Skeleton className="h-4 w-3/4" />
                     </div>
-                  </motion.div>
                 ) : externalRecipe ? (
                   <motion.div
                     key="recipe"
