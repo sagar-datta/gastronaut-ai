@@ -44,3 +44,4 @@ tsconfig.app.json
 # Generated/Cache Files
 .DS_Store
 **/ .DS_Store
+.aider*
