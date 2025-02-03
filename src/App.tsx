@@ -31,7 +31,7 @@ function App() {
       </header>
 
       {/* Main content */}
-      <main className="bg-[hsl(var(--app-background))] rounded-lg p-4 w-full max-w-[1800px] mx-auto flex flex-col">
+      <main className="bg-[hsl(var(--app-background))] p-4 w-full max-w-[1800px] mx-auto flex flex-col">
         <div className="flex-1 flex flex-col">
           <div className="w-full h-full">
             <ChatInput
