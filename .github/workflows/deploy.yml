@@ -31,6 +31,14 @@ jobs:
           node-version: 18
           cache: "npm"
 
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm ci
 
@@ -40,13 +48,13 @@ jobs:
           VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
 
       - name: Setup Pages
-        uses: actions/configure-pages@v4 # Updated from v3 to v4
+        uses: actions/configure-pages@v4
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3 # Updated from v2 to v3
+        uses: actions/upload-pages-artifact@v3
         with:
           path: "./dist"
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4 # Updated from v2 to v4
+        uses: actions/deploy-pages@v4
