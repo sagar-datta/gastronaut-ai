@@ -282,70 +282,72 @@ export function ChatInput({
             />
           </Collapsible>
         </AnimatePresence>
-
+ 
         {/* Recipe Display Section */}
-        <AnimatePresence mode="sync">
-          <motion.div
-            className="w-full lg:w-1/2 print:!static print:!w-full print:!block"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          >
-            <AnimatePresence mode="wait">
-              {isLoading ? (
-                <motion.div
-                  key="skeleton"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="h-full p-6 space-y-4 print:!hidden"
-                >
-                  <Skeleton className="h-12 w-3/4" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-full" />
-                  <div className="space-y-2 mt-8">
-                    <Skeleton className="h-8 w-1/4" />
+        {(externalRecipe || isLoading) && (
+          <AnimatePresence mode="sync">
+            <motion.div
+              className="w-full lg:w-1/2 print:!static print:!w-full print:!block"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+              <AnimatePresence mode="wait">
+                {isLoading ? (
+                  <motion.div
+                    key="skeleton"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0  }}
+                    transition={{ duration: 0.3 }}
+                    className="h-full p-6 space-y-4 print:!hidden"
+                  >
+                    <Skeleton className="h-12 w-3/4" />
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                  <div className="space-y-2 mt-8">
-                    <Skeleton className="h-8 w-1/4" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                  <div className="space-y-2 mt-8">
-                    <Skeleton className="h-8 w-1/4" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                </motion.div>
-              ) : externalRecipe ? (
-                <motion.div
-                  key="recipe"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="h-full overflow-y-auto print:!w-full print:!max-w-none"
-                >
-                  <div className="print:!break-inside-avoid-page">
-                    <RecipeDisplay
-                      content={externalRecipe}
-                      onItemsChange={setItemsToRemove}
-                    />
-                  </div>
-                </motion.div>
-              ) : (
-                <></>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        </AnimatePresence>
+                    <div className="space-y-2 mt-8">
+                      <Skeleton className="h-8 w-1/4" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                    </div>
+                    <div className="space-y-2 mt-8">
+                      <Skeleton className="h-8 w-1/4" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                    </div>
+                    <div className="space-y-2 mt-8">
+                      <Skeleton className="h-8 w-1/4" />
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                    </div>
+                  </motion.div>
+                ) : externalRecipe ? (
+                 <motion.div
+                   key="recipe"
+                   initial={{ opacity: 0 }}
+                   animate={{ opacity: 1 }}
+                   exit={{ opacity: 0 }}
+                   transition={{ duration: 0.3 }}
+                   className="h-full overflow-y-auto print:!w-full print:!max-w-none"
+                 >
+                   <div className="print:!break-inside-avoid-page">
+                     <RecipeDisplay
+                       content={externalRecipe}
+                       onItemsChange={setItemsToRemove}
+                     />
+                   </div>
+                 </motion.div>
+                ) : (
+                  <></>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </AnimatePresence>
+        )}
       </motion.div>
 
       {/* Add the floating button with progressive blur effect */}
