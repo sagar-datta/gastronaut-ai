@@ -236,7 +236,11 @@ export function ChatInput({
   return (
     <div className="h-full" ref={containerRef}>
       <motion.div
-        className="flex flex-col lg:flex-row h-full relative print:!block print:!w-full"
+        className={`flex flex-col h-full relative print:!block print:!w-full ${
+          externalRecipe || isLoading
+            ? "lg:flex-row"
+            : ""
+        }`}
         initial={false}
         animate={{
           gap: 0,
