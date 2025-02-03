@@ -106,8 +106,8 @@ export function ChatInput({
     new Set()
   );
 
-  const getButtonText = React.useMemo(
-    () => (isSmallScreen: boolean) => {
+  const getButtonText = React.useCallback(
+    (isSmallScreen: boolean) => {
       if (isLoading) return "Generating...";
       if (hasItemsToRemove) return isSmallScreen ? "Remove" : "Remove Items";
       return isSmallScreen
