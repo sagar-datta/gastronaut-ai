@@ -37,6 +37,7 @@ import {
 import { type CheckedItems } from "./RecipeDisplay";
 import { ExperienceLevelInput } from "./ExperienceLevelInput";
 import { IngredientsInput } from "./IngredientsInput";
+import OptionalSettings from "./OptionalSettings";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -509,213 +510,20 @@ export function ChatInput({
                       />
 
                       {/* Additional Settings Collapsible */}
-                      <Collapsible
-                        open={isOpen}
-                        onOpenChange={(open) => {
-                          if (!open) {
-                            // Get the trigger button position before animation starts
-                            const trigger = document.querySelector(
-                              "[data-optional-trigger]"
-                            );
-                            if (trigger) {
-                              const rect = trigger.getBoundingClientRect();
-                              const scrollTarget =
-                                window.scrollY +
-                                rect.top -
-                                window.innerHeight +
-                                rect.height +
-                                100;
-
-                              // First scroll to position
-                              new Promise<void>((resolve) => {
-                                window.scrollTo({
-                                  top: scrollTarget,
-                                  behavior: "smooth",
-                                });
-
-                                // Wait for scroll to complete (roughly 500ms)
-                                setTimeout(resolve, 500);
-                              }).then(() => {
-                                // Then close the collapsible
-                                setIsOpen(open);
-                              });
-                            }
-                          } else {
-                            // If opening, just set state immediately
-                            setIsOpen(open);
-                          }
-                        }}
-                        className="w-full space-y-2 col-span-1"
-                      >
-                        <div className="flex justify-center">
-                          <CollapsibleTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              className="flex items-center gap-2 p-4 text-[#433633] hover:bg-[#E3E0DE]"
-                              data-optional-trigger
-                            >
-                              <span>Optional Extra Inputs</span>
-                              {isOpen ? (
-                                <ChevronUp className="h-4 w-4" />
-                              ) : (
-                                <ChevronDown className="h-4 w-4" />
-                              )}
-                            </Button>
-                          </CollapsibleTrigger>
-                        </div>
-                        <AnimatePresence>
-                          {isOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{
-                                duration: 0.4,
-                                ease: "easeOut",
-                                opacity: { duration: 0.3 },
-                              }}
-                              className="overflow-hidden"
-                            >
-                              <div className="space-y-8">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                  {/* Cuisine Preferences */}
-                                  <Card>
-                                    <CardHeader>
-                                      <CardTitle className="flex items-center gap-2">
-                                        Cuisine Preferences
-                                        <span className="text-sm font-normal text-[#5C5552]">
-                                          (Optional)
-                                        </span>
-                                      </CardTitle>
-                                      <CardDescription>
-                                        Describe your preferred style of cooking
-                                        or specific cuisines you'd like to
-                                        explore
-                                      </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                      <Textarea
-                                        value={cuisine}
-                                        onChange={(e) =>
-                                          setCuisine(e.target.value)
-                                        }
-                                        placeholder="e.g., I love spicy Indian food, or I'd like to try making authentic Italian pasta..."
-                                        className="flex-1 min-h-[100px] resize-none"
-                                      />
-                                    </CardContent>
-                                  </Card>
-
-                                  {/* Meal Type */}
-                                  <Card>
-                                    <CardHeader>
-                                      <CardTitle className="flex items-center gap-2">
-                                        Meal Type
-                                        <span className="text-sm font-normal text-[#5C5552]">
-                                          (Optional)
-                                        </span>
-                                      </CardTitle>
-                                      <CardDescription>
-                                        Describe what kind of meal you're
-                                        planning to make and its context
-                                      </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                      <Textarea
-                                        value={mealType}
-                                        onChange={(e) =>
-                                          setMealType(e.target.value)
-                                        }
-                                        placeholder="e.g., Post-workout dinner, light lunch for work, weekend brunch with friends..."
-                                        className="flex-1 min-h-[100px] resize-none"
-                                      />
-                                    </CardContent>
-                                  </Card>
-
-                                  {/* Dietary Goals */}
-                                  <Card>
-                                    <CardHeader>
-                                      <CardTitle className="flex items-center gap-2">
-                                        Dietary Goals
-                                        <span className="text-sm font-normal text-[#5C5552]">
-                                          (Optional)
-                                        </span>
-                                      </CardTitle>
-                                      <CardDescription>
-                                        Tell us about your nutritional
-                                        preferences or dietary objectives
-                                      </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                      <Textarea
-                                        value={dietaryGoal}
-                                        onChange={(e) =>
-                                          setDietaryGoal(e.target.value)
-                                        }
-                                        placeholder="e.g., I'm looking for high-protein meals for muscle gain, or I want to reduce carbs..."
-                                        className="flex-1 min-h-[100px] resize-none"
-                                      />
-                                    </CardContent>
-                                  </Card>
-
-                                  {/* Dietary Restrictions */}
-                                  <Card>
-                                    <CardHeader>
-                                      <CardTitle className="flex items-center gap-2">
-                                        Dietary Restrictions
-                                        <span className="text-sm font-normal text-[#5C5552]">
-                                          (Optional)
-                                        </span>
-                                      </CardTitle>
-                                      <CardDescription>
-                                        Tell us about any allergies,
-                                        intolerances, or ingredients you'd like
-                                        to avoid
-                                      </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                      <Textarea
-                                        value={exclusions}
-                                        onChange={(e) =>
-                                          setExclusions(e.target.value)
-                                        }
-                                        placeholder="e.g., peanuts, dairy, shellfish, mushrooms..."
-                                        className="flex-1 min-h-[70px] resize-none"
-                                      />
-                                    </CardContent>
-                                  </Card>
-
-                                  {/* Equipment Section */}
-                                  <Card className="col-span-1 md:col-span-2">
-                                    <CardHeader>
-                                      <CardTitle className="flex items-center gap-2">
-                                        Cooking Equipment
-                                        <span className="text-sm font-normal text-[#5C5552]">
-                                          (Optional)
-                                        </span>
-                                      </CardTitle>
-                                      <CardDescription>
-                                        Tell us what cooking equipment you have
-                                        available - this helps us suggest
-                                        suitable recipes
-                                      </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                      <Textarea
-                                        value={equipment}
-                                        onChange={(e) =>
-                                          setEquipment(e.target.value)
-                                        }
-                                        placeholder="e.g., oven, stovetop, slow cooker, air fryer..."
-                                        className="flex-1 min-h-[70px] resize-none"
-                                      />
-                                    </CardContent>
-                                  </Card>
-                                </div>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </Collapsible>
+                      <OptionalSettings
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        cuisine={cuisine}
+                        setCuisine={setCuisine}
+                        mealType={mealType}
+                        setMealType={setMealType}
+                        dietaryGoal={dietaryGoal}
+                        setDietaryGoal={setDietaryGoal}
+                        exclusions={exclusions}
+                        setExclusions={setExclusions}
+                        equipment={equipment}
+                        setEquipment={setEquipment}
+                      />
                     </div>
                   </div>
                 </motion.div>
