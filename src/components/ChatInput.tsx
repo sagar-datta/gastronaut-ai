@@ -250,7 +250,7 @@ export function ChatInput({
         {/* Chat Input Section */}
         <AnimatePresence>
           <Collapsible
-            className="w-full lg:w-1/2 lg:min-w-[600px] lg:max-w-[1200px] print:!hidden"
+            className="w-full lg:w-1/2 lg:min-w-[1200px] lg:max-w-[1600px] print:!hidden"
             open={isCollapsibleOpen}
             onOpenChange={setIsCollapsibleOpen}
           >
