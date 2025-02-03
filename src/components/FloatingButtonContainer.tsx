@@ -74,9 +74,7 @@ export function FloatingButtonContainer({
                 </Button>
               )}
               <TooltipProvider>
-                <Tooltip open={true && window.innerWidth >= 1024}>
-                  {" "}
-                  {/* tooltip shows on hover*/}
+                <Tooltip> {/* tooltip shows on hover*/}
                   <TooltipTrigger asChild>
                     <Button
                       size="lg"
@@ -107,9 +105,7 @@ export function FloatingButtonContainer({
               {externalRecipe && !isLoading && (
                 <>
                   <TooltipProvider>
-                    <Tooltip open={true && window.innerWidth >= 1024}>
-                      {" "}
-                      {/* Keep tooltip always open for now - can be adjusted */}
+                    <Tooltip> {/* Keep tooltip always open for now - can be adjusted */}
                       <TooltipTrigger asChild>
                         <Button
                           size="lg"
@@ -127,9 +123,7 @@ export function FloatingButtonContainer({
                     </Tooltip>
                   </TooltipProvider>
                   <TooltipProvider>
-                    <Tooltip open={true && window.innerWidth >= 1024}>
-                      {" "}
-                      {/* Keep tooltip always open for now - can be adjusted */}
+                    <Tooltip> {/* Keep tooltip always open for now - can be adjusted */}
                       <TooltipTrigger asChild>
                         <Button
                           size="lg"
