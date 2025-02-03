@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import {
   Collapsible,
   CollapsibleContent,
@@ -29,6 +28,7 @@ import { type CheckedItems } from "./RecipeDisplay";
 import { ExperienceLevelInput } from "./ExperienceLevelInput";
 import { IngredientsInput } from "./IngredientsInput";
 import OptionalSettings from "./OptionalSettings";
+import { TimeServingsInput } from "./TimeServingsInput";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -218,14 +218,6 @@ export function ChatInput({
     }
   }, []); // Empty dependency array - only run once on mount
 
-  const handleTimeChange = (value: number[]) => {
-    setCookTime(Math.max(15, value[0]));
-  };
-
-  const handleServingsChange = (value: number[]) => {
-    setServings(Math.max(1, value[0]));
-  };
-
   // Add keyboard shortcut handler
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -292,130 +284,15 @@ export function ChatInput({
                         isLoading={isLoading}
                       />
 
-                      {/* Time and Servings */}
-                      <div
-                        className={`grid grid-cols-1 ${
-                          externalRecipe || isLoading
-                            ? "[&>*]:col-span-1 min-[1255px]:grid-cols-2"
-                            : "md:grid-cols-2"
-                        } gap-8 col-span-1`}
-                      >
-                        {/* Time Constraints */}
-                        <Card className="flex flex-col">
-                          <CardHeader>
-                            <CardTitle>Time Available</CardTitle>
-                            <CardDescription>
-                              How much time do you have to cook?
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent className="flex-1 flex flex-col justify-end">
-                            <div className="space-y-4">
-                              <div className="flex items-center justify-center gap-2">
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="icon"
-                                  disabled={cookTime <= 15}
-                                  onClick={() =>
-                                    setCookTime((prev) =>
-                                      Math.max(15, prev - 5)
-                                    )
-                                  }
-                                  className="text-[#433633] disabled:text-[#5C5552]"
-                                >
-                                  -
-                                </Button>
-                                <div className="text-lg min-w-[120px] text-center">
-                                  <span className="font-bold text-[#433633]">
-                                    {cookTime}
-                                  </span>{" "}
-                                  <span className="text-[#5C5552]">
-                                    minutes
-                                  </span>
-                                </div>
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="icon"
-                                  disabled={cookTime >= 180}
-                                  onClick={() =>
-                                    setCookTime((prev) =>
-                                      Math.min(180, prev + 5)
-                                    )
-                                  }
-                                  className="text-[#433633] disabled:text-[#5C5552]"
-                                >
-                                  +
-                                </Button>
-                              </div>
-                              <Slider
-                                value={[cookTime]}
-                                onValueChange={handleTimeChange}
-                                min={0}
-                                max={180}
-                                step={5}
-                                className="pt-2"
-                              />
-                            </div>
-                          </CardContent>
-                        </Card>
-
-                        {/* Serving Size */}
-                        <Card className="flex flex-col">
-                          <CardHeader>
-                            <CardTitle>Serving Size</CardTitle>
-                            <CardDescription>
-                              How many people are you cooking for?
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent className="flex-1 flex flex-col justify-end">
-                            <div className="space-y-4">
-                              <div className="flex items-center justify-center gap-2">
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="icon"
-                                  disabled={servings <= 1}
-                                  onClick={() =>
-                                    setServings((prev) => Math.max(1, prev - 1))
-                                  }
-                                >
-                                  -
-                                </Button>
-                                <div className="text-lg min-w-[120px] text-center">
-                                  <span className="font-bold text-[#433633]">
-                                    {servings}
-                                  </span>{" "}
-                                  <span className="text-[#5C5552]">
-                                    {servings === 1 ? "person" : "people"}
-                                  </span>
-                                </div>
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  size="icon"
-                                  disabled={servings >= 18}
-                                  onClick={() =>
-                                    setServings((prev) =>
-                                      Math.min(18, prev + 1)
-                                    )
-                                  }
-                                >
-                                  +
-                                </Button>
-                              </div>
-                              <Slider
-                                value={[servings]}
-                                onValueChange={handleServingsChange}
-                                min={0}
-                                max={18}
-                                step={1}
-                                className="pt-2"
-                              />
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
+                      {/*Time and Servings */}
+                      <TimeServingsInput
+                        cookTime={cookTime}
+                        setCookTime={setCookTime}
+                        servings={servings}
+                        setServings={setServings}
+                        externalRecipe={externalRecipe}
+                        isLoading={isLoading}
+                      />
 
                       {/* Ingredients Section */}
                       <IngredientsInput
@@ -467,163 +344,22 @@ export function ChatInput({
                     />
 
                     {/* Time and Servings */}
-                    <div
-                      className={`grid grid-cols-1 ${
-                        externalRecipe || isLoading
-                          ? "[&>*]:col-span-1 min-[1255px]:grid-cols-2"
-                          : "md:grid-cols-2"
-                      } gap-8 col-span-1`}
-                    >
-                      {/* Time Constraints */}
-                      <Card className="flex flex-col">
-                        <CardHeader>
-                          <CardTitle>Time Available</CardTitle>
-                          <CardDescription>
-                            How much time do you have to cook?
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-1 flex flex-col justify-end">
-                          <div className="space-y-4">
-                            <div className="flex items-center justify-center gap-2">
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="icon"
-                                disabled={cookTime <= 15}
-                                onClick={() =>
-                                  setCookTime((prev) => Math.max(15, prev - 5))
-                                }
-                                className="text-[#433633] disabled:text-[#5C5552]"
-                              >
-                                -
-                              </Button>
-                              <div className="text-lg min-w-[120px] text-center">
-                                <span className="font-bold text-[#433633]">
-                                  {cookTime}
-                                </span>{" "}
-                                <span className="text-[#5C5552]">minutes</span>
-                              </div>
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="icon"
-                                disabled={cookTime >= 180}
-                                onClick={() =>
-                                  setCookTime((prev) => Math.min(180, prev + 5))
-                                }
-                                className="text-[#433633] disabled:text-[#5C5552]"
-                              >
-                                +
-                              </Button>
-                            </div>
-                            <Slider
-                              value={[cookTime]}
-                              onValueChange={handleTimeChange}
-                              min={0}
-                              max={180}
-                              step={5}
-                              className="pt-2"
-                            />
-                          </div>
-                        </CardContent>
-                      </Card>
-
-                      {/* Serving Size */}
-                      <Card className="flex flex-col">
-                        <CardHeader>
-                          <CardTitle>Serving Size</CardTitle>
-                          <CardDescription>
-                            How many people are you cooking for?
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-1 flex flex-col justify-end">
-                          <div className="space-y-4">
-                            <div className="flex items-center justify-center gap-2">
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="icon"
-                                disabled={servings <= 1}
-                                onClick={() =>
-                                  setServings((prev) => Math.max(1, prev - 1))
-                                }
-                              >
-                                -
-                              </Button>
-                              <div className="text-lg min-w-[120px] text-center">
-                                <span className="font-bold text-[#433633]">
-                                  {servings}
-                                </span>{" "}
-                                <span className="text-[#5C5552]">
-                                  {servings === 1 ? "person" : "people"}
-                                </span>
-                              </div>
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="icon"
-                                disabled={servings >= 18}
-                                onClick={() =>
-                                  setServings((prev) => Math.min(18, prev + 1))
-                                }
-                              >
-                                +
-                              </Button>
-                            </div>
-                            <Slider
-                              value={[servings]}
-                              onValueChange={handleServingsChange}
-                              min={0}
-                              max={18}
-                              step={1}
-                              className="pt-2"
-                            />
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </div>
+                    <TimeServingsInput
+                      cookTime={cookTime}
+                      setCookTime={setCookTime}
+                      servings={servings}
+                      setServings={setServings}
+                      externalRecipe={externalRecipe}
+                      isLoading={isLoading}
+                    />
 
                     {/* Ingredients Section */}
-                    <Card className="col-span-1">
-                      <CardHeader>
-                        <CardTitle>Ingredients</CardTitle>
-                        <CardDescription>
-                          List your ingredients with approximate amounts - don't
-                          worry about being too precise!
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-6">
-                        <div className="space-y-2">
-                          <div className="font-medium text-[#433633]">
-                            Required Ingredients
-                          </div>
-                          <Textarea
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            placeholder="e.g., 2 chicken breasts, a bag of rice..."
-                            className="flex-1 min-h-[100px] resize-none"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <div className="font-medium flex sm:items-center sm:flex-row flex-col gap-2">
-                            <span className="text-[#433633]">
-                              Optional Ingredients
-                            </span>
-                            <span className="text-sm font-normal text-[#5C5552]">
-                              (Nice to have, but not essential)
-                            </span>
-                          </div>
-                          <Textarea
-                            value={optionalIngredients}
-                            onChange={(e) =>
-                              setOptionalIngredients(e.target.value)
-                            }
-                            placeholder="e.g., fresh herbs, spices, garnishes..."
-                            className="flex-1 min-h-[100px] resize-none"
-                          />
-                        </div>
-                      </CardContent>
-                    </Card>
+                    <IngredientsInput
+                      input={input}
+                      optionalIngredients={optionalIngredients}
+                      setInput={setInput}
+                      setOptionalIngredients={setOptionalIngredients}
+                    />
 
                     {/* Additional Settings Collapsible */}
                     <Collapsible
@@ -859,121 +595,14 @@ export function ChatInput({
                 />
 
                 {/* Time and Servings */}
-                <div
-                  className={`grid grid-cols-1 ${
-                    externalRecipe || isLoading
-                      ? "[&>*]:col-span-1 min-[1255px]:grid-cols-2"
-                      : "md:grid-cols-2"
-                  } gap-8 col-span-1`}
-                >
-                  {/* Time Constraints */}
-                  <Card className="flex flex-col">
-                    <CardHeader>
-                      <CardTitle>Time Available</CardTitle>
-                      <CardDescription>
-                        How much time do you have to cook?
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex-1 flex flex-col justify-end">
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-center gap-2">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            disabled={cookTime <= 15}
-                            onClick={() =>
-                              setCookTime((prev) => Math.max(15, prev - 5))
-                            }
-                            className="text-[#433633] disabled:text-[#5C5552]"
-                          >
-                            -
-                          </Button>
-                          <div className="text-lg min-w-[120px] text-center">
-                            <span className="font-bold text-[#433633]">
-                              {cookTime}
-                            </span>{" "}
-                            <span className="text-[#5C5552]">minutes</span>
-                          </div>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            disabled={cookTime >= 180}
-                            onClick={() =>
-                              setCookTime((prev) => Math.min(180, prev + 5))
-                            }
-                            className="text-[#433633] disabled:text-[#5C5552]"
-                          >
-                            +
-                          </Button>
-                        </div>
-                        <Slider
-                          value={[cookTime]}
-                          onValueChange={handleTimeChange}
-                          min={0}
-                          max={180}
-                          step={5}
-                          className="pt-2"
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Serving Size */}
-                  <Card className="flex flex-col">
-                    <CardHeader>
-                      <CardTitle>Serving Size</CardTitle>
-                      <CardDescription>
-                        How many people are you cooking for?
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex-1 flex flex-col justify-end">
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-center gap-2">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            disabled={servings <= 1}
-                            onClick={() =>
-                              setServings((prev) => Math.max(1, prev - 1))
-                            }
-                          >
-                            -
-                          </Button>
-                          <div className="text-lg min-w-[120px] text-center">
-                            <span className="font-bold text-[#433633]">
-                              {servings}
-                            </span>{" "}
-                            <span className="text-[#5C5552]">
-                              {servings === 1 ? "person" : "people"}
-                            </span>
-                          </div>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            disabled={servings >= 18}
-                            onClick={() =>
-                              setServings((prev) => Math.min(18, prev + 1))
-                            }
-                          >
-                            +
-                          </Button>
-                        </div>
-                        <Slider
-                          value={[servings]}
-                          onValueChange={handleServingsChange}
-                          min={0}
-                          max={18}
-                          step={1}
-                          className="pt-2"
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
+                <TimeServingsInput
+                  cookTime={cookTime}
+                  setCookTime={setCookTime}
+                  servings={servings}
+                  setServings={setServings}
+                  externalRecipe={externalRecipe}
+                  isLoading={isLoading}
+                />
 
                 {/* Ingredients Section */}
                 <Card className="col-span-1">
