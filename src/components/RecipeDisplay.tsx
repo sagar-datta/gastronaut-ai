@@ -25,25 +25,39 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
     onItemsChange?.(checkedItems);
   }, [checkedItems, onItemsChange]);
 
-  const sections = content.split("\n\n");
+  const sections = React.useMemo(() => content.split("\n\n"), [content]);
 
-  const ingredientsIndex = sections.findIndex((section) =>
-    section.toLowerCase().includes("## ingredients")
+  const ingredientsIndex = React.useMemo(
+    () =>
+      sections.findIndex((section) =>
+        section.toLowerCase().includes("## ingredients")
+      ),
+    [sections]
   );
 
-  const equipmentIndex = sections.findIndex((section) =>
-    section.toLowerCase().includes("## equipment needed")
+  const equipmentIndex = React.useMemo(
+    () =>
+      sections.findIndex((section) =>
+        section.toLowerCase().includes("## equipment needed")
+      ),
+    [sections]
   );
 
-  const equipmentSection =
-    equipmentIndex !== -1 ? sections[equipmentIndex] : null;
-  const ingredientsSection =
-    ingredientsIndex !== -1 ? sections[ingredientsIndex] : null;
+  const equipmentSection = React.useMemo(
+    () => (equipmentIndex !== -1 ? sections[equipmentIndex] : null),
+    [equipmentIndex, sections]
+  );
 
-  const titleSection = sections[0];
+  const ingredientsSection = React.useMemo(
+    () => (ingredientsIndex !== -1 ? sections[ingredientsIndex] : null),
+    [ingredientsIndex, sections]
+  );
 
-  const filteredSections = sections.filter(
-    (_, index) => index !== equipmentIndex
+  const titleSection = React.useMemo(() => sections[0], [sections]);
+
+  const filteredSections = React.useMemo(
+    () => sections.filter((_, index) => index !== equipmentIndex),
+    [sections, equipmentIndex]
   );
 
   // Custom components with conditional rendering for ingredients and equipment

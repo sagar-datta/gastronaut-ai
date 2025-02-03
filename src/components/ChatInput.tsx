@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   CardContent,
@@ -105,17 +106,20 @@ export function ChatInput({
     new Set()
   );
 
-  const getButtonText = (isSmallScreen: boolean) => {
-    if (isLoading) return "Generating...";
-    if (hasItemsToRemove) return isSmallScreen ? "Remove" : "Remove Items";
-    return isSmallScreen
-      ? externalRecipe
-        ? "Regenerate"
-        : "Generate"
-      : externalRecipe
-      ? "Regenerate Recipe"
-      : "Generate Recipe";
-  };
+  const getButtonText = React.useMemo(
+    () => (isSmallScreen: boolean) => {
+      if (isLoading) return "Generating...";
+      if (hasItemsToRemove) return isSmallScreen ? "Remove" : "Remove Items";
+      return isSmallScreen
+        ? externalRecipe
+          ? "Regenerate"
+          : "Generate"
+        : externalRecipe
+        ? "Regenerate Recipe"
+        : "Generate Recipe";
+    },
+    [isLoading, hasItemsToRemove, externalRecipe]
+  );
 
   const handleGenerateRecipe = useCallback(async () => {
     if (!input.trim() && !hasItemsToRemove) return;
@@ -211,7 +215,7 @@ export function ChatInput({
   // Update parent components when input changes - only update canGenerate state
   useEffect(() => {
     onCanGenerateChange?.(!!input.trim());
-  }, [input, onCanGenerateChange]);
+  }, [input]);
 
   // Set the generate handler only once on mount
   useEffect(() => {
