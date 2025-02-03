@@ -35,6 +35,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { type CheckedItems } from "./RecipeDisplay";
+import { ExperienceLevelInput } from "./ExperienceLevelInput";
 
 interface ChatInputProps {
   onRecipeChange?: (recipe: string | null) => void;
@@ -767,87 +768,12 @@ export function ChatInput({
                 <div className="flex-1 min-h-0 overflow-y-auto">
                   <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
                     {/* Experience Level Section */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Experience Level</CardTitle>
-                        <CardDescription>
-                          Select your comfort level in the kitchen to get
-                          personalized recipe suggestions
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div
-                          className={`${
-                            externalRecipe || isLoading
-                              ? "min-[950px]:block hidden"
-                              : "min-[500px]:block hidden"
-                          }`}
-                        >
-                          <Tabs
-                            defaultValue="beginner"
-                            value={experience}
-                            onValueChange={setExperience}
-                          >
-                            <TabsList className="grid w-full grid-cols-3">
-                              <TabsTrigger
-                                value="beginner"
-                                className="data-[state=active]:text-[#433633]"
-                              >
-                                Beginner Cook
-                              </TabsTrigger>
-                              <TabsTrigger
-                                value="intermediate"
-                                className="data-[state=active]:text-[#433633]"
-                              >
-                                Home Chef
-                              </TabsTrigger>
-                              <TabsTrigger
-                                value="advanced"
-                                className="data-[state=active]:text-[#433633]"
-                              >
-                                Professional
-                              </TabsTrigger>
-                            </TabsList>
-                          </Tabs>
-                        </div>
-                        <div
-                          className={`${
-                            externalRecipe || isLoading
-                              ? "min-[950px]:hidden block"
-                              : "min-[500px]:hidden block"
-                          }`}
-                        >
-                          <Select
-                            value={experience}
-                            onValueChange={setExperience}
-                          >
-                            <SelectTrigger className="font-medium text-[#433633]">
-                              <SelectValue placeholder="Select experience level" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem
-                                value="beginner"
-                                className="font-medium text-[#433633]"
-                              >
-                                Beginner Cook
-                              </SelectItem>
-                              <SelectItem
-                                value="intermediate"
-                                className="font-medium text-[#433633]"
-                              >
-                                Home Chef
-                              </SelectItem>
-                              <SelectItem
-                                value="advanced"
-                                className="font-medium text-[#433633]"
-                              >
-                                Professional
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </CardContent>
-                    </Card>
+                    <ExperienceLevelInput
+                      experience={experience}
+                      setExperience={setExperience}
+                      externalRecipe={externalRecipe}
+                      isLoading={isLoading}
+                    />
 
                     {/* Time and Servings */}
                     <div
