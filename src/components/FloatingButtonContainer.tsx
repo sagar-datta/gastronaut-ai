@@ -145,7 +145,7 @@ export function FloatingButtonContainer({
                     </div>
                   ) : buttonState === "scroll" ? (
                     <div className="flex items-center gap-2">
-                      Scroll to Recipe <ChevronDown className="h-4 w-4" />
+                      Scroll to Recipe
                     </div>
                   ) : (
                     <>
