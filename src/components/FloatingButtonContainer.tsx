@@ -88,6 +88,31 @@ export function FloatingButtonContainer({
                 <Button
                   variant="outline"
                   size="lg"
+                  className="lg:flex hidden items-center gap-2 text-[#433633]"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3.293 9.707a1 1 0 011.414 0L10 3.414l5.293 6.293a1 1 0 01-1.414 1.414L10 6.242 4.707 11.536a1 1 0 01-1.414-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Scroll to Top
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
                   className="lg:hidden text-[#433633]"
                   onClick={() => {
                     if (buttonState === "scroll") {
