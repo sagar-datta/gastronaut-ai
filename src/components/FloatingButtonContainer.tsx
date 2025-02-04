@@ -34,34 +34,28 @@ export function FloatingButtonContainer({
 
   useEffect(() => {
     const handleScroll = () => { // Define handleScroll inside useEffect
-      console.log("handleScroll function is running!"); // Simple log to check execution
+      console.log("handleScroll function is running!");
       if (externalRecipe) {
-        const recipeHeading = document.querySelector(
-          ".recipe-display h2" // More robust selector
-        );
+        const recipeHeading = document.querySelector(".recipe-display h2");
         if (recipeHeading) {
-          console.log("Recipe heading FOUND!"); // Log when recipe heading is found
+          console.log("Recipe heading FOUND!");
           const recipeHeadingOffsetTop = recipeHeading.offsetTop;
           const scrollY = window.scrollY;
           console.log("scrollY:", scrollY);
           console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
 
-          if (scrollY >= recipeHeadingOffsetTop - 100) {
-            // User is close to the recipe but not yet at the modify point
+          if (scrollY >= recipeHeadingOffsetTop) {
+            // User is at or below the recipe heading, show "Scroll to Recipe"
             if (buttonState === "modify") {
               setButtonState("scroll");
-              console.log("State: scroll - scrollY >= recipeHeadingOffsetTop - 100", scrollY >= recipeHeadingOffsetTop - 100);
+              console.log("State: scroll - scrollY >= recipeHeadingOffsetTop", scrollY >= recipeHeadingOffsetTop);
             }
-          } else if (scrollY < recipeHeadingOffsetTop - 100) {
+          } else {
+            // User is above the recipe heading, show "Modify Recipe"
             if (buttonState === "scroll") {
               setButtonState("modify");
-              console.log("State: modify - scrollY < recipeHeadingOffsetTop - 100", scrollY < recipeHeadingOffsetTop - 100);
+              console.log("State: modify - scrollY < recipeHeadingOffsetTop", scrollY < recipeHeadingOffsetTop);
             }
-          }
-        } else {
-          if (buttonState === "scroll") {
-            setButtonState("modify"); // If recipeHeading is not found, default to modify
-            console.log("State: modify - recipeHeading not found");
           }
         }
       }
