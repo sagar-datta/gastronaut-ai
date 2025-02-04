@@ -124,7 +124,7 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
             setIsOpen(open);
           }
         }}
-        className="w-full space-y-2 col-span-1"
+        className="w-full space-y-2 col-span-1 "
       >
         <div className="flex justify-center">
           <CollapsibleTrigger asChild>
