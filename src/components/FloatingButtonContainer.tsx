@@ -46,12 +46,12 @@ export function FloatingButtonContainer({
             console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
 
             if (scrollY >= recipeHeadingOffsetTop) {
-              // User is at or below the recipe heading, show "Scroll to Recipe"
-              setButtonState("scroll");
-              console.log("State: scroll - scrollY >= recipeHeadingOffsetTop", scrollY >= recipeHeadingOffsetTop);
-            } else {
-              // User is above the recipe heading, show "Modify Recipe"
+              // User is at or below the recipe heading, show "Modify Recipe"
               setButtonState("modify");
+              console.log("State: modify - scrollY >= recipeHeadingOffsetTop", scrollY >= recipeHeadingOffsetTop);
+            } else {
+              // User is above the recipe heading, show "Scroll to Recipe"
+              setButtonState("scroll");
               console.log("State: modify - scrollY < recipeHeadingOffsetTop", scrollY < recipeHeadingOffsetTop);
             }
           });
