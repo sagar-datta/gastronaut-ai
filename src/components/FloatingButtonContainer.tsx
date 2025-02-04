@@ -96,7 +96,9 @@ export function FloatingButtonContainer({
                         });
                       }
                     } else {
-                      // Scroll to top (modify view) - existing behavior
+                      // Scroll to top (modify view) - existing behavior, apply to screens smaller than lg
+                      if (window.innerWidth < 1024) { // 1024px is Tailwind's lg breakpoint
+
                       const container = document.documentElement;
                       const startPosition = container.scrollTop;
                       const duration = 50; // Super short duration, almost instant
@@ -113,6 +115,7 @@ export function FloatingButtonContainer({
                         }
                       };
                       requestAnimationFrame(scroll);
+                      }
                     }
                   }}
                 >
