@@ -69,8 +69,8 @@ export function FloatingButtonContainer({
       }
     );
 
-    if (recipeHeadingRef.current) {
-      observer.observe(recipeHeadingRef.current);
+    if (recipeContainerRef.current) {
+      observer.observe(recipeContainerRef.current); // Observe recipe container
     }
 
     return () => {
