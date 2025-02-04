@@ -59,11 +59,12 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 disabled={cookTime <= 15 || isLoading}
                 onClick={() => setCookTime(Math.max(15, cookTime - 5))}
                 className={
-                  isLoading || cookTime <= 15
+                  isLoading
                     ? cn(
                         "text-[#433633] disabled:text-[#5C5552] cursor-not-allowed"
                       )
                     : cn("text-[#433633] disabled:text-[#5C5552]")
+
                 }
               >
                 -
@@ -79,7 +80,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 disabled={cookTime >= 180 || isLoading}
                 onClick={() => setCookTime(Math.min(180, cookTime + 5))}
                 className={
-                  isLoading || cookTime >= 180
+                  isLoading
                     ? cn(
                         "text-[#433633] disabled:text-[#5C5552] cursor-not-allowed"
                       )
@@ -120,10 +121,10 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 disabled={servings <= 1 || isLoading}
                 onClick={() => setServings(Math.max(1, servings - 1))}
                 className={
-                  isLoading || servings <= 1
+                  isLoading
                     ? cn("cursor-not-allowed")
                     : ""
-                }
+                 }
               >
                 -
               </Button>
@@ -140,10 +141,10 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 disabled={servings >= 18 || isLoading}
                 onClick={() => setServings(Math.min(18, servings + 1))}
                 className={
-                  isLoading || servings >= 18
+                  isLoading
                     ? cn("cursor-not-allowed")
                     : ""
-                }
+                 }
               >
                 +
               </Button>

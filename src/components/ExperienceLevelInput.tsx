@@ -55,10 +55,11 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
               <TabsTrigger
                 value="beginner"
                 className={cn("data-[state=active]:text-[#433633]")}
+                className={isLoading ? cn("data-[state=active]:text-[#433633] cursor-not-allowed") : cn("data-[state=active]:text-[#433633]")}
                 disabled={isLoading}
               >
                 Beginner Cook
-              </TabsTrigger>
+             </TabsTrigger>
               <TabsTrigger
                 value="intermediate"
                 disabled={isLoading}
@@ -69,7 +70,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 }
               >
                 Home Chef
-              </TabsTrigger>
+             </TabsTrigger>
               <TabsTrigger
                 value="advanced"
                 disabled={isLoading}
@@ -82,7 +83,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 Professional
 
               </TabsTrigger>
-            </TabsList>
+           </TabsList>
           </Tabs>
         </div>
         <div
@@ -115,7 +116,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 className={cn(
                   "font-medium text-[#433633]",
                   isLoading ? "cursor-not-allowed" : ""
-                )}
+                 )}
               >
                 Home Chef
               </SelectItem>
@@ -124,7 +125,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 className={cn(
                   "font-medium text-[#433633]",
                   isLoading ? "cursor-not-allowed" : ""
-                )}
+                 )}
               >
                 Professional
               </SelectItem>
