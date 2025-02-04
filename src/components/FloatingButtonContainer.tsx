@@ -6,7 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ChevronDown } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { Printer } from "lucide-react";
 
 interface FloatingButtonContainerProps {
@@ -133,8 +133,11 @@ export function FloatingButtonContainer({
                 >
                   {buttonState === "scroll" ? (
                     <div className="flex items-center gap-2">
-                      {buttonState === "scroll" ? "Scroll to Recipe" : "Recipe"}  <ChevronDown className="h-4 w-4" />
-                    </div>                  ) : (                      <>
+                      <ArrowDown className="h-4 w-4" />
+                      <span>Scroll to Recipe</span>
+                    </div>
+                  ) : (
+                    <>
                       <span className="sm:hidden">Modify</span>
                       <span className="hidden sm:inline">Modify Recipe</span>
                     </>
