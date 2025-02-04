@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -27,22 +27,25 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
   externalRecipe,
   isLoading,
 }) => {
-  const handleTimeChange = (value: number[]) => {
-    setCookTime(Math.max(15, value[0]));
-  };
-
-  const handleServingsChange = (value: number[]) => {
-    setServings(Math.max(1, value[0]));
-  };
-
-  return (
-    <div
-      className={`grid grid-cols-1 ${
+  // Memoize grid class since it depends on externalRecipe and isLoading
+  const gridClass = useMemo(
+    () =>
+      `grid grid-cols-1 ${
         externalRecipe || isLoading
           ? "[&>*]:col-span-1 min-[1255px]:grid-cols-2"
           : "md:grid-cols-2"
-      } gap-8 col-span-1`}
-    >
+      } gap-8 col-span-1`,
+    [externalRecipe, isLoading]
+  );
+
+  // Memoize button class since it only depends on isLoading
+  const buttonClass = useMemo(
+    () => cn("text-[#433633] disabled:text-[#5C5552]"),
+    []
+  );
+
+  return (
+    <div className={gridClass}>
       {/* Time Constraints */}
       <Card className="flex flex-col">
         <CardHeader>
@@ -57,13 +60,8 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 variant="outline"
                 size="icon"
                 disabled={cookTime <= 15 || isLoading}
-                onClick={() => {
-                  setCookTime(Math.max(15, cookTime - 5));
-                }}
-                className={
-                  isLoading
-                    ?  cn(
-                        "text-[#433633] disabled:text-[#5C5552]"                      )                    : cn("text-[#433633] disabled:text-[#5C5552]")                 }
+                onClick={() => setCookTime(Math.max(15, cookTime - 5))}
+                className={buttonClass}
               >
                 -
               </Button>
@@ -76,19 +74,15 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 variant="outline"
                 size="icon"
                 disabled={cookTime >= 180 || isLoading}
-                onClick={() => {
-                  setCookTime(Math.min(180, cookTime + 5));
-                }}
-                className={
-                  isLoading
-                    ?  cn(
-                        "text-[#433633] disabled:text-[#5C5552]"                      )                    : cn("text-[#433633] disabled:text-[#5C5552]")                 }              >
+                onClick={() => setCookTime(Math.min(180, cookTime + 5))}
+                className={buttonClass}
+              >
                 +
               </Button>
             </div>
             <Slider
               value={[cookTime]}
-              onValueChange={handleTimeChange}
+              onValueChange={(value) => setCookTime(Math.max(15, value[0]))}
               min={0}
               max={180}
               step={5}
@@ -115,13 +109,11 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 variant="outline"
                 size="icon"
                 disabled={servings <= 1 || isLoading}
-                onClick={() => {
-                  setServings(Math.max(1, servings - 1));
-                }}
-                className={
-                  isLoading
-                    ?  cn("cursor-not-allowed")
-                    : ""                 }              >                -              </Button>
+                onClick={() => setServings(Math.max(1, servings - 1))}
+                className={buttonClass}
+              >
+                -
+              </Button>
               <div className="text-lg min-w-[120px] text-center">
                 <span className="font-bold text-[#433633]">{servings}</span>{" "}
                 <span className="text-[#5C5552]">
@@ -133,17 +125,15 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 variant="outline"
                 size="icon"
                 disabled={servings >= 18 || isLoading}
-                onClick={() => {
-                  setServings(Math.min(18, servings + 1));
-                }}
-                className={
-                  isLoading
-                    ?  cn("cursor-not-allowed")
-                    : ""                 }              >                +              </Button>
+                onClick={() => setServings(Math.min(18, servings + 1))}
+                className={buttonClass}
+              >
+                +
+              </Button>
             </div>
             <Slider
               value={[servings]}
-              onValueChange={handleServingsChange}
+              onValueChange={(value) => setServings(Math.max(1, value[0]))}
               min={0}
               max={18}
               step={1}
