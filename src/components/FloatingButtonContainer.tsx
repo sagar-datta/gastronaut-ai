@@ -34,6 +34,7 @@ export function FloatingButtonContainer({
 
   useEffect(() => {
     const handleScroll = () => {
+      console.log("handleScroll called"); // ADD THIS LINE
       if (externalRecipe) {
         const recipeHeading = document.querySelector(
           ".recipe-display h2" // More robust selector
