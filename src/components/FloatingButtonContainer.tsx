@@ -41,25 +41,29 @@ export function FloatingButtonContainer({
         );
         if (recipeHeading) {
           const recipeHeadingOffsetTop =
-            recipeHeading.getBoundingClientRect().top + window.scrollY;
+            recipeHeading.offsetTop; // Use offsetTop for position relative to parent
+          const scrollY = window.scrollY; // Get current scroll position
           console.log("scrollY:", window.scrollY);
           console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
-          if (window.scrollY < recipeHeadingOffsetTop - 100) {
+
+          if (scrollY < recipeHeadingOffsetTop - 100) {
             // Adjust offset as needed, e.g., -50px to trigger slightly before heading is at the very top
             setButtonState("recipe");
-            console.log("State: recipe");
-          } else if (window.scrollY < recipeHeadingOffsetTop && window.scrollY >= recipeHeadingOffsetTop - 100) {
+            console.log("State: recipe - scrollY < recipeHeadingOffsetTop - 100", scrollY < recipeHeadingOffsetTop - 100);
+          } else if (scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100) {
             // User is close to the recipe but not yet at the modify point
             setButtonState("scroll");
-            console.log("State: scroll");
-          } else if (window.scrollY >= recipeHeadingOffsetTop) {
+            console.log("State: scroll - scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100", scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100);
+          } else if (scrollY >= recipeHeadingOffsetTop) {
             setButtonState("modify");
-            console.log("State: modify");
+            console.log("State: modify - scrollY >= recipeHeadingOffsetTop", scrollY >= recipeHeadingOffsetTop);
           } else {
-            console.log("State: modify (default)"); // Should not reach here ideally, but for safety
+            setButtonState("modify"); // Default state if none of the above conditions match
+            console.log("State: modify (default) - fallback condition");
           }
         } else {
-          setButtonState("modify");
+          setButtonState("modify"); // If recipeHeading is not found, default to modify
+          console.log("State: modify - recipeHeading not found");
         }
       }
     };
