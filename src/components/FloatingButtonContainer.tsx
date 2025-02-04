@@ -41,15 +41,24 @@ export function FloatingButtonContainer({
         if (recipeHeading) {
           const recipeHeadingOffsetTop =
             recipeHeading.getBoundingClientRect().top + window.scrollY;
+          console.log("scrollY:", window.scrollY);
+          console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
           if (window.scrollY < recipeHeadingOffsetTop - 100) {
             // Adjust offset as needed, e.g., -50px to trigger slightly before heading is at the very top
             setButtonState("recipe");
+            console.log("State: recipe");
           } else if (window.scrollY < recipeHeadingOffsetTop && window.scrollY >= recipeHeadingOffsetTop - 100) {
             // User is close to the recipe but not yet at the modify point
             setButtonState("scroll");
-          }else {
+            console.log("State: scroll");
+          } else if (window.scrollY >= recipeHeadingOffsetTop) {
             setButtonState("modify");
+            console.log("State: modify");
+          } else {
+            console.log("State: modify (default)"); // Should not reach here ideally, but for safety
           }
+        } else {
+          setButtonState("modify");
         }
       }
     };
