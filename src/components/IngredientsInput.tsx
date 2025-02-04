@@ -12,6 +12,7 @@ interface IngredientsInputProps {
   optionalIngredients: string;
   setInput: (value: string) => void;
   setOptionalIngredients: (value: string) => void;
+  isLoading: boolean;
 }
 
 export function IngredientsInput({
@@ -19,6 +20,7 @@ export function IngredientsInput({
   optionalIngredients,
   setInput,
   setOptionalIngredients,
+  isLoading,
 }: IngredientsInputProps) {
   return (
     <Card className="col-span-1">
@@ -37,6 +39,7 @@ export function IngredientsInput({
             onChange={(e) => setInput(e.target.value)}
             placeholder="e.g., 2 chicken breasts, a bag of rice..."
             className="flex-1 min-h-[100px] resize-none"
+            disabled={isLoading}
           />
         </div>
         <div className="space-y-2">
@@ -51,6 +54,7 @@ export function IngredientsInput({
             onChange={(e) => setOptionalIngredients(e.target.value)}
             placeholder="e.g., fresh herbs, spices, garnishes..."
             className="flex-1 min-h-[100px] resize-none"
+            disabled={isLoading}
           />
         </div>
       </CardContent>

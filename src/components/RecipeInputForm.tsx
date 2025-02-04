@@ -87,6 +87,7 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
         optionalIngredients={optionalIngredients}
         setInput={setInput}
         setOptionalIngredients={setOptionalIngredients}
+        isLoading={isLoading}
       />
 
       {/* Additional Settings Collapsible */}
@@ -167,6 +168,7 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
                 setExclusions={setExclusions}
                 equipment={equipment}
                 setEquipment={setEquipment}
+                isLoading={isLoading}
               />
             </motion.div>
           )}

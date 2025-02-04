@@ -21,6 +21,7 @@ interface OptionalSettingsProps {
   setExclusions: Dispatch<SetStateAction<string>>;
   equipment: string;
   setEquipment: Dispatch<SetStateAction<string>>;
+  isLoading: boolean;
 }
 
 const OptionalSettings: React.FC<OptionalSettingsProps> = ({
@@ -34,6 +35,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
   setExclusions,
   equipment,
   setEquipment,
+  isLoading,
 }) => {
   return (
     <div className="space-y-8">
@@ -58,6 +60,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               onChange={(e) => setCuisine(e.target.value)}
               placeholder="e.g., I love spicy Indian food, or I'd like to try making authentic Italian pasta..."
               className="flex-1 min-h-[100px] resize-none"
+              disabled={isLoading}
             />
           </CardContent>
         </Card>
@@ -81,6 +84,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               onChange={(e) => setMealType(e.target.value)}
               placeholder="e.g., Post-workout dinner, light lunch for work, weekend brunch with friends..."
               className="flex-1 min-h-[100px] resize-none"
+              disabled={isLoading}
             />
           </CardContent>
         </Card>
@@ -104,6 +108,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               onChange={(e) => setDietaryGoal(e.target.value)}
               placeholder="e.g., I'm looking for high-protein meals for muscle gain, or I want to reduce carbs..."
               className="flex-1 min-h-[100px] resize-none"
+              disabled={isLoading}
             />
           </CardContent>
         </Card>
@@ -128,6 +133,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               onChange={(e) => setExclusions(e.target.value)}
               placeholder="e.g., peanuts, dairy, shellfish, mushrooms..."
               className="flex-1 min-h-[70px] resize-none"
+              disabled={isLoading}
             />
           </CardContent>
         </Card>
@@ -152,6 +158,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               onChange={(e) => setEquipment(e.target.value)}
               placeholder="e.g., oven, stovetop, slow cooker, air fryer..."
               className="flex-1 min-h-[70px] resize-none"
+              disabled={isLoading}
             />
           </CardContent>
         </Card>

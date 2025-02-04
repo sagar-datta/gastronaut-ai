@@ -54,18 +54,21 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
               <TabsTrigger
                 value="beginner"
                 className="data-[state=active]:text-[#433633]"
+                disabled={isLoading}
               >
                 Beginner Cook
               </TabsTrigger>
               <TabsTrigger
                 value="intermediate"
                 className="data-[state=active]:text-[#433633]"
+                disabled={isLoading}
               >
                 Home Chef
               </TabsTrigger>
               <TabsTrigger
                 value="advanced"
                 className="data-[state=active]:text-[#433633]"
+                disabled={isLoading}
               >
                 Professional
               </TabsTrigger>
@@ -79,7 +82,11 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
               : "min-[500px]:hidden block"
           }`}
         >
-          <Select value={experience} onValueChange={setExperience}>
+          <Select
+            value={experience}
+            onValueChange={setExperience}
+            disabled={isLoading}
+          >
             <SelectTrigger className="font-medium text-[#433633]">
               <SelectValue placeholder="Select experience level" />
             </SelectTrigger>

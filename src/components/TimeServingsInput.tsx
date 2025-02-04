@@ -55,7 +55,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                disabled={cookTime <= 15}
+                disabled={cookTime <= 15 || isLoading}
                 onClick={() => setCookTime(Math.max(15, cookTime - 5))}
                 className="text-[#433633] disabled:text-[#5C5552]"
               >
@@ -69,7 +69,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                disabled={cookTime >= 180}
+                disabled={cookTime >= 180 || isLoading}
                 onClick={() => setCookTime(Math.min(180, cookTime + 5))}
                 className="text-[#433633] disabled:text-[#5C5552]"
               >
@@ -83,6 +83,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
               max={180}
               step={5}
               className="pt-2"
+              disabled={isLoading}
             />
           </div>
         </CardContent>
@@ -103,7 +104,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                disabled={servings <= 1}
+                disabled={servings <= 1 || isLoading}
                 onClick={() => setServings(Math.max(1, servings - 1))}
               >
                 -
@@ -118,7 +119,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                disabled={servings >= 18}
+                disabled={servings >= 18 || isLoading}
                 onClick={() => setServings(Math.min(18, servings + 1))}
               >
                 +
@@ -131,6 +132,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
               max={18}
               step={1}
               className="pt-2"
+              disabled={isLoading}
             />
           </div>
         </CardContent>
