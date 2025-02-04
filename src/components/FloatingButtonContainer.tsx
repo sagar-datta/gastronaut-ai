@@ -17,8 +17,9 @@ interface FloatingButtonContainerProps {
   getOSShortcut: () => string;
   handleGenerateRecipe: () => Promise<void>;
   setIsCollapsibleOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    input: string;
-  }
+  input: string;
+}
+
 export function FloatingButtonContainer({
   externalRecipe,
   isLoading,
@@ -29,15 +30,13 @@ export function FloatingButtonContainer({
   setIsCollapsibleOpen,
   input,
 }: FloatingButtonContainerProps) {
-  const [buttonState, setButtonState] = useState<"modify" | "recipe">(
-    "modify"
-  );
+  const [buttonState, setButtonState] = useState<"modify" | "recipe">("modify");
 
   useEffect(() => {
     const handleScroll = () => {
       if (externalRecipe) {
         const recipeHeading = document.querySelector(
-          '.recipe-display h2' // More robust selector
+          ".recipe-display h2" // More robust selector
         );
         if (recipeHeading) {
           const recipeHeadingOffsetTop =
@@ -47,7 +46,8 @@ export function FloatingButtonContainer({
             setButtonState("recipe");
           } else {
             setButtonState("modify");
-         }
+          }
+        }
       }
     };
 
@@ -61,9 +61,10 @@ export function FloatingButtonContainer({
 
   const isRecipeButton = buttonState === "recipe";
   const buttonText = isRecipeButton ? "Recipe" : "Modify"; // Ensure initializer
+
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
-      <div className="relative"> {/* Keep this div */}
+      <div className="relative">
         {/* Button container - only this should be interactive */}
         <div className="relative pb-6 pt-16">
           <div className="w-full max-w-[1800px] mx-auto flex justify-center gap-2 px-4">
@@ -71,14 +72,13 @@ export function FloatingButtonContainer({
               {externalRecipe && !isLoading && (
                 <Button
                   variant="outline"
-                  size="lg"
-                  size={isRecipeButton ? "default" : "lg"} // Adjust size if needed
+                  size={isRecipeButton ? "default" : "lg"}
                   className="lg:hidden text-[#433633]"
                   onClick={() => {
                     if (isRecipeButton) {
                       // Scroll to recipe heading
                       const recipeHeading = document.querySelector(
-                        '.recipe-display h2' // More robust selector
+                        ".recipe-display h2" // More robust selector
                       );
                       if (recipeHeading) {
                         recipeHeading.scrollIntoView({
@@ -117,28 +117,33 @@ export function FloatingButtonContainer({
                       <span className="hidden sm:inline">Modify Recipe</span>
                     </>
                   )}
-               </Button>
-             )}
-             {externalRecipe && !isLoading && !isRecipeButton && ( // Conditionally render "Modify Recipe" button
-               <Button
-                 variant="outline"
-                 size="lg"
-                 className="lg:hidden text-[#433633]"
-                 onClick={() => {
-                   const container = document.documentElement;
-                   const startPosition = container.scrollTop;
-                   const duration = 50; // Super short duration, almost instant
-                   const startTime = performance.now();
-                   const scroll = (currentTime: number) => {
-                     const elapsed = currentTime - startTime;
-                     const progress = Math.min(elapsed / duration, 1);
-                     container.scrollTop = startPosition * (1 - progress);
-                     if (progress < 1) {
-                       requestAnimationFrame(scroll);
-                     } else {
-                       setIsCollapsibleOpen((prev) => !prev);
-             )} {/* Remove this block */}
-             <TooltipProvider>
+                </Button>
+              )}
+              {externalRecipe && !isLoading && !isRecipeButton && (
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="lg:hidden text-[#433633]"
+                  onClick={() => {
+                    const container = document.documentElement;
+                    const startPosition = container.scrollTop;
+                    const duration = 50; // Super short duration, almost instant
+                    const startTime = performance.now();
+                    const scroll = (currentTime: number) => {
+                      const elapsed = currentTime - startTime;
+                      const progress = Math.min(elapsed / duration, 1);
+                      container.scrollTop = startPosition * (1 - progress);
+                      if (progress < 1) {
+                        requestAnimationFrame(scroll);
+                      } else {
+                        setIsCollapsibleOpen((prev) => !prev);
+                      }
+                    };
+                    requestAnimationFrame(scroll);
+                  }}
+                />
+              )}
+              <TooltipProvider>
                 <Tooltip delayDuration={50}>
                   {" "}
                   {/* tooltip shows on hover with shorter delay */}
@@ -170,28 +175,29 @@ export function FloatingButtonContainer({
                 </Tooltip>
               </TooltipProvider>
               {externalRecipe && !isLoading && (
-               <TooltipProvider>
-                 <Tooltip delayDuration={50}>
-                   <TooltipTrigger asChild>
-                     <Button
-                       size="lg"
-                       variant="outline"
-                       className="px-8 sm:flex hidden items-center gap-2 text-[#433633]"
-                       onClick={() => window.print()}
-                     >
-                       <Printer className="h-4 w-4 text-[#433633]" />
-                       Print Recipe
-                     </Button>
-                   </TooltipTrigger>
-                   <TooltipContent className="hidden lg:block">
-                     <p>Press {getOSShortcut()} + P to print</p>
-                   </TooltipContent>
-                 </Tooltip>
-               </TooltipProvider>
-             )}
-           </div>
-         </div>
-       </div>
-     </div>
-   );
- }
+                <TooltipProvider>
+                  <Tooltip delayDuration={50}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="px-8 sm:flex hidden items-center gap-2 text-[#433633]"
+                        onClick={() => window.print()}
+                      >
+                        <Printer className="h-4 w-4 text-[#433633]" />
+                        Print Recipe
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="hidden lg:block">
+                      <p>Press {getOSShortcut()} + P to print</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
