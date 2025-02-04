@@ -55,11 +55,10 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
               <TabsTrigger
                 value="beginner"
                 className="data-[state=active]:text-[#433633]"
-                className={ isLoading ?
-                  cn(
-                    "data-[state=active]:text-[#433633] cursor-not-allowed"
-                   ) :
-                   "data-[state=active]:text-[#433633]" }
+                className={cn(
+                  "data-[state=active]:text-[#433633]",
+                  isLoading ? "cursor-not-allowed" : ""
+                )}
                 disabled={isLoading}
               >
                 Beginner Cook
@@ -109,30 +108,27 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
               <SelectItem
                 value="beginner"
                 className={cn(
-                  "font-medium text-[#433633] cursor-not-allowed"
-                   ) :
-                   "font-medium text-[#433633]"
-                }
+                  "font-medium text-[#433633]",
+                  isLoading ? "cursor-not-allowed" : ""
+                )}
               >
                 Beginner Cook
               </SelectItem>
               <SelectItem
                 value="intermediate"
-                className={ isLoading ?
-                  cn(
-                    "font-medium text-[#433633] cursor-not-allowed"
-                   ) :
-                   "font-medium text-[#433633]" }
+                className={cn(
+                  "font-medium text-[#433633]",
+                  isLoading ? "cursor-not-allowed" : ""
+                )}
               >
                 Home Chef
               </SelectItem>
               <SelectItem
                 value="advanced"
-                className={ isLoading ?
-                  cn(
-                    "font-medium text-[#433633] cursor-not-allowed"
-                   ) :
-                   "font-medium text-[#433633]" }
+                className={cn(
+                  "font-medium text-[#433633]",
+                  isLoading ? "cursor-not-allowed" : ""
+                )}
               >
                 Professional
               </SelectItem>
