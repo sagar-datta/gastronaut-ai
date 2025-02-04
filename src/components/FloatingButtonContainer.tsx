@@ -40,20 +40,20 @@ export function FloatingButtonContainer({
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
   const [isAtTop, setIsAtTop] = useState(true);
 
+  const updateButtonState = useCallback(() => {
+    const recipeDisplay = document.querySelector(".recipe-display");
+    if (!recipeDisplay) return;
+
+    const rect = recipeDisplay.getBoundingClientRect();
+    const newButtonState = rect.top >= 0 ? "scroll" : "modify";
+    setButtonState(newButtonState);
+  }, []);
+
   useEffect(() => {
     if (!externalRecipe) {
       setButtonState("modify");
       return;
     }
-
-    const updateButtonState = () => {
-      const recipeHeading = document.querySelector(".recipe-display h2");
-      if (!recipeHeading) return;
-
-      const rect = recipeHeading.getBoundingClientRect();
-      const newButtonState = rect.top <= 0 ? "modify" : "scroll";
-      setButtonState(newButtonState);
-    };
 
     updateButtonState();
     window.addEventListener("scroll", updateButtonState);
@@ -71,7 +71,7 @@ export function FloatingButtonContainer({
       window.removeEventListener("scroll", updateButtonState);
       observer.disconnect();
     };
-  }, [externalRecipe]);
+  }, [externalRecipe, updateButtonState]);
 
   useEffect(() => {
     const isTop = window.scrollY < 100;
@@ -81,12 +81,13 @@ export function FloatingButtonContainer({
   const handleMobileButtonClick = useCallback(() => {
     if (buttonState === "scroll") {
       const recipeDisplayElement = document.querySelector(".recipe-display");
-      recipeDisplayElement?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      if (recipeDisplayElement) {
+        recipeDisplayElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
     } else {
-      // Scroll to top to show input form (Modify Recipe action)
       window.scrollTo({
         top: 0,
         behavior: "smooth",
