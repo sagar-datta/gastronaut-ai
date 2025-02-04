@@ -33,11 +33,11 @@ export function FloatingButtonContainer({
   const [buttonState, setButtonState] = useState<"modify" | "recipe" | "scroll">("modify");
 
   useEffect(() => {
-    const handleScroll = () => {
-      console.log("handleScroll called"); // ADD THIS LINE
+    const handleScroll = () => { // Define handleScroll inside useEffect
+      console.log("handleScroll function is running!"); // Simple log to check execution
       if (externalRecipe) {
         const recipeHeading = document.querySelector(
-          ".recipe-display h2" // More robust selector
+          ".recipe-display h2"
         );
         if (recipeHeading) {
           const recipeHeadingOffsetTop =
