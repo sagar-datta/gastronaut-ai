@@ -37,13 +37,13 @@ export function FloatingButtonContainer({
       console.log("handleScroll function is running!"); // Simple log to check execution
       if (externalRecipe) {
         const recipeHeading = document.querySelector(
-          ".recipe-display h2"
+          ".recipe-display h2" // More robust selector
         );
         if (recipeHeading) {
-          const recipeHeadingOffsetTop =
-            recipeHeading.offsetTop; // Use offsetTop for position relative to parent
-          const scrollY = window.scrollY; // Get current scroll position
-          console.log("scrollY:", window.scrollY);
+          console.log("Recipe heading FOUND!"); // Log when recipe heading is found
+          const recipeHeadingOffsetTop = recipeHeading.offsetTop;
+          const scrollY = window.scrollY;
+          console.log("scrollY:", scrollY);
           console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
 
           if (scrollY < recipeHeadingOffsetTop - 100) {
