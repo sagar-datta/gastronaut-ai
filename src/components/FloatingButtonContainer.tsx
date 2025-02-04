@@ -106,6 +106,10 @@ export function FloatingButtonContainer({
                       const recipeHeading = document.querySelector(
                         ".recipe-display h2" // More robust selector
                       );
+                        console.log("Scrolling to recipe heading:");
+                        console.log("recipeHeading:", recipeHeading);
+                        console.log("recipeHeading.offsetTop:", recipeHeading.offsetTop);
+                        console.log("recipeHeading.getBoundingClientRect().top:", recipeHeading.getBoundingClientRect().top);
                       if (recipeHeading) {
                         recipeHeading.scrollIntoView({
                           behavior: "smooth",
