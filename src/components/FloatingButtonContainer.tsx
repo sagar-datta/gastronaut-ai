@@ -31,38 +31,28 @@ export function FloatingButtonContainer({
   input,
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
+  const [isAtTop, setIsAtTop] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Define handleScroll inside useEffect
-      console.log("handleScroll function is running!");
+      // Update isAtTop state based on scroll position
+      setIsAtTop(window.scrollY < 100);
+
+      // Rest of the scroll handling logic for recipe heading
       if (externalRecipe) {
         const recipeHeading = document.querySelector(".recipe-display h2");
         if (recipeHeading) {
-          console.log("Recipe heading FOUND!");
-          requestAnimationFrame(() => {
-            const recipeHeadingOffsetTop = (recipeHeading as HTMLElement)
-              .offsetTop;
-            const scrollY = window.scrollY;
-            console.log("scrollY:", scrollY);
-            console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
+          const recipeHeadingOffsetTop = (recipeHeading as HTMLElement)
+            .offsetTop;
+          const scrollY = window.scrollY;
 
-            if (scrollY >= recipeHeadingOffsetTop) {
-              // User is at or below the recipe heading, show "Modify Recipe"
-              setButtonState("modify");
-              console.log(
-                "State: modify - scrollY >= recipeHeadingOffsetTop",
-                scrollY >= recipeHeadingOffsetTop
-              );
-            } else {
-              // User is above the recipe heading, show "Scroll to Recipe"
-              setButtonState("scroll");
-              console.log(
-                "State: modify - scrollY < recipeHeadingOffsetTop",
-                scrollY < recipeHeadingOffsetTop
-              );
-            }
-          });
+          if (scrollY >= recipeHeadingOffsetTop) {
+            // User is at or below the recipe heading, show "Modify Recipe"
+            setButtonState("modify");
+          } else {
+            // User is above the recipe heading, show "Scroll to Recipe"
+            setButtonState("scroll");
+          }
         }
       }
     };
@@ -91,7 +81,7 @@ export function FloatingButtonContainer({
         <div className="relative pb-6 pt-16">
           <div className="w-full max-w-[1800px] mx-auto relative">
             {/* ScrollToTop button positioned to the right */}
-            {externalRecipe && !isLoading && (
+            {externalRecipe && !isLoading && !isAtTop && (
               <div className="pointer-events-auto absolute right-4 top-1/2 -translate-y-1/2">
                 <TooltipProvider>
                   <Tooltip delayDuration={50}>
