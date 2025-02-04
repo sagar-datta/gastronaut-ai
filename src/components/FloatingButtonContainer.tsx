@@ -30,7 +30,7 @@ export function FloatingButtonContainer({
   setIsCollapsibleOpen,
   input,
 }: FloatingButtonContainerProps) {
-  const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
+  const [buttonState, setButtonState] = useState<"modify" | "recipe" | "scroll">("modify");
 
   useEffect(() => {
     const handleScroll = () => { // Define handleScroll inside useEffect
@@ -46,8 +46,10 @@ export function FloatingButtonContainer({
           console.log("scrollY:", scrollY);
           console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
 
-          if (scrollY < recipeHeadingOffsetTop) {
-            } else if (scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100) {
+          if (scrollY < recipeHeadingOffsetTop - 100) {
+            // Adjust offset as needed, e.g., -50px to trigger slightly before heading is at the very top
+            setButtonState("recipe");
+          } else if (scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100) {
             // User is close to the recipe but not yet at the modify point
             setButtonState("scroll");
             console.log("State: scroll - scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100", scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100);
@@ -72,6 +74,8 @@ export function FloatingButtonContainer({
       window.removeEventListener("scroll", handleScroll);
     };
   }, [externalRecipe]);
+
+  const isRecipeButton = buttonState === "recipe" || buttonState === "scroll";
 
 
   return (
@@ -137,9 +141,9 @@ export function FloatingButtonContainer({
                     }
                   }}
                 >
-                  {buttonState === "scroll" ? (
+                  {isRecipeButton ? (
                     <div className="flex items-center gap-2">
-                      Scroll to Recipe <ChevronDown className="h-4 w-4" />
+                      {buttonState === "scroll" ? "Scroll to Recipe" : "Recipe"}  <ChevronDown className="h-4 w-4" />
                     </div>
                   ) : (
                     <>
