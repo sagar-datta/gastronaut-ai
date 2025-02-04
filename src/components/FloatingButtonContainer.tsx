@@ -66,7 +66,16 @@ export function FloatingButtonContainer({
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
       <div className="relative">
         {/* Button container - only this should be interactive */}
-        <div className="relative pb-6 pt-16 bg-gradient-to-b from-transparent to-gray-100">
+        <div
+          className="absolute inset-0 bg-[hsl(var(--app-background))]/95 backdrop-blur-[12px] transition-all duration-500"
+          style={{
+            maskImage:
+              "linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 0.95) 45%, rgba(0, 0, 0, 0.85) 50%, rgba(0, 0, 0, 0.7) 55%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.3) 65%, rgba(0, 0, 0, 0.1) 70%, transparent 80%)",
+            WebkitMaskImage:
+              "linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 0.95) 45%, rgba(0, 0, 0, 0.85) 50%, rgba(0, 0, 0, 0.7) 55%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.3) 65%, rgba(0, 0, 0, 0.1) 70%, transparent 80%)",
+          }}
+        />
+        <div className="relative pb-6 pt-16">
           <div className="w-full max-w-[1800px] mx-auto flex justify-center gap-2 px-4">
             <div className="pointer-events-auto flex gap-2 items-center">
               {externalRecipe && !isLoading && (
