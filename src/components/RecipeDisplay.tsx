@@ -146,7 +146,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
   return (
     <article
       ref={recipeDisplaySectionRef}
-      className="prose max-w-none p-6 print:p-0 print:my-0 print:break-after-auto [&_*]:break-inside-avoid-page print:[&_p]:orphans-3 print:[&_p]:widows-3"
+      className="recipe-display prose max-w-none p-6 print:p-0 print:my-0 print:break-after-auto [&_*]:break-inside-avoid-page print:[&_p]:orphans-3 print:[&_p]:widows-3"
     >
       <main className="space-y-4 print:space-y-2">
         <header className="print:break-before-avoid print:break-after-avoid">
