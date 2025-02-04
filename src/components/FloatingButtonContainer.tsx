@@ -6,7 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import { Printer } from "lucide-react";
 
 interface FloatingButtonContainerProps {
@@ -33,14 +33,16 @@ export function FloatingButtonContainer({
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
 
   useEffect(() => {
-    const handleScroll = () => { // Define handleScroll inside useEffect
+    const handleScroll = () => {
+      // Define handleScroll inside useEffect
       console.log("handleScroll function is running!");
       if (externalRecipe) {
         const recipeHeading = document.querySelector(".recipe-display h2");
         if (recipeHeading) {
           console.log("Recipe heading FOUND!");
           requestAnimationFrame(() => {
-            const recipeHeadingOffsetTop = recipeHeading.offsetTop;
+            const recipeHeadingOffsetTop = (recipeHeading as HTMLElement)
+              .offsetTop;
             const scrollY = window.scrollY;
             console.log("scrollY:", scrollY);
             console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
@@ -48,11 +50,17 @@ export function FloatingButtonContainer({
             if (scrollY >= recipeHeadingOffsetTop) {
               // User is at or below the recipe heading, show "Modify Recipe"
               setButtonState("modify");
-              console.log("State: modify - scrollY >= recipeHeadingOffsetTop", scrollY >= recipeHeadingOffsetTop);
+              console.log(
+                "State: modify - scrollY >= recipeHeadingOffsetTop",
+                scrollY >= recipeHeadingOffsetTop
+              );
             } else {
               // User is above the recipe heading, show "Scroll to Recipe"
               setButtonState("scroll");
-              console.log("State: modify - scrollY < recipeHeadingOffsetTop", scrollY < recipeHeadingOffsetTop);
+              console.log(
+                "State: modify - scrollY < recipeHeadingOffsetTop",
+                scrollY < recipeHeadingOffsetTop
+              );
             }
           });
         }
@@ -66,7 +74,6 @@ export function FloatingButtonContainer({
       window.removeEventListener("scroll", handleScroll);
     };
   }, [externalRecipe]);
-
 
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
@@ -84,32 +91,21 @@ export function FloatingButtonContainer({
         <div className="relative pb-6 pt-16">
           <div className="w-full max-w-[1800px] mx-auto flex justify-center gap-2 px-4">
             <div className="pointer-events-auto flex gap-2 items-center">
+              <Button
+                variant="outline"
+                size="lg"
+                className="lg:flex hidden items-center gap-2 text-[#433633]"
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                <ArrowUp className="h-4 w-4 ml-[-4px] mr-[-4px]" />
+                Scroll to Top
+              </Button>
               {externalRecipe && !isLoading && (
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="lg:flex hidden items-center gap-2 text-[#433633]"
-                  onClick={() => {
-                    window.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    });
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3.293 9.707a1 1 0 011.414 0L10 3.414l5.293 6.293a1 1 0 01-1.414 1.414L10 6.242 4.707 11.536a1 1 0 01-1.414-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  Scroll to Top
-                </Button>
                 <Button
                   variant="outline"
                   size="lg"
@@ -121,7 +117,10 @@ export function FloatingButtonContainer({
                         const recipeDisplayElement = document.querySelector(
                           ".recipe-display" // Selector for the article container
                         );
-                        recipeDisplayElement?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        recipeDisplayElement?.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
                       } else {
                         // For larger screens (desktop), use default instant scroll
                         const recipeHeading = document.querySelector(
@@ -136,22 +135,22 @@ export function FloatingButtonContainer({
                       if (window.innerWidth < 1024) {
                         // 1024px is Tailwind's lg breakpoint
 
-                     const container = document.documentElement;
-                     const startPosition = container.scrollTop;
-                     const duration = 500; // Duration for scroll animation
-                     const startTime = performance.now();
-                     const scroll = (currentTime: number) => {
-                        const elapsed = currentTime - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        // Simple linear animation for fastest execution
-                        container.scrollTop = startPosition * (1 - progress);
-                        if (progress < 1) {
-                          requestAnimationFrame(scroll);
-                        } else {
-                          setIsCollapsibleOpen((prev) => !prev);
-                        }
-                      };
-                      requestAnimationFrame(scroll);
+                        const container = document.documentElement;
+                        const startPosition = container.scrollTop;
+                        const duration = 500; // Duration for scroll animation
+                        const startTime = performance.now();
+                        const scroll = (currentTime: number) => {
+                          const elapsed = currentTime - startTime;
+                          const progress = Math.min(elapsed / duration, 1);
+                          // Simple linear animation for fastest execution
+                          container.scrollTop = startPosition * (1 - progress);
+                          if (progress < 1) {
+                            requestAnimationFrame(scroll);
+                          } else {
+                            setIsCollapsibleOpen((prev) => !prev);
+                          }
+                        };
+                        requestAnimationFrame(scroll);
                       }
                     }
                   }}
