@@ -57,9 +57,9 @@ export function FloatingButtonContainer({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.boundingClientRect.y < 0) {
-            setButtonState("scroll"); // Recipe heading is above viewport, show "Scroll to Recipe"
+            setButtonState("modify"); // Recipe heading is above viewport, show "Modify Recipe" (INVERTED)
           } else {
-            setButtonState("modify"); // Recipe heading is in view or below, show "Modify Recipe"
+            setButtonState("scroll"); // Recipe heading is in view or below, show "Scroll to Recipe" (INVERTED)
           }
         });
       },
