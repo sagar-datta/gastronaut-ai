@@ -134,8 +134,9 @@ export function FloatingButtonContainer({
                   {buttonState === "scroll" ? (
                     <div className="flex items-center gap-2">
                       <ArrowDown className="h-4 w-4" />
-                      <span>Scroll to Recipe</span>
-                    </div>
+                      <span className="sm:hidden">Recipe</span>
+                      <span className="hidden sm:inline">Scroll to Recipe</span>
+                     </div>
                   ) : (
                     <>
                       <span className="sm:hidden">Modify</span>
