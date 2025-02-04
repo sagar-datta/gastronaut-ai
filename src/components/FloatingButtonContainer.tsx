@@ -47,36 +47,47 @@ export function FloatingButtonContainer({
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
   const [isAtTop, setIsAtTop] = useState(true);
-  const recipeContainerRef = useRef<HTMLElement | null>(null); // Renamed ref
+  const recipeContainerRef = useRef<HTMLElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null); // Store observer
 
- // Cache recipe heading element and setup IntersectionObserver
- console.log("FloatingButtonContainer useEffect is running"); // ADD THIS LINE
+  // Cache recipe heading element and setup IntersectionObserver
+  console.log("FloatingButtonContainer useEffect is running");
 
- useEffect(() => {
-   recipeContainerRef.current = document.querySelector(".recipe-display"); // Target recipe container
+  useEffect(() => {
+    recipeContainerRef.current = document.querySelector(".recipe-display");
 
-    const observer = new IntersectionObserver(
-     (entries) => {
-       entries.forEach((entry) => {
-         if (entry.isIntersecting) {
-           setButtonState("scroll"); // Recipe heading is intersecting (top edge at or below viewport top), show "Scroll to Recipe"
-         } else {
-           setButtonState("modify"); // Recipe heading is NOT intersecting (top edge above viewport top), show "Modify Recipe"
-         }
-       });
-     },
-      {
-        root: null, // Use the viewport as the root
-        threshold: 1, // Trigger when 100% of the element is visible
-      }
-    );
+    // Create observer only once
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            console.log("isIntersecting:", entry.isIntersecting); // DEBUG LOG
+            console.log("boundingClientRect.top:", entry.boundingClientRect.top); // DEBUG LOG
 
+            if (entry.boundingClientRect.top > 0) {
+              setButtonState("scroll"); // Recipe heading top is below viewport top, show "Scroll to Recipe"
+            } else {
+              setButtonState("modify"); // Recipe heading top is above viewport top, show "Modify Recipe"
+            }
+          });
+        },
+        {
+          root: null,
+          threshold: 0.1, // Use a lower threshold
+        }
+      );
+    }
+
+    // Observe the element if it exists
     if (recipeContainerRef.current) {
-      observer.observe(recipeContainerRef.current); // Observe recipe container
+      observerRef.current.observe(recipeContainerRef.current);
     }
 
     return () => {
-      observer.disconnect(); // Cleanup observer on unmount
+      // Disconnect observer on unmount
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
     };
   }, [externalRecipe]);
 
