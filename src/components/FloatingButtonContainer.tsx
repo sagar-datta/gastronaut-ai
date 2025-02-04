@@ -30,7 +30,7 @@ export function FloatingButtonContainer({
   setIsCollapsibleOpen,
   input,
 }: FloatingButtonContainerProps) {
-  const [buttonState, setButtonState] = useState<"modify" | "recipe">("modify");
+  const [buttonState, setButtonState] = useState<"modify" | "recipe" | "scroll">("modify");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,10 +41,13 @@ export function FloatingButtonContainer({
         if (recipeHeading) {
           const recipeHeadingOffsetTop =
             recipeHeading.getBoundingClientRect().top + window.scrollY;
-          if (window.scrollY < recipeHeadingOffsetTop - 50) {
+          if (window.scrollY < recipeHeadingOffsetTop - 100) {
             // Adjust offset as needed, e.g., -50px to trigger slightly before heading is at the very top
             setButtonState("recipe");
-          } else {
+          } else if (window.scrollY < recipeHeadingOffsetTop && window.scrollY >= recipeHeadingOffsetTop - 100) {
+            // User is close to the recipe but not yet at the modify point
+            setButtonState("scroll");
+          }else {
             setButtonState("modify");
           }
         }
@@ -80,11 +83,11 @@ export function FloatingButtonContainer({
             <div className="pointer-events-auto flex gap-2 items-center">
               {externalRecipe && !isLoading && (
                 <Button
-                  variant="outline"
-                  size={isRecipeButton ? "default" : "lg"}
+                  variant={buttonState === "modify" ? "outline" : "default"}
+                  size="lg"
                   className="lg:hidden text-[#433633]"
                   onClick={() => {
-                    if (isRecipeButton) {
+                    if (buttonState === "recipe" || buttonState === "scroll") {
                       // Scroll to recipe heading
                       const recipeHeading = document.querySelector(
                         ".recipe-display h2" // More robust selector
@@ -119,13 +122,17 @@ export function FloatingButtonContainer({
                     }
                   }}
                 >
-                  {isRecipeButton ? (
+                  {buttonState === "recipe" ? (
                     <div className="flex items-center gap-2">
-                      {buttonText} <ChevronDown className="h-4 w-4" />
+                      Recipe <ChevronDown className="h-4 w-4" />
+                    </div>
+                  ) : buttonState === "scroll" ? (
+                    <div className="flex items-center gap-2">
+                      Scroll to Recipe <ChevronDown className="h-4 w-4" />
                     </div>
                   ) : (
                     <>
-                      <span className="sm:hidden">{buttonText}</span>
+                      <span className="sm:hidden">Modify</span>
                       <span className="hidden sm:inline">Modify Recipe</span>
                     </>
                   )}
