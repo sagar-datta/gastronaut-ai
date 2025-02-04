@@ -91,30 +91,32 @@ export function FloatingButtonContainer({
         <div className="relative pb-6 pt-16">
           <div className="w-full max-w-[1800px] mx-auto relative">
             {/* ScrollToTop button positioned to the right */}
-            <div className="pointer-events-auto absolute right-4 top-1/2 -translate-y-1/2">
-              <TooltipProvider>
-                <Tooltip delayDuration={50}>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="lg:flex hidden text-[#433633]"
-                      onClick={() => {
-                        window.scrollTo({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      }}
-                    >
-                      <ArrowUp className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="left" align="center">
-                    <p>Scroll to Top</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
+            {externalRecipe && !isLoading && (
+              <div className="pointer-events-auto absolute right-4 top-1/2 -translate-y-1/2">
+                <TooltipProvider>
+                  <Tooltip delayDuration={50}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="lg:flex hidden text-[#433633]"
+                        onClick={() => {
+                          window.scrollTo({
+                            top: 0,
+                            behavior: "smooth",
+                          });
+                        }}
+                      >
+                        <ArrowUp className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="left" align="center">
+                      <p>Scroll to Top</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            )}
             {/* Centered buttons */}
             <div className="pointer-events-auto flex gap-2 items-center justify-center">
               {externalRecipe && !isLoading && (
