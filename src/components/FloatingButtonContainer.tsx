@@ -119,30 +119,6 @@ export function FloatingButtonContainer({
                   )}
                 </Button>
               )}
-              {externalRecipe && !isLoading && !isRecipeButton && (
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="lg:hidden text-[#433633]"
-                  onClick={() => {
-                    const container = document.documentElement;
-                    const startPosition = container.scrollTop;
-                    const duration = 50; // Super short duration, almost instant
-                    const startTime = performance.now();
-                    const scroll = (currentTime: number) => {
-                      const elapsed = currentTime - startTime;
-                      const progress = Math.min(elapsed / duration, 1);
-                      container.scrollTop = startPosition * (1 - progress);
-                      if (progress < 1) {
-                        requestAnimationFrame(scroll);
-                      } else {
-                        setIsCollapsibleOpen((prev) => !prev);
-                      }
-                    };
-                    requestAnimationFrame(scroll);
-                  }}
-                />
-              )}
               <TooltipProvider>
                 <Tooltip delayDuration={50}>
                   {" "}
