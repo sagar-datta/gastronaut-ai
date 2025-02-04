@@ -47,59 +47,41 @@ export function FloatingButtonContainer({
   const [isAtTop, setIsAtTop] = useState(true);
   const recipeHeadingRef = useRef<HTMLElement | null>(null);
 
-  // Cache recipe heading element
+  // Cache recipe heading element and setup IntersectionObserver
   useEffect(() => {
     recipeHeadingRef.current = document.querySelector(".recipe-display h2");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            setButtonState("modify"); // Recipe heading is out of view (below), show "Modify"
+          } else {
+            setButtonState("scroll"); // Recipe heading is in view (or above), show "Scroll"
+          }
+        });
+      },
+      {
+        rootMargin: "-100px 0px 0px 0px", // Consider heading out of view when 100px from top
+        threshold: 0, // Trigger when element is fully out of view
+      }
+    );
+
+    if (recipeHeadingRef.current) {
+      observer.observe(recipeHeadingRef.current);
+    }
+
+    return () => {
+      observer.disconnect(); // Cleanup observer on unmount
+    };
   }, [externalRecipe]);
 
-  // Memoize isTop check to avoid unnecessary state updates
-  const checkIsTop = useCallback(() => window.scrollY < 100, []);
 
-  // Memoize button state update logic
-  const updateButtonState = useCallback(
-    (isTop: boolean) => {
-      if (!externalRecipe) return;
-
-      if (isTop) {
-        setButtonState("scroll");
-      } else if (recipeHeadingRef.current) {
-        const recipeHeadingOffsetTop = recipeHeadingRef.current.offsetTop;
-        setButtonState(
-          window.scrollY >= recipeHeadingOffsetTop ? "modify" : "scroll"
-        );
-      }
-    },
-    [externalRecipe]
-  );
-
-  const handleScroll = useCallback(() => {
-    const isTop = checkIsTop();
-    setIsAtTop(isTop);
-    updateButtonState(isTop);
-  }, [checkIsTop, updateButtonState]);
-
-  // Optimized scroll handler with debounce using RAF
   useEffect(() => {
-    let rafId: number | null = null;
-    let isScheduled = false;
+    const isTop = window.scrollY < 100;
+    setIsAtTop(isTop);
+  }, []);
 
-    const debouncedScroll = () => {
-      if (!isScheduled) {
-        isScheduled = true;
-        rafId = requestAnimationFrame(() => {
-          handleScroll();
-          isScheduled = false;
-          rafId = null;
-        });
-      }
-    };
-
-    window.addEventListener("scroll", debouncedScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", debouncedScroll);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, [handleScroll]);
 
   const handleMobileButtonClick = useCallback(() => {
     if (buttonState === "scroll") {
@@ -128,7 +110,6 @@ export function FloatingButtonContainer({
     }
   }, [buttonState, setIsCollapsibleOpen]);
 
-  // Memoize scroll to top handler
   const handleScrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
@@ -136,7 +117,6 @@ export function FloatingButtonContainer({
     });
   }, []);
 
-  // Memoize scroll to top button
   const ScrollToTopButton = useMemo(
     () =>
       externalRecipe &&
@@ -163,7 +143,8 @@ export function FloatingButtonContainer({
         </div>
       ),
     [externalRecipe, isLoading, isAtTop, handleScrollToTop]
-  );
+  ); // Removed updateButtonState and isTop dependencies
+
 
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
@@ -186,14 +167,14 @@ export function FloatingButtonContainer({
                   {buttonState === "scroll" ? (
                     <div className="flex items-center gap-2">
                       <ArrowDown className="h-4 w-4 ml-[-4px] mr-[-4px]" />
-                      <span className="sm:hidden">Recipe</span>
+                      <span className="sm:hidden">Scroll</span>
                       <span className="hidden sm:inline">Scroll to Recipe</span>
                     </div>
                   ) : (
                     <>
                       <span className="sm:hidden">Modify</span>
                       <span className="hidden sm:inline">Modify Recipe</span>
-                    </>
+                     </>
                   )}
                 </Button>
               )}
