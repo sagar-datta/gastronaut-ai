@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -10,17 +10,17 @@ import { Textarea } from "@/components/ui/textarea";
 
 interface OptionalSettingsProps {
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsOpen: (value: boolean) => void;
   cuisine: string;
-  setCuisine: Dispatch<SetStateAction<string>>;
+  setCuisine: (value: string) => void;
   mealType: string;
-  setMealType: Dispatch<SetStateAction<string>>;
+  setMealType: (value: string) => void;
   dietaryGoal: string;
-  setDietaryGoal: Dispatch<SetStateAction<string>>;
+  setDietaryGoal: (value: string) => void;
   exclusions: string;
-  setExclusions: Dispatch<SetStateAction<string>>;
+  setExclusions: (value: string) => void;
   equipment: string;
-  setEquipment: Dispatch<SetStateAction<string>>;
+  setEquipment: (value: string) => void;
   isLoading: boolean;
 }
 
@@ -37,6 +37,23 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
   setEquipment,
   isLoading,
 }) => {
+  // Memoize common card title styles
+  const optionalText = useMemo(
+    () => (
+      <span className="text-sm font-normal text-[#5C5552]">(Optional)</span>
+    ),
+    []
+  );
+
+  // Memoize common textarea props
+  const textareaProps = useMemo(
+    () => ({
+      className: "flex-1 min-h-[100px] resize-none",
+      disabled: isLoading,
+    }),
+    [isLoading]
+  );
+
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -45,9 +62,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               Cuisine Preferences
-              <span className="text-sm font-normal text-[#5C5552]">
-                (Optional)
-              </span>
+              {optionalText}
             </CardTitle>
             <CardDescription>
               Describe your preferred style of cooking or specific cuisines
@@ -59,8 +74,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               value={cuisine}
               onChange={(e) => setCuisine(e.target.value)}
               placeholder="e.g., I love spicy Indian food, or I'd like to try making authentic Italian pasta..."
-              className="flex-1 min-h-[100px] resize-none"
-              disabled={isLoading}
+              {...textareaProps}
             />
           </CardContent>
         </Card>
@@ -70,9 +84,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               Meal Type
-              <span className="text-sm font-normal text-[#5C5552]">
-                (Optional)
-              </span>
+              {optionalText}
             </CardTitle>
             <CardDescription>
               Describe what kind of meal you're planning to make and its context
@@ -83,8 +95,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               value={mealType}
               onChange={(e) => setMealType(e.target.value)}
               placeholder="e.g., Post-workout dinner, light lunch for work, weekend brunch with friends..."
-              className="flex-1 min-h-[100px] resize-none"
-              disabled={isLoading}
+              {...textareaProps}
             />
           </CardContent>
         </Card>
@@ -94,9 +105,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               Dietary Goals
-              <span className="text-sm font-normal text-[#5C5552]">
-                (Optional)
-              </span>
+              {optionalText}
             </CardTitle>
             <CardDescription>
               Tell us about your nutritional preferences or dietary objectives
@@ -107,8 +116,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               value={dietaryGoal}
               onChange={(e) => setDietaryGoal(e.target.value)}
               placeholder="e.g., I'm looking for high-protein meals for muscle gain, or I want to reduce carbs..."
-              className="flex-1 min-h-[100px] resize-none"
-              disabled={isLoading}
+              {...textareaProps}
             />
           </CardContent>
         </Card>
@@ -118,9 +126,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               Dietary Restrictions
-              <span className="text-sm font-normal text-[#5C5552]">
-                (Optional)
-              </span>
+              {optionalText}
             </CardTitle>
             <CardDescription>
               Tell us about any allergies, intolerances, or ingredients you'd
@@ -132,8 +138,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               value={exclusions}
               onChange={(e) => setExclusions(e.target.value)}
               placeholder="e.g., peanuts, dairy, shellfish, mushrooms..."
-              className="flex-1 min-h-[70px] resize-none"
-              disabled={isLoading}
+              {...textareaProps}
             />
           </CardContent>
         </Card>
@@ -143,9 +148,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               Cooking Equipment
-              <span className="text-sm font-normal text-[#5C5552]">
-                (Optional)
-              </span>
+              {optionalText}
             </CardTitle>
             <CardDescription>
               Tell us what cooking equipment you have available - this helps us
@@ -157,8 +160,7 @@ const OptionalSettings: React.FC<OptionalSettingsProps> = ({
               value={equipment}
               onChange={(e) => setEquipment(e.target.value)}
               placeholder="e.g., oven, stovetop, slow cooker, air fryer..."
-              className="flex-1 min-h-[70px] resize-none"
-              disabled={isLoading}
+              {...textareaProps}
             />
           </CardContent>
         </Card>
