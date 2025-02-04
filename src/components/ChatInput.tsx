@@ -329,6 +329,7 @@ export function ChatInput({
         getOSShortcut={getOSShortcut}
         handleGenerateRecipe={handleGenerateRecipe}
         setIsCollapsibleOpen={setIsCollapsibleOpen}
+        containerRef={containerRef} // Pass containerRef
         input={input}
       />
     </div>

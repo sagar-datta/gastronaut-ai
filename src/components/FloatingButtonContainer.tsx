@@ -23,6 +23,7 @@ interface FloatingButtonContainerProps {
   getOSShortcut: () => string;
   handleGenerateRecipe: () => Promise<void>;
   setIsCollapsibleOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  containerRef: React.RefObject<HTMLDivElement>; // Add containerRef prop
   input: string;
 }
 
@@ -41,6 +42,7 @@ export function FloatingButtonContainer({
   getOSShortcut,
   handleGenerateRecipe,
   setIsCollapsibleOpen,
+  containerRef, // Destructure containerRef prop
   input,
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
