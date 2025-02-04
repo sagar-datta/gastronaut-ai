@@ -32,6 +32,7 @@ export function FloatingButtonContainer({
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
   const [isAtTop, setIsAtTop] = useState(true);
+  const [isModifyButtonClicked, setIsModifyButtonClicked] = useState(false);
   const recipeHeading = document.querySelector(".recipe-display h2");
 
   const handleScroll = () => {
@@ -39,9 +40,14 @@ export function FloatingButtonContainer({
     setIsAtTop(window.scrollY < 100);
 
     // Rest of the scroll handling logic for recipe heading
-    if (externalRecipe && recipeHeading) {
-      const recipeHeadingOffsetTop = (recipeHeading as HTMLElement).offsetTop;
-      const scrollY = window.scrollY;
+    if (isModifyButtonClicked && window.scrollY < 10) {
+      // If Modify button was clicked and scrolled to top, set to "scroll"
+      setButtonState("scroll");
+      setIsModifyButtonClicked(false); // Reset the flag
+    } else {
+      if (externalRecipe && recipeHeading) {
+        const recipeHeadingOffsetTop = (recipeHeading as HTMLElement).offsetTop;
+        const scrollY = window.scrollY;
 
       if (scrollY >= recipeHeadingOffsetTop) {
         // User is at or below the recipe heading, show "Modify Recipe"
