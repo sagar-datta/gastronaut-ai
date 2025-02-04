@@ -100,7 +100,7 @@ export function FloatingButtonContainer({
      });
     }
   }, [buttonState]);
- 
+
   const handleScrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
