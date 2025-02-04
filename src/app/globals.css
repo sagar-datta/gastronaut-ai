@@ -25,4 +25,70 @@
   .print-hide {
     display: none;
   }
+
+  /* Force page breaks before major sections */
+  h2,
+  h3 {
+    break-before: page !important;
+    page-break-before: always !important;
+    margin-top: 0 !important;
+  }
+
+  /* Keep content with their sections */
+  h2,
+  h3 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Ensure lists and content stay with their headings */
+  h2 + *,
+  h3 + * {
+    break-before: avoid !important;
+    page-break-before: avoid !important;
+  }
+
+  /* Keep related content together */
+  ul,
+  ol,
+  dl,
+  p {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Recipe section specific styles */
+  .prose > div > div {
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  /* Lists in recipe sections */
+  .prose ul {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: avoid !important;
+    page-break-before: avoid !important;
+  }
+
+  /* Headings in recipe sections */
+  .prose h2,
+  .prose h3 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    margin-bottom: 1em !important;
+  }
+
+  /* Content following headings */
+  .prose h2 + *,
+  .prose h3 + * {
+    break-before: avoid !important;
+    page-break-before: avoid !important;
+  }
+}
+
+/* Non-print specific styles */
+h2,
+h3 {
+  margin-top: 1.5em;
 }
