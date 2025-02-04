@@ -52,6 +52,11 @@ export function FloatingButtonContainer({
               setButtonState("scroll");
               console.log("State: scroll - scrollY >= recipeHeadingOffsetTop - 100", scrollY >= recipeHeadingOffsetTop - 100);
             }
+          } else if (scrollY < recipeHeadingOffsetTop - 100) {
+            if (buttonState === "scroll") {
+              setButtonState("modify");
+              console.log("State: modify - scrollY < recipeHeadingOffsetTop - 100", scrollY < recipeHeadingOffsetTop - 100);
+            }
           }
         } else {
           if (buttonState === "scroll") {
