@@ -111,7 +111,6 @@ export function FloatingButtonContainer({
                   size="lg"
                   className="lg:hidden text-[#433633]"
                   onClick={() => {
-                    setIsModifyButtonClicked(true);
                     if (buttonState === "scroll") {
                       // Scroll to recipe heading
                       if (window.innerWidth < 1024) {
