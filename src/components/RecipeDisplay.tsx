@@ -131,42 +131,42 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
   };
 
   return (
-    <div className="prose max-w-none p-6 print:p-0 print:my-0 print:break-after-auto [&_*]:break-inside-avoid-page print:[&_p]:orphans-3 print:[&_p]:widows-3">
-      <div className="space-y-4 print:space-y-2">
-        <div className="print:break-before-avoid print:break-after-avoid">
+    <article className="prose max-w-none p-6 print:p-0 print:my-0 print:break-after-auto [&_*]:break-inside-avoid-page print:[&_p]:orphans-3 print:[&_p]:widows-3">
+      <main className="space-y-4 print:space-y-2">
+        <header className="print:break-before-avoid print:break-after-avoid">
           <ReactMarkdown components={components as Partial<Components>}>
             {titleSection}
           </ReactMarkdown>
-        </div>
+        </header>
 
         {filteredSections.slice(1, ingredientsIndex).map((section, index) => (
-          <div key={index} className="print:break-inside-avoid-page">
+          <section key={index} className="print:break-inside-avoid-page">
             <ReactMarkdown components={components as Partial<Components>}>
               {section}
             </ReactMarkdown>
-          </div>
+          </section>
         ))}
 
         {ingredientsSection && (
-          <div className="print:break-before-page print:break-inside-avoid print:break-after-avoid">
+          <section className="print:break-before-page print:break-inside-avoid print:break-after-avoid">
             <ReactMarkdown components={components as Partial<Components>}>
               {ingredientsSection}
             </ReactMarkdown>
-          </div>
+          </section>
         )}
 
         {equipmentSection && (
-          <div className="print:break-before-page print:break-inside-avoid print:break-after-avoid">
+          <section className="print:break-before-page print:break-inside-avoid print:break-after-avoid">
             <ReactMarkdown components={components as Partial<Components>}>
               {equipmentSection}
             </ReactMarkdown>
-          </div>
+          </section>
         )}
 
         {filteredSections
           .slice(ingredientsIndex + 1)
           .map((section, index, array) => (
-            <div
+            <section
               key={index}
               className={`print:break-before-page print:break-inside-avoid ${
                 index === array.length - 1 ? "print:break-after-auto" : ""
@@ -175,9 +175,9 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
               <ReactMarkdown components={components as Partial<Components>}>
                 {section}
               </ReactMarkdown>
-            </div>
+            </section>
           ))}
-      </div>
-    </div>
+      </main>
+    </article>
   );
 }
