@@ -46,20 +46,18 @@ export function FloatingButtonContainer({
           console.log("scrollY:", scrollY);
           console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
 
-          if (scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100) {
+          if (scrollY >= recipeHeadingOffsetTop - 100) {
             // User is close to the recipe but not yet at the modify point
-            setButtonState("scroll");
-            console.log("State: scroll - scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100", scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100);
-          } else if (scrollY >= recipeHeadingOffsetTop) {
-            setButtonState("modify");
-            console.log("State: modify - scrollY >= recipeHeadingOffsetTop", scrollY >= recipeHeadingOffsetTop);
-          } else {
-            setButtonState("modify"); // Default state if none of the above conditions match
-            console.log("State: modify (default) - fallback condition");
+            if (buttonState === "modify") {
+              setButtonState("scroll");
+              console.log("State: scroll - scrollY >= recipeHeadingOffsetTop - 100", scrollY >= recipeHeadingOffsetTop - 100);
+            }
           }
         } else {
-          setButtonState("modify"); // If recipeHeading is not found, default to modify
-          console.log("State: modify - recipeHeading not found");
+          if (buttonState === "scroll") {
+            setButtonState("modify"); // If recipeHeading is not found, default to modify
+            console.log("State: modify - recipeHeading not found");
+          }
         }
       }
     };
