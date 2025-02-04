@@ -1,4 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -20,6 +26,13 @@ interface FloatingButtonContainerProps {
   input: string;
 }
 
+const MASK_GRADIENT = {
+  maskImage:
+    "linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 0.95) 45%, rgba(0, 0, 0, 0.85) 50%, rgba(0, 0, 0, 0.7) 55%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.3) 65%, rgba(0, 0, 0, 0.1) 70%, transparent 80%)",
+  WebkitMaskImage:
+    "linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 0.95) 45%, rgba(0, 0, 0, 0.85) 50%, rgba(0, 0, 0, 0.7) 55%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.3) 65%, rgba(0, 0, 0, 0.1) 70%, transparent 80%)",
+};
+
 export function FloatingButtonContainer({
   externalRecipe,
   isLoading,
@@ -32,51 +45,89 @@ export function FloatingButtonContainer({
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
   const [isAtTop, setIsAtTop] = useState(true);
-  const recipeHeading = document.querySelector(".recipe-display h2");
+  const recipeHeadingRef = useRef<HTMLElement | null>(null);
 
-  const handleScroll = () => {
+  // Cache recipe heading element
+  useEffect(() => {
+    recipeHeadingRef.current = document.querySelector(".recipe-display h2");
+  }, [externalRecipe]);
+
+  const handleScroll = useCallback(() => {
     // Update isAtTop state based on scroll position
-    setIsAtTop(window.scrollY < 100);
+    const isTop = window.scrollY < 100;
+    setIsAtTop(isTop);
 
-    if (externalRecipe && recipeHeading) {
-      const recipeHeadingOffsetTop = (recipeHeading as HTMLElement).offsetTop;
-      if (window.scrollY >= recipeHeadingOffsetTop) {
-        setButtonState("modify");
-      } else {
+    if (externalRecipe) {
+      if (isTop) {
         setButtonState("scroll");
+      } else if (recipeHeadingRef.current) {
+        const recipeHeadingOffsetTop = recipeHeadingRef.current.offsetTop;
+        if (window.scrollY >= recipeHeadingOffsetTop) {
+          setButtonState("modify");
+        } else {
+          setButtonState("scroll");
+        }
       }
     }
-  };
+  }, [externalRecipe]);
 
-  const stableHandleScroll = React.useCallback(handleScroll, [
-    externalRecipe,
-    recipeHeading,
-  ]);
-
+  // Debounce scroll handler
   useEffect(() => {
-    window.addEventListener("scroll", stableHandleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", stableHandleScroll);
+    let timeoutId: number;
+    const debouncedScroll = () => {
+      if (timeoutId) {
+        window.cancelAnimationFrame(timeoutId);
+      }
+      timeoutId = window.requestAnimationFrame(() => {
+        handleScroll();
+      });
     };
-  }, [stableHandleScroll]);
+
+    window.addEventListener("scroll", debouncedScroll);
+    return () => {
+      window.removeEventListener("scroll", debouncedScroll);
+      if (timeoutId) {
+        window.cancelAnimationFrame(timeoutId);
+      }
+    };
+  }, [handleScroll]);
+
+  const handleMobileButtonClick = useCallback(() => {
+    if (buttonState === "scroll") {
+      const recipeDisplayElement = document.querySelector(".recipe-display");
+      recipeDisplayElement?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else {
+      const container = document.documentElement;
+      const startPosition = container.scrollTop;
+      const duration = 500;
+      const startTime = performance.now();
+
+      const scroll = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        container.scrollTop = startPosition * (1 - progress);
+        if (progress < 1) {
+          requestAnimationFrame(scroll);
+        } else {
+          setIsCollapsibleOpen((prev) => !prev);
+        }
+      };
+      requestAnimationFrame(scroll);
+    }
+  }, [buttonState, setIsCollapsibleOpen]);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
       <div className="relative">
-        {/* Button container - only this should be interactive */}
         <div
           className="absolute inset-0 bg-[hsl(var(--app-background))]/95 backdrop-blur-[12px] transition-all duration-500"
-          style={{
-            maskImage:
-              "linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 0.95) 45%, rgba(0, 0, 0, 0.85) 50%, rgba(0, 0, 0, 0.7) 55%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.3) 65%, rgba(0, 0, 0, 0.1) 70%, transparent 80%)",
-            WebkitMaskImage:
-              "linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 33%, rgba(0, 0, 0, 0.95) 45%, rgba(0, 0, 0, 0.85) 50%, rgba(0, 0, 0, 0.7) 55%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.3) 65%, rgba(0, 0, 0, 0.1) 70%, transparent 80%)",
-          }}
+          style={MASK_GRADIENT}
         />
         <div className="relative pb-6 pt-16">
           <div className="w-full max-w-[1800px] mx-auto relative">
-            {/* ScrollToTop button positioned to the right */}
             {externalRecipe && !isLoading && !isAtTop && (
               <div className="pointer-events-auto absolute right-4 top-1/2 -translate-y-1/2">
                 <TooltipProvider>
@@ -103,57 +154,13 @@ export function FloatingButtonContainer({
                 </TooltipProvider>
               </div>
             )}
-            {/* Centered buttons */}
             <div className="pointer-events-auto flex gap-2 items-center justify-center">
               {externalRecipe && !isLoading && (
                 <Button
                   variant="outline"
                   size="lg"
                   className="lg:hidden text-[#433633]"
-                  onClick={() => {
-                    if (buttonState === "scroll") {
-                      // Scroll to recipe heading
-                      if (window.innerWidth < 1024) {
-                        const recipeDisplayElement = document.querySelector(
-                          ".recipe-display" // Selector for the article container
-                        );
-                        recipeDisplayElement?.scrollIntoView({
-                          behavior: "smooth",
-                          block: "start",
-                        });
-                      } else {
-                        // For larger screens (desktop), use default instant scroll
-                        const recipeHeading = document.querySelector(
-                          ".recipe-display h2" // Selector for the recipe heading
-                        );
-                        recipeHeading?.scrollIntoView({
-                          block: "start",
-                        });
-                      }
-                    } else {
-                      // Scroll to top (modify view) - existing behavior, apply to screens smaller than lg
-                      if (window.innerWidth < 1024) {
-                        // 1024px is Tailwind's lg breakpoint
-
-                        const container = document.documentElement;
-                        const startPosition = container.scrollTop;
-                        const duration = 500; // Duration for scroll animation
-                        const startTime = performance.now();
-                        const scroll = (currentTime: number) => {
-                          const elapsed = currentTime - startTime;
-                          const progress = Math.min(elapsed / duration, 1);
-                          // Simple linear animation for fastest execution
-                          container.scrollTop = startPosition * (1 - progress);
-                          if (progress < 1) {
-                            requestAnimationFrame(scroll);
-                          } else {
-                            setIsCollapsibleOpen((prev) => !prev);
-                          }
-                        };
-                        requestAnimationFrame(scroll);
-                      }
-                    }
-                  }}
+                  onClick={handleMobileButtonClick}
                 >
                   {buttonState === "scroll" ? (
                     <div className="flex items-center gap-2">
@@ -171,8 +178,6 @@ export function FloatingButtonContainer({
               )}
               <TooltipProvider>
                 <Tooltip delayDuration={50}>
-                  {" "}
-                  {/* tooltip shows on hover with shorter delay */}
                   <TooltipTrigger asChild>
                     <Button
                       size="lg"
