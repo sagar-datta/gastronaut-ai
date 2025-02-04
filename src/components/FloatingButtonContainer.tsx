@@ -69,7 +69,7 @@ export function FloatingButtonContainer({
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check on mount
+    // handleScroll(); // Initial check on mount - REMOVED
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
