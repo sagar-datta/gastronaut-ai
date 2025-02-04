@@ -32,34 +32,26 @@ export function FloatingButtonContainer({
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
   const [isAtTop, setIsAtTop] = useState(true);
-  const [isModifyButtonClicked, setIsModifyButtonClicked] = useState(false);
   const recipeHeading = document.querySelector(".recipe-display h2");
 
   const handleScroll = () => {
     // Update isAtTop state based on scroll position
     setIsAtTop(window.scrollY < 100);
 
-    // Rest of the scroll handling logic for recipe heading
-    if (isModifyButtonClicked && window.scrollY < 10) {
-      // If Modify button was clicked and scrolled to top, set to "scroll"
-      setButtonState("scroll");
-      setIsModifyButtonClicked(false); // Reset the flag
-    } else {
-      if (externalRecipe && recipeHeading) {
-        const recipeHeadingOffsetTop = (recipeHeading as HTMLElement).offsetTop;
-        const scrollY = window.scrollY;
-
-        if (scrollY >= recipeHeadingOffsetTop) {
-          setButtonState("modify");
-        } else {
-          // User is above the recipe heading, show "Scroll to Recipe"
-          setButtonState("scroll");
-        }
+    if (externalRecipe && recipeHeading) {
+      const recipeHeadingOffsetTop = (recipeHeading as HTMLElement).offsetTop;
+      if (window.scrollY >= recipeHeadingOffsetTop) {
+        setButtonState("modify");
+      } else {
+        setButtonState("scroll");
       }
     }
   };
 
-  const stableHandleScroll = React.useCallback(handleScroll, [externalRecipe, recipeHeading]);
+  const stableHandleScroll = React.useCallback(handleScroll, [
+    externalRecipe,
+    recipeHeading,
+  ]);
 
   useEffect(() => {
     window.addEventListener("scroll", stableHandleScroll);
@@ -119,7 +111,6 @@ export function FloatingButtonContainer({
                   size="lg"
                   className="lg:hidden text-[#433633]"
                   onClick={() => {
-                    setIsModifyButtonClicked(true); // Set the flag before scrolling
                     if (buttonState === "scroll") {
                       // Scroll to recipe heading
                       if (window.innerWidth < 1024) {
