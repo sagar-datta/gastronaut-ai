@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { cn } from "@/lib/utils";
 
 interface TimeServingsInputProps {
   cookTime: number;
@@ -59,7 +60,9 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 onClick={() => setCookTime(Math.max(15, cookTime - 5))}
                 className={cn(
                   "text-[#433633] disabled:text-[#5C5552]",
-                  isLoading || cookTime <= 15 ? "disabled:cursor-not-allowed" : ""
+                  isLoading || cookTime <= 15
+                    ? "disabled:cursor-not-allowed"
+                    : ""
                 )}
               >
                 -
@@ -76,7 +79,9 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 onClick={() => setCookTime(Math.min(180, cookTime + 5))}
                 className={cn(
                   "text-[#433633] disabled:text-[#5C5552]",
-                  isLoading || cookTime >= 180 ? "disabled:cursor-not-allowed" : ""
+                  isLoading || cookTime >= 180
+                    ? "disabled:cursor-not-allowed"
+                    : ""
                 )}
               >
                 +
@@ -113,7 +118,9 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 disabled={servings <= 1 || isLoading}
                 onClick={() => setServings(Math.max(1, servings - 1))}
                 className={cn(
-                  isLoading || servings <= 1 ? "disabled:cursor-not-allowed" : ""
+                  isLoading || servings <= 1
+                    ? "disabled:cursor-not-allowed"
+                    : ""
                 )}
               >
                 -
@@ -131,7 +138,9 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 disabled={servings >= 18 || isLoading}
                 onClick={() => setServings(Math.min(18, servings + 1))}
                 className={cn(
-                  isLoading || servings >= 18 ? "disabled:cursor-not-allowed" : ""
+                  isLoading || servings >= 18
+                    ? "disabled:cursor-not-allowed"
+                    : ""
                 )}
               >
                 +

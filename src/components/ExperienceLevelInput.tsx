@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 interface ExperienceLevelInputProps {
   experience: string;
@@ -53,7 +54,10 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger
                 value="beginner"
-                className={cn("data-[state=active]:text-[#433633]", isLoading ? "disabled:cursor-not-allowed" : "")}
+                className={cn(
+                  "data-[state=active]:text-[#433633]",
+                  isLoading ? "disabled:cursor-not-allowed" : ""
+                )}
                 disabled={isLoading}
               >
                 Beginner Cook
@@ -61,14 +65,20 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
               <TabsTrigger
                 value="intermediate"
                 disabled={isLoading}
-                className={cn("data-[state=active]:text-[#433633]", isLoading ? "disabled:cursor-not-allowed" : "")}
+                className={cn(
+                  "data-[state=active]:text-[#433633]",
+                  isLoading ? "disabled:cursor-not-allowed" : ""
+                )}
               >
                 Home Chef
               </TabsTrigger>
               <TabsTrigger
                 value="advanced"
                 disabled={isLoading}
-                className={cn("data-[state=active]:text-[#433633]", isLoading ? "disabled:cursor-not-allowed" : "")}
+                className={cn(
+                  "data-[state=active]:text-[#433633]",
+                  isLoading ? "disabled:cursor-not-allowed" : ""
+                )}
               >
                 Professional
               </TabsTrigger>
@@ -93,19 +103,28 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
             <SelectContent>
               <SelectItem
                 value="beginner"
-                className={cn("font-medium text-[#433633]", isLoading ? "disabled:cursor-not-allowed" : "")}
+                className={cn(
+                  "font-medium text-[#433633]",
+                  isLoading ? "disabled:cursor-not-allowed" : ""
+                )}
               >
                 Beginner Cook
               </SelectItem>
               <SelectItem
                 value="intermediate"
-                className={cn("font-medium text-[#433633]", isLoading ? "disabled:cursor-not-allowed" : "")}
+                className={cn(
+                  "font-medium text-[#433633]",
+                  isLoading ? "disabled:cursor-not-allowed" : ""
+                )}
               >
                 Home Chef
               </SelectItem>
               <SelectItem
                 value="advanced"
-                className={cn("font-medium text-[#433633]", isLoading ? "disabled:cursor-not-allowed" : "")}
+                className={cn(
+                  "font-medium text-[#433633]",
+                  isLoading ? "disabled:cursor-not-allowed" : ""
+                )}
               >
                 Professional
               </SelectItem>
