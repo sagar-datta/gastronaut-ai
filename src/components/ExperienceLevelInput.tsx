@@ -54,11 +54,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger
                 value="beginner"
-                className="data-[state=active]:text-[#433633]"
-                className={cn(
-                  "data-[state=active]:text-[#433633]",
-                  isLoading ? "cursor-not-allowed" : ""
-                )}
+                className={cn("data-[state=active]:text-[#433633]")}
                 disabled={isLoading}
               >
                 Beginner Cook
@@ -66,22 +62,22 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
               <TabsTrigger
                 value="intermediate"
                 disabled={isLoading}
-                className={cn(
-                  "data-[state=active]:text-[#433633] cursor-not-allowed"
-                   ) :
-                   "data-[state=active]:text-[#433633]"
-                 }
+                className={
+                  isLoading
+                    ? cn("data-[state=active]:text-[#433633] cursor-not-allowed")
+                    : cn("data-[state=active]:text-[#433633]")
+                }
               >
-
                 Home Chef
               </TabsTrigger>
               <TabsTrigger
                 value="advanced"
                 disabled={isLoading}
-                className={cn(
-                  "data-[state=active]:text-[#433633]",
-                  isLoading ? "cursor-not-allowed" : ""
-                )}
+                className={
+                  isLoading
+                    ? cn("data-[state=active]:text-[#433633]", "cursor-not-allowed")
+                    : cn("data-[state=active]:text-[#433633]")
+                }
               >
                 Professional
 
