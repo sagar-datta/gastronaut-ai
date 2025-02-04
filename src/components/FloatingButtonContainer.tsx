@@ -32,6 +32,7 @@ export function FloatingButtonContainer({
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
   const [isAtTop, setIsAtTop] = useState(true);
+  const [isModifyButtonClicked, setIsModifyButtonClicked] = useState(false);
   const recipeHeading = document.querySelector(".recipe-display h2");
 
   const handleScroll = () => {
@@ -39,11 +40,19 @@ export function FloatingButtonContainer({
     setIsAtTop(window.scrollY < 100);
 
     if (externalRecipe && recipeHeading) {
-      const recipeHeadingOffsetTop = (recipeHeading as HTMLElement).offsetTop;
-      if (window.scrollY >= recipeHeadingOffsetTop) {
-        setButtonState("modify");
+      const experienceLevelElement = document.querySelector("#experience-level-input") as HTMLElement;
+      if (isModifyButtonClicked) {
+        if (experienceLevelElement && window.scrollY <= experienceLevelElement.offsetTop + 20) {
+          setButtonState("scroll");
+          setIsModifyButtonClicked(false);
+        }
       } else {
-        setButtonState("scroll");
+        const recipeHeadingOffsetTop = (recipeHeading as HTMLElement).offsetTop;
+        if (window.scrollY >= recipeHeadingOffsetTop) {
+          setButtonState("modify");
+        } else {
+          setButtonState("scroll");
+        }
       }
     }
   };
@@ -51,6 +60,7 @@ export function FloatingButtonContainer({
   const stableHandleScroll = React.useCallback(handleScroll, [
     externalRecipe,
     recipeHeading,
+    isModifyButtonClicked,
   ]);
 
   useEffect(() => {
