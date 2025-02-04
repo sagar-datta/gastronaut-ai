@@ -32,38 +32,36 @@ export function FloatingButtonContainer({
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
   const [isAtTop, setIsAtTop] = useState(true);
+  const recipeHeading = document.querySelector(".recipe-display h2");
+
+  const handleScroll = () => {
+    // Update isAtTop state based on scroll position
+    setIsAtTop(window.scrollY < 100);
+
+    // Rest of the scroll handling logic for recipe heading
+    if (externalRecipe && recipeHeading) {
+      const recipeHeadingOffsetTop = (recipeHeading as HTMLElement).offsetTop;
+      const scrollY = window.scrollY;
+
+      if (scrollY >= recipeHeadingOffsetTop) {
+        // User is at or below the recipe heading, show "Modify Recipe"
+        setButtonState("modify");
+      } else {
+        // User is above the recipe heading, show "Scroll to Recipe"
+        setButtonState("scroll");
+      }
+    }
+  };
+
+  const stableHandleScroll = React.useCallback(handleScroll, [externalRecipe, recipeHeading]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Update isAtTop state based on scroll position
-      setIsAtTop(window.scrollY < 100);
-
-      // Rest of the scroll handling logic for recipe heading
-      if (externalRecipe) {
-        const recipeHeading = document.querySelector(".recipe-display h2");
-        if (recipeHeading) {
-          const recipeHeadingOffsetTop = (recipeHeading as HTMLElement)
-            .offsetTop;
-          const scrollY = window.scrollY;
-
-          if (scrollY >= recipeHeadingOffsetTop) {
-            // User is at or below the recipe heading, show "Modify Recipe"
-            setButtonState("modify");
-          } else {
-            // User is above the recipe heading, show "Scroll to Recipe"
-            setButtonState("scroll");
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    // handleScroll(); // Initial check on mount - REMOVED
+    window.addEventListener("scroll", stableHandleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", stableHandleScroll);
     };
-  }, [externalRecipe]);
+  }, [stableHandleScroll]);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
