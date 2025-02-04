@@ -52,43 +52,52 @@ export function FloatingButtonContainer({
     recipeHeadingRef.current = document.querySelector(".recipe-display h2");
   }, [externalRecipe]);
 
-  const handleScroll = useCallback(() => {
-    // Update isAtTop state based on scroll position
-    const isTop = window.scrollY < 100;
-    setIsAtTop(isTop);
+  // Memoize isTop check to avoid unnecessary state updates
+  const checkIsTop = useCallback(() => window.scrollY < 100, []);
 
-    if (externalRecipe) {
+  // Memoize button state update logic
+  const updateButtonState = useCallback(
+    (isTop: boolean) => {
+      if (!externalRecipe) return;
+
       if (isTop) {
         setButtonState("scroll");
       } else if (recipeHeadingRef.current) {
         const recipeHeadingOffsetTop = recipeHeadingRef.current.offsetTop;
-        if (window.scrollY >= recipeHeadingOffsetTop) {
-          setButtonState("modify");
-        } else {
-          setButtonState("scroll");
-        }
+        setButtonState(
+          window.scrollY >= recipeHeadingOffsetTop ? "modify" : "scroll"
+        );
       }
-    }
-  }, [externalRecipe]);
+    },
+    [externalRecipe]
+  );
 
-  // Debounce scroll handler
+  const handleScroll = useCallback(() => {
+    const isTop = checkIsTop();
+    setIsAtTop(isTop);
+    updateButtonState(isTop);
+  }, [checkIsTop, updateButtonState]);
+
+  // Optimized scroll handler with debounce using RAF
   useEffect(() => {
-    let timeoutId: number;
+    let rafId: number | null = null;
+    let isScheduled = false;
+
     const debouncedScroll = () => {
-      if (timeoutId) {
-        window.cancelAnimationFrame(timeoutId);
+      if (!isScheduled) {
+        isScheduled = true;
+        rafId = requestAnimationFrame(() => {
+          handleScroll();
+          isScheduled = false;
+          rafId = null;
+        });
       }
-      timeoutId = window.requestAnimationFrame(() => {
-        handleScroll();
-      });
     };
 
-    window.addEventListener("scroll", debouncedScroll);
+    window.addEventListener("scroll", debouncedScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", debouncedScroll);
-      if (timeoutId) {
-        window.cancelAnimationFrame(timeoutId);
-      }
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [handleScroll]);
 
@@ -119,6 +128,43 @@ export function FloatingButtonContainer({
     }
   }, [buttonState, setIsCollapsibleOpen]);
 
+  // Memoize scroll to top handler
+  const handleScrollToTop = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
+  // Memoize scroll to top button
+  const ScrollToTopButton = useMemo(
+    () =>
+      externalRecipe &&
+      !isLoading &&
+      !isAtTop && (
+        <div className="pointer-events-auto absolute right-4 top-1/2 -translate-y-1/2">
+          <TooltipProvider>
+            <Tooltip delayDuration={50}>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="lg:flex hidden text-[#433633]"
+                  onClick={handleScrollToTop}
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="left" align="center">
+                <p>Scroll to Top</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      ),
+    [externalRecipe, isLoading, isAtTop, handleScrollToTop]
+  );
+
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
       <div className="relative">
@@ -128,32 +174,7 @@ export function FloatingButtonContainer({
         />
         <div className="relative pb-6 pt-16">
           <div className="w-full max-w-[1800px] mx-auto relative">
-            {externalRecipe && !isLoading && !isAtTop && (
-              <div className="pointer-events-auto absolute right-4 top-1/2 -translate-y-1/2">
-                <TooltipProvider>
-                  <Tooltip delayDuration={50}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="lg:flex hidden text-[#433633]"
-                        onClick={() => {
-                          window.scrollTo({
-                            top: 0,
-                            behavior: "smooth",
-                          });
-                        }}
-                      >
-                        <ArrowUp className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="left" align="center">
-                      <p>Scroll to Top</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            )}
+            {ScrollToTopButton}
             <div className="pointer-events-auto flex gap-2 items-center justify-center">
               {externalRecipe && !isLoading && (
                 <Button
