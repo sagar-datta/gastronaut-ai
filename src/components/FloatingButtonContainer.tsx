@@ -93,25 +93,14 @@ export function FloatingButtonContainer({
         block: "start",
       });
     } else {
-      const container = document.documentElement;
-      const startPosition = container.scrollTop;
-      const duration = 500;
-      const startTime = performance.now();
-
-      const scroll = (currentTime: number) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        container.scrollTop = startPosition * (1 - progress);
-        if (progress < 1) {
-          requestAnimationFrame(scroll);
-        } else {
-          setIsCollapsibleOpen((prev) => !prev);
-        }
-      };
-      requestAnimationFrame(scroll);
+     // Scroll to top to show input form (Modify Recipe action)
+     window.scrollTo({
+       top: 0,
+       behavior: "smooth",
+     });
     }
-  }, [buttonState, setIsCollapsibleOpen]);
-
+  }, [buttonState]);
+ 
   const handleScrollToTop = useCallback(() => {
     window.scrollTo({
       top: 0,
