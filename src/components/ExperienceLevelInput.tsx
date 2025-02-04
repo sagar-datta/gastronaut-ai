@@ -53,21 +53,21 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger
                 value="beginner"
-                className="data-[state=active]:text-[#433633]"
+                className="data-[state=active]:text-[#433633] disabled:cursor-not-allowed"
                 disabled={isLoading}
               >
                 Beginner Cook
               </TabsTrigger>
               <TabsTrigger
                 value="intermediate"
-                className="data-[state=active]:text-[#433633]"
+                className="data-[state=active]:text-[#433633] disabled:cursor-not-allowed"
                 disabled={isLoading}
               >
                 Home Chef
               </TabsTrigger>
               <TabsTrigger
                 value="advanced"
-                className="data-[state=active]:text-[#433633]"
+                className="data-[state=active]:text-[#433633] disabled:cursor-not-allowed"
                 disabled={isLoading}
               >
                 Professional
@@ -93,19 +93,19 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
             <SelectContent>
               <SelectItem
                 value="beginner"
-                className="font-medium text-[#433633]"
+                className="font-medium text-[#433633] disabled:cursor-not-allowed"
               >
                 Beginner Cook
               </SelectItem>
               <SelectItem
                 value="intermediate"
-                className="font-medium text-[#433633]"
+                className="font-medium text-[#433633] disabled:cursor-not-allowed"
               >
                 Home Chef
               </SelectItem>
               <SelectItem
                 value="advanced"
-                className="font-medium text-[#433633]"
+                className="font-medium text-[#433633] disabled:cursor-not-allowed"
               >
                 Professional
               </SelectItem>
