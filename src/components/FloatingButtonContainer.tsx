@@ -49,9 +49,11 @@ export function FloatingButtonContainer({
   const [isAtTop, setIsAtTop] = useState(true);
   const recipeContainerRef = useRef<HTMLElement | null>(null); // Renamed ref
 
-  // Cache recipe heading element and setup IntersectionObserver
-  useEffect(() => {
-    recipeContainerRef.current = document.querySelector(".recipe-display"); // Target recipe container
+ // Cache recipe heading element and setup IntersectionObserver
+ console.log("FloatingButtonContainer useEffect is running"); // ADD THIS LINE
+
+ useEffect(() => {
+   recipeContainerRef.current = document.querySelector(".recipe-display"); // Target recipe container
 
     const observer = new IntersectionObserver(
      (entries) => {
