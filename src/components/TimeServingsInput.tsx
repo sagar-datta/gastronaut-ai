@@ -63,11 +63,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 className={
                   isLoading
                     ?  cn(
-                        "text-[#433633] disabled:text-[#5C5552] cursor-not-allowed"
-                      )
-                    : cn("text-[#433633] disabled:text-[#5C5552]") // Keep disabled style for color
-
-                }
+                        "text-[#433633] disabled:text-[#5C5552]"                      )                    : cn("text-[#433633] disabled:text-[#5C5552]")                 }
               >
                 -
               </Button>
@@ -86,11 +82,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 className={
                   isLoading
                     ?  cn(
-                        "text-[#433633] disabled:text-[#5C5552] cursor-not-allowed"
-                      )
-                    : cn("text-[#433633] disabled:text-[#5C5552]") // Keep disabled style for color
-                }
-              >
+                        "text-[#433633] disabled:text-[#5C5552]"                      )                    : cn("text-[#433633] disabled:text-[#5C5552]")                 }              >
                 +
               </Button>
             </div>
@@ -129,11 +121,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 className={
                   isLoading
                     ?  cn("cursor-not-allowed")
-                    : ""
-                }
-              >
-                -
-              </Button>
+                    : ""                 }              >                -              </Button>
               <div className="text-lg min-w-[120px] text-center">
                 <span className="font-bold text-[#433633]">{servings}</span>{" "}
                 <span className="text-[#5C5552]">
@@ -151,11 +139,7 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 className={
                   isLoading
                     ?  cn("cursor-not-allowed")
-                    : ""
-                }
-              >
-                +
-              </Button>
+                    : ""                 }              >                +              </Button>
             </div>
             <Slider
               value={[servings]}
