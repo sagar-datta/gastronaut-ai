@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -61,6 +61,54 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
   equipment,
   setEquipment,
 }) => {
+  // Memoize the collapsible change handler
+  const handleCollapsibleChange = useMemo(
+    () => (open: boolean) => {
+      if (!open) {
+        // Get the trigger button position before animation starts
+        const trigger = document.querySelector("[data-optional-trigger]");
+        if (trigger) {
+          const rect = trigger.getBoundingClientRect();
+          const scrollTarget =
+            window.scrollY + rect.top - window.innerHeight + rect.height + 100;
+
+          // First scroll to position
+          new Promise<void>((resolve) => {
+            window.scrollTo({
+              top: scrollTarget,
+              behavior: "smooth",
+            });
+            setTimeout(resolve, 500);
+          }).then(() => {
+            setIsOpen(open);
+          });
+        }
+      } else {
+        setIsOpen(open);
+      }
+    },
+    [setIsOpen]
+  );
+
+  // Memoize the button class and content since they only depend on isOpen
+  const optionalButton = useMemo(
+    () => ({
+      className:
+        "flex items-center gap-2 p-4 text-[#433633] hover:bg-[#E3E0DE]",
+      content: (
+        <>
+          <span>Optional Extra Inputs</span>
+          {isOpen ? (
+            <ChevronUp className="h-4 w-4" />
+          ) : (
+            <ChevronDown className="h-4 w-4" />
+          )}
+        </>
+      ),
+    }),
+    [isOpen]
+  );
+
   return (
     <div className="grid grid-cols-1 gap-8 sm:p-6 p-0">
       {/* Experience Level Section */}
@@ -93,52 +141,17 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
       {/* Additional Settings Collapsible */}
       <Collapsible
         open={isOpen}
-        onOpenChange={(open) => {
-          if (!open) {
-            // Get the trigger button position before animation starts
-            const trigger = document.querySelector("[data-optional-trigger]");
-            if (trigger) {
-              const rect = trigger.getBoundingClientRect();
-              const scrollTarget =
-                window.scrollY +
-                rect.top -
-                window.innerHeight +
-                rect.height +
-                100;
-
-              // First scroll to position
-              new Promise<void>((resolve) => {
-                window.scrollTo({
-                  top: scrollTarget,
-                  behavior: "smooth",
-                });
-
-                // Wait for scroll to complete (roughly 500ms)
-                setTimeout(resolve, 500);
-              }).then(() => {
-                setIsOpen(open);
-              });
-            }
-          } else {
-            // If opening, just set state immediately
-            setIsOpen(open);
-          }
-        }}
-        className="w-full space-y-2 col-span-1 "
+        onOpenChange={handleCollapsibleChange}
+        className="w-full space-y-2 col-span-1"
       >
         <div className="flex justify-center">
           <CollapsibleTrigger asChild>
             <Button
               variant="ghost"
-              className="flex items-center gap-2 p-4 text-[#433633] hover:bg-[#E3E0DE]"
+              className={optionalButton.className}
               data-optional-trigger
             >
-              <span>Optional Extra Inputs</span>
-              {isOpen ? (
-                <ChevronUp className="h-4 w-4" />
-              ) : (
-                <ChevronDown className="h-4 w-4" />
-              )}
+              {optionalButton.content}
             </Button>
           </CollapsibleTrigger>
         </div>
@@ -153,7 +166,6 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
                 ease: "easeOut",
                 opacity: { duration: 0.3 },
               }}
-              className=""
             >
               <OptionalSettings
                 isOpen={isOpen}
@@ -177,4 +189,5 @@ export const RecipeInputForm: React.FC<RecipeInputFormProps> = ({
     </div>
   );
 };
+
 export default RecipeInputForm;
