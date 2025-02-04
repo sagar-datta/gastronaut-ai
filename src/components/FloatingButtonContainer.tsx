@@ -49,12 +49,12 @@ export function FloatingButtonContainer({
         const recipeHeadingOffsetTop = (recipeHeading as HTMLElement).offsetTop;
         const scrollY = window.scrollY;
 
-      if (scrollY >= recipeHeadingOffsetTop) {
-        // User is at or below the recipe heading, show "Modify Recipe"
-        setButtonState("modify");
-      } else {
-        // User is above the recipe heading, show "Scroll to Recipe"
-        setButtonState("scroll");
+        if (scrollY >= recipeHeadingOffsetTop) {
+          setButtonState("modify");
+        } else {
+          // User is above the recipe heading, show "Scroll to Recipe"
+          setButtonState("scroll");
+        }
       }
     }
   };
@@ -119,6 +119,7 @@ export function FloatingButtonContainer({
                   size="lg"
                   className="lg:hidden text-[#433633]"
                   onClick={() => {
+                    setIsModifyButtonClicked(true); // Set the flag before scrolling
                     if (buttonState === "scroll") {
                       // Scroll to recipe heading
                       if (window.innerWidth < 1024) {
