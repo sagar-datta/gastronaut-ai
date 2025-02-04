@@ -17,8 +17,8 @@ interface FloatingButtonContainerProps {
   getOSShortcut: () => string;
   handleGenerateRecipe: () => Promise<void>;
   setIsCollapsibleOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  input: string;
-}
+    input: string;
+  }
 export function FloatingButtonContainer({
   externalRecipe,
   isLoading,
@@ -47,8 +47,7 @@ export function FloatingButtonContainer({
             setButtonState("recipe");
           } else {
             setButtonState("modify");
-          }
-        }
+         }
       }
     };
 
