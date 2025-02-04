@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -29,6 +29,30 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
   externalRecipe,
   isLoading,
 }) => {
+  // Memoize the class names since they depend on externalRecipe and isLoading
+  const displayClasses = useMemo(
+    () => ({
+      tabs:
+        externalRecipe || isLoading
+          ? "min-[950px]:block hidden"
+          : "min-[500px]:block hidden",
+      select:
+        externalRecipe || isLoading
+          ? "min-[950px]:hidden block"
+          : "min-[500px]:hidden block",
+    }),
+    [externalRecipe, isLoading]
+  );
+
+  // Memoize the common tab trigger class logic
+  const getTabTriggerClass = useMemo(
+    () =>
+      isLoading
+        ? cn("data-[state=active]:text-[#433633]", "cursor-not-allowed")
+        : cn("data-[state=active]:text-[#433633]"),
+    [isLoading]
+  );
+
   return (
     <Card>
       <CardHeader>
@@ -39,13 +63,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div
-          className={`${
-            externalRecipe || isLoading
-              ? "min-[950px]:block hidden"
-              : "min-[500px]:block hidden"
-          }`}
-        >
+        <div className={displayClasses.tabs}>
           <Tabs
             defaultValue="beginner"
             value={experience}
@@ -54,34 +72,29 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger
                 value="beginner"
-                className={isLoading ? cn("data-[state=active]:text-[#433633] cursor-not-allowed") : cn("data-[state=active]:text-[#433633]")}
-                disabled={isLoading}              >                Beginner Cook             </TabsTrigger>
+                className={getTabTriggerClass}
+                disabled={isLoading}
+              >
+                Beginner Cook
+              </TabsTrigger>
               <TabsTrigger
                 value="intermediate"
+                className={getTabTriggerClass}
                 disabled={isLoading}
-                className={
-                  isLoading
-                    ? cn("data-[state=active]:text-[#433633] cursor-not-allowed")
-                    : cn("data-[state=active]:text-[#433633]")
-                }              >                Home Chef             </TabsTrigger>
+              >
+                Home Chef
+              </TabsTrigger>
               <TabsTrigger
                 value="advanced"
+                className={getTabTriggerClass}
                 disabled={isLoading}
-                className={
-                  isLoading
-                    ? cn("data-[state=active]:text-[#433633]", "cursor-not-allowed")
-                    : cn("data-[state=active]:text-[#433633]")
-                }              >                Professional              </TabsTrigger>
-           </TabsList>
+              >
+                Professional
+              </TabsTrigger>
+            </TabsList>
           </Tabs>
         </div>
-        <div
-          className={`${
-            externalRecipe || isLoading
-              ? "min-[950px]:hidden block"
-              : "min-[500px]:hidden block"
-          }`}
-        >
+        <div className={displayClasses.select}>
           <Select
             value={experience}
             onValueChange={setExperience}
@@ -96,19 +109,28 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 className={cn(
                   "font-medium text-[#433633]",
                   isLoading ? "cursor-not-allowed" : ""
-                )}              >                Beginner Cook              </SelectItem>
+                )}
+              >
+                Beginner Cook
+              </SelectItem>
               <SelectItem
                 value="intermediate"
                 className={cn(
                   "font-medium text-[#433633]",
                   isLoading ? "cursor-not-allowed" : ""
-                 )}              >                Home Chef              </SelectItem>
+                )}
+              >
+                Home Chef
+              </SelectItem>
               <SelectItem
                 value="advanced"
                 className={cn(
                   "font-medium text-[#433633]",
                   isLoading ? "cursor-not-allowed" : ""
-                 )}              >                Professional              </SelectItem>
+                )}
+              >
+                Professional
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
