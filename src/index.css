@@ -102,32 +102,103 @@
     --app-background: 0 0% 100%;
   }
 
-  body,
-  #root,
+  /* Basic print styles */
+  .prose {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    page-break-after: avoid !important;
+  }
+
+  /* Keep headings with their content */
+  h1,
+  h2,
+  h3 {
+    page-break-after: avoid;
+    margin-top: 0.5em;
+  }
+
+  /* Prevent orphaned list items */
+  p,
+  ul,
+  ol,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Trim extra space */
+  .prose > div:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Remove extra space after lists */
+  ul:last-child,
+  ol:last-child,
+  p:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Clean print appearance */
+  body {
+    background: white;
+    color: black;
+  }
+
+  /* Enable text selection */
+  .prose,
+  .prose *,
+  label,
+  p,
+  h1,
+  h2,
+  h3,
+  ul,
+  li {
+    cursor: text !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+  }
+
+  /* Remove decorative backgrounds */
+  .checkered-bg,
+  .checkered-bg::before,
+  [class*="bg-"],
   [data-theme],
+  #root,
   main,
   div {
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    background: none;
   }
 
-  .checkered-bg,
-  .checkered-bg::before {
-    background: none !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+  /* Hide screen-only elements */
+  .print\\:hidden {
+    display: none;
   }
 
-  [class*="bg-"] {
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+  /* Remove pointer cursors */
+  [class*="cursor-pointer"] {
+    cursor: text !important;
+  }
+
+  /* Prevent blank pages from fixed heights */
+  #root,
+  main,
+  [class*="min-h-"],
+  [class*="h-"] {
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  /* Ensure no extra space at document end */
+  body {
+    min-height: 0 !important;
+    height: auto !important;
+    margin-bottom: 0 !important;
   }
 }
