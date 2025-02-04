@@ -89,8 +89,9 @@ export function FloatingButtonContainer({
           }}
         />
         <div className="relative pb-6 pt-16">
-          <div className="w-full max-w-[1800px] mx-auto flex justify-center gap-2 px-4">
-            <div className="pointer-events-auto flex gap-2 items-center">
+          <div className="w-full max-w-[1800px] mx-auto relative">
+            {/* ScrollToTop button positioned to the right */}
+            <div className="pointer-events-auto absolute right-4 top-1/2 -translate-y-1/2">
               <Button
                 variant="outline"
                 size="lg"
@@ -105,6 +106,9 @@ export function FloatingButtonContainer({
                 <ArrowUp className="h-4 w-4 ml-[-4px] mr-[-4px]" />
                 Scroll to Top
               </Button>
+            </div>
+            {/* Centered buttons */}
+            <div className="pointer-events-auto flex gap-2 items-center justify-center">
               {externalRecipe && !isLoading && (
                 <Button
                   variant="outline"
