@@ -73,7 +73,8 @@ export function FloatingButtonContainer({
         },
         {
           root: null,
-          threshold: 0.1, // Use a lower threshold
+          threshold: 0, // Trigger as soon as any part of the element is no longer visible
+          rootMargin: '-10px 0px 0px 0px', // Trigger 10px before top
         }
       );
     }
