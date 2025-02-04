@@ -103,16 +103,15 @@ export function FloatingButtonContainer({
                   onClick={() => {
                     if (buttonState === "recipe" || buttonState === "scroll") {
                       // Scroll to recipe heading
-                      const recipeHeading = document.querySelector(
-                        ".recipe-display h2" // More robust selector
+                      const recipeDisplayArticle = document.querySelector(
+                        ".recipe-display" // Selector for the article container
                       );
                         console.log("Scrolling to recipe heading:");
-                        console.log("recipeHeading:", recipeHeading);
-                        console.log("recipeHeading.offsetTop:", recipeHeading.offsetTop);
-                        console.log("recipeHeading.getBoundingClientRect().top:", recipeHeading.getBoundingClientRect().top);
-                      if (recipeHeading) {
-                        recipeHeading.scrollIntoView({
-                          behavior: "smooth",
+                        console.log("recipeHeading:", recipeDisplayArticle);
+                        console.log("recipeHeading.offsetTop:", recipeDisplayArticle.offsetTop);
+                        console.log("recipeHeading.getBoundingClientRect().top:", recipeDisplayArticle.getBoundingClientRect().top);
+                      if (recipeDisplayArticle) {
+                        recipeDisplayArticle.scrollIntoView({
                           block: "start",
                         });
                       }
