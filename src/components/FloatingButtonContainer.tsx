@@ -60,12 +60,12 @@ export function FloatingButtonContainer({
            setButtonState("scroll"); // Recipe heading is intersecting (top edge at or below viewport top), show "Scroll to Recipe"
          } else {
            setButtonState("modify"); // Recipe heading is NOT intersecting (top edge above viewport top), show "Modify Recipe"
-         } 
+         }
        });
      },
       {
         root: null, // Use the viewport as the root
-        threshold: 0, // Trigger as soon as any part of the element is no longer visible
+        threshold: 1, // Trigger when 100% of the element is visible
       }
     );
 
