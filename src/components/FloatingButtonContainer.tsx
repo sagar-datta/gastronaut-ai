@@ -97,7 +97,7 @@ export function FloatingButtonContainer({
             <div className="pointer-events-auto flex gap-2 items-center">
               {externalRecipe && !isLoading && (
                 <Button
-                  variant={buttonState === "modify" ? "outline" : "default"}
+                  variant="outline"
                   size="lg"
                   className="lg:hidden text-[#433633]"
                   onClick={() => {
