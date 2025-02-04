@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -6,6 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ChevronDown } from "lucide-react";
 import { Printer } from "lucide-react";
 
 interface FloatingButtonContainerProps {
@@ -28,6 +29,39 @@ export function FloatingButtonContainer({
   setIsCollapsibleOpen,
   input,
 }: FloatingButtonContainerProps) {
+  const [buttonState, setButtonState] = useState<"modify" | "recipe">(
+    "modify"
+  );
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (externalRecipe) {
+        const recipeHeading = document.querySelector(
+          '.recipe-display h2' // More robust selector
+        );
+        if (recipeHeading) {
+          const recipeHeadingOffsetTop =
+            recipeHeading.getBoundingClientRect().top + window.scrollY;
+          if (window.scrollY < recipeHeadingOffsetTop - 50) {
+            // Adjust offset as needed, e.g., -50px to trigger slightly before heading is at the very top
+            setButtonState("recipe");
+          } else {
+            setButtonState("modify");
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check on mount
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [externalRecipe]);
+
+  const isRecipeButton = buttonState === "recipe";
+  const buttonText = isRecipeButton ? "Recipe" : "Modify";
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
       <div className="relative">
@@ -49,31 +83,80 @@ export function FloatingButtonContainer({
                 <Button
                   variant="outline"
                   size="lg"
+                  size={isRecipeButton ? "default" : "lg"} // Adjust size if needed
                   className="lg:hidden text-[#433633]"
                   onClick={() => {
-                    const container = document.documentElement;
-                    const startPosition = container.scrollTop;
-                    const duration = 50; // Super short duration, almost instant
-                    const startTime = performance.now();
-                    const scroll = (currentTime: number) => {
-                      const elapsed = currentTime - startTime;
-                      const progress = Math.min(elapsed / duration, 1);
-                      // Simple linear animation for fastest execution
-                      container.scrollTop = startPosition * (1 - progress);
-                      if (progress < 1) {
-                        requestAnimationFrame(scroll);
-                      } else {
-                        setIsCollapsibleOpen((prev) => !prev);
+                    if (isRecipeButton) {
+                      // Scroll to recipe heading
+                      const recipeHeading = document.querySelector(
+                        '.recipe-display h2' // More robust selector
+                      );
+                      if (recipeHeading) {
+                        recipeHeading.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
                       }
-                    };
-                    requestAnimationFrame(scroll);
+                    } else {
+                      // Scroll to top (modify view) - existing behavior
+                      const container = document.documentElement;
+                      const startPosition = container.scrollTop;
+                      const duration = 50; // Super short duration, almost instant
+                      const startTime = performance.now();
+                      const scroll = (currentTime: number) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // Simple linear animation for fastest execution
+                        container.scrollTop = startPosition * (1 - progress);
+                        if (progress < 1) {
+                          requestAnimationFrame(scroll);
+                        } else {
+                          setIsCollapsibleOpen((prev) => !prev);
+                        }
+                      };
+                      requestAnimationFrame(scroll);
+                    }
                   }}
                 >
-                  <span className="sm:hidden">Modify</span>
-                  <span className="hidden sm:inline">Modify Recipe</span>
-                </Button>
-              )}
-              <TooltipProvider>
+                  {isRecipeButton ? (
+                    <div className="flex items-center gap-2">
+                      {buttonText} <ChevronDown className="h-4 w-4" />
+                    </div>
+                  ) : (
+                    <>
+                      <span className="sm:hidden">{buttonText}</span>
+                      <span className="hidden sm:inline">Modify Recipe</span>
+                    </>
+                  )}
+               </Button>
+             )}
+             {externalRecipe && !isLoading && !isRecipeButton && ( // Conditionally render "Modify Recipe" button
+               <Button
+                 variant="outline"
+                 size="lg"
+                 className="lg:hidden text-[#433633]"
+                 onClick={() => {
+                   const container = document.documentElement;
+                   const startPosition = container.scrollTop;
+                   const duration = 50; // Super short duration, almost instant
+                   const startTime = performance.now();
+                   const scroll = (currentTime: number) => {
+                     const elapsed = currentTime - startTime;
+                     const progress = Math.min(elapsed / duration, 1);
+                     container.scrollTop = startPosition * (1 - progress);
+                     if (progress < 1) {
+                       requestAnimationFrame(scroll);
+                     } else {
+                       setIsCollapsibleOpen((prev) => !prev);
+                     }
+                   };
+                   requestAnimationFrame(scroll);
+                 }}
+               >
+                 <span className="hidden sm:inline">Modify Recipe</span>
+               </Button>
+             )}
+             <TooltipProvider>
                 <Tooltip delayDuration={50}>
                   {" "}
                   {/* tooltip shows on hover with shorter delay */}
