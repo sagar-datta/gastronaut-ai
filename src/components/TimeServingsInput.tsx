@@ -56,14 +56,13 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                // Removed disabled prop
+                disabled={cookTime <= 15 || isLoading}
                 onClick={() => {
-                  if (isLoading) return; // Prevent action if loading
                   setCookTime(Math.max(15, cookTime - 5));
                 }}
                 className={
                   isLoading
-                    ? cn(
+                    ?  cn(
                         "text-[#433633] disabled:text-[#5C5552] cursor-not-allowed"
                       )
                     : cn("text-[#433633] disabled:text-[#5C5552]") // Keep disabled style for color
@@ -80,14 +79,13 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                // Removed disabled prop
+                disabled={cookTime >= 180 || isLoading}
                 onClick={() => {
-                  if (isLoading) return; // Prevent action if loading
                   setCookTime(Math.min(180, cookTime + 5));
                 }}
                 className={
                   isLoading
-                    ? cn(
+                    ?  cn(
                         "text-[#433633] disabled:text-[#5C5552] cursor-not-allowed"
                       )
                     : cn("text-[#433633] disabled:text-[#5C5552]") // Keep disabled style for color
@@ -124,14 +122,13 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                // Removed disabled prop
+                disabled={servings <= 1 || isLoading}
                 onClick={() => {
-                  if (isLoading) return; // Prevent action if loading
                   setServings(Math.max(1, servings - 1));
                 }}
                 className={
                   isLoading
-                    ? cn("cursor-not-allowed")
+                    ?  cn("cursor-not-allowed")
                     : ""
                 }
               >
@@ -147,14 +144,13 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 type="button"
                 variant="outline"
                 size="icon"
-                // Removed disabled prop
+                disabled={servings >= 18 || isLoading}
                 onClick={() => {
-                  if (isLoading) return; // Prevent action if loading
                   setServings(Math.min(18, servings + 1));
                 }}
                 className={
                   isLoading
-                    ? cn("cursor-not-allowed")
+                    ?  cn("cursor-not-allowed")
                     : ""
                 }
               >

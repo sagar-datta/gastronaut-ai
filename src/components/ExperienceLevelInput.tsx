@@ -54,11 +54,10 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger
                 value="beginner"
-                className={cn("data-[state=active]:text-[#433633]")}
-                className={isLoading ? cn("data-[state=active]:text-[#433633] cursor-not-allowed") : cn("data-[state=active]:text-[#433633]")} // Conditional cursor
-                // Removed disabled prop
+                className={isLoading ? cn("data-[state=active]:text-[#433633] cursor-not-allowed") : cn("data-[state=active]:text-[#433633]")}
+                disabled={isLoading}
               >
-               Beginner Cook
+                Beginner Cook
              </TabsTrigger>
               <TabsTrigger
                 value="intermediate"
@@ -66,7 +65,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 className={
                   isLoading
                     ? cn("data-[state=active]:text-[#433633] cursor-not-allowed")
-                    : cn("data-[state=active]:text-[#433633]") // Conditional cursor
+                    : cn("data-[state=active]:text-[#433633]")
                 }
               >
                 Home Chef
@@ -77,7 +76,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 className={
                   isLoading
                     ? cn("data-[state=active]:text-[#433633]", "cursor-not-allowed")
-                    : cn("data-[state=active]:text-[#433633]") // Conditional cursor
+                    : cn("data-[state=active]:text-[#433633]")
                 }
               >
                 Professional
@@ -96,7 +95,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
           <Select
             value={experience}
             onValueChange={setExperience}
-            // Removed disabled prop
+            disabled={isLoading}
           >
             <SelectTrigger className="font-medium text-[#433633]">
               <SelectValue placeholder="Select experience level" />
@@ -106,7 +105,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 value="beginner"
                 className={cn(
                   "font-medium text-[#433633]",
-                  isLoading ? "cursor-not-allowed" : "" // Conditional cursor
+                  isLoading ? "cursor-not-allowed" : ""
                 )}
               >
                 Beginner Cook
@@ -115,7 +114,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 value="intermediate"
                 className={cn(
                   "font-medium text-[#433633]",
-                  isLoading ? "cursor-not-allowed" : "" // Conditional cursor
+                  isLoading ? "cursor-not-allowed" : ""
                  )}
               >
                 Home Chef
@@ -124,7 +123,7 @@ const ExperienceLevelInput: React.FC<ExperienceLevelInputProps> = ({
                 value="advanced"
                 className={cn(
                   "font-medium text-[#433633]",
-                  isLoading ? "cursor-not-allowed" : "" // Conditional cursor
+                  isLoading ? "cursor-not-allowed" : ""
                  )}
               >
                 Professional
