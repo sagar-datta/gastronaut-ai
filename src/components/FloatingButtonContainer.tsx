@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -41,14 +35,10 @@ export function FloatingButtonContainer({
   getButtonText,
   getOSShortcut,
   handleGenerateRecipe,
-  setIsCollapsibleOpen,
-  containerRef, // Destructure containerRef prop
   input,
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
   const [isAtTop, setIsAtTop] = useState(true);
-  const recipeContainerRef = useRef<HTMLElement | null>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null); // Store observer
 
   useEffect(() => {
     if (!externalRecipe) {
