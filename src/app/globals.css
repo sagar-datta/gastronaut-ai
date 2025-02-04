@@ -3,8 +3,23 @@
     margin: 2cm;
   }
 
+  * {
+    background-color: transparent !important;
+    background-image: none !important;
+    color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   body {
-    background: white;
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  [class*="bg-"] {
+    background-color: transparent !important;
+    background-image: none !important;
   }
 
   .print-hide {
