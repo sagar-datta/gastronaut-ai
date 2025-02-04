@@ -1,6 +1,6 @@
 import ReactMarkdown, { Components } from "react-markdown";
 import { Checkbox } from "./ui/checkbox";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import React from "react";
 
 export type CheckedItems = {
@@ -24,6 +24,19 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
   useEffect(() => {
     onItemsChange?.(checkedItems);
   }, [checkedItems, onItemsChange]);
+
+  const recipeDisplaySectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Scroll to recipe display on mobile after recipe is rendered
+    if (recipeDisplaySectionRef.current && window.innerWidth < 768) {
+      // Example mobile breakpoint, adjust if needed
+      recipeDisplaySectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [content]); // Depend on 'content' to scroll when recipe changes
 
   const sections = React.useMemo(() => content.split("\n\n"), [content]);
 
@@ -131,7 +144,10 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
   };
 
   return (
-    <article className="prose max-w-none p-6 print:p-0 print:my-0 print:break-after-auto [&_*]:break-inside-avoid-page print:[&_p]:orphans-3 print:[&_p]:widows-3">
+    <article
+      ref={recipeDisplaySectionRef}
+      className="prose max-w-none p-6 print:p-0 print:my-0 print:break-after-auto [&_*]:break-inside-avoid-page print:[&_p]:orphans-3 print:[&_p]:widows-3"
+    >
       <main className="space-y-4 print:space-y-2">
         <header className="print:break-before-avoid print:break-after-avoid">
           <ReactMarkdown components={components as Partial<Components>}>
