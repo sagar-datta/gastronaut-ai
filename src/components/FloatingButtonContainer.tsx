@@ -66,7 +66,7 @@ export function FloatingButtonContainer({
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
       <div className="relative">
         {/* Button container - only this should be interactive */}
-        <div className="relative pb-6 pt-16 bg-gradient-to-b from-transparent to-gray-300">
+        <div className="relative pb-6 pt-16 bg-gradient-to-b from-gray-300 via-gray-100 to-transparent">
           <div className="w-full max-w-[1800px] mx-auto flex justify-center gap-2 px-4">
             <div className="pointer-events-auto flex gap-2 items-center">
               {externalRecipe && !isLoading && (
