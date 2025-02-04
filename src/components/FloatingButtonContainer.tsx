@@ -56,16 +56,16 @@ export function FloatingButtonContainer({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            setButtonState("modify"); // Recipe heading is out of view (below), show "Modify"
+          if (entry.boundingClientRect.y < 0) {
+            setButtonState("scroll"); // Recipe heading is above viewport, show "Scroll to Recipe"
           } else {
-            setButtonState("scroll"); // Recipe heading is in view (or above), show "Scroll"
+            setButtonState("modify"); // Recipe heading is in view or below, show "Modify Recipe"
           }
         });
       },
       {
-        rootMargin: "-100px 0px 0px 0px", // Consider heading out of view when 100px from top
-        threshold: 0, // Trigger when element is fully out of view
+        root: null, // Use the viewport as the root
+        threshold: 0, // Trigger as soon as any part of the element is no longer visible
       }
     );
 
