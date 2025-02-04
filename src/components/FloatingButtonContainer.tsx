@@ -103,9 +103,9 @@ export function FloatingButtonContainer({
                   onClick={() => {
                     if (buttonState === "recipe" || buttonState === "scroll") {
                       // Scroll to recipe heading
-                      if (window.innerWidth < 1024) { // Apply smooth scroll only on smaller screens (like tablet/mobile)
+                      if (window.innerWidth < 1024) {
                         const recipeDisplayArticle = document.querySelector(
-                          ".recipe-display" // Selector for the article container
+                          ".recipe-display h2" // Selector for the recipe heading
                         );
                         if (recipeDisplayArticle) {
                           const container = document.documentElement;
@@ -114,7 +114,7 @@ export function FloatingButtonContainer({
                           const duration = 500; // Duration for scroll animation
                           const startTime = performance.now();
 
-                          const scroll = (currentTime: number) => {
+                         const scroll = (currentTime: number) => {
                             const elapsed = currentTime - startTime;
                             const progress = Math.min(elapsed / duration, 1);
                             container.scrollTop = startPosition + (targetPosition - startPosition) * progress;
@@ -128,12 +128,12 @@ export function FloatingButtonContainer({
                         }
                       } else {
                         // For larger screens (desktop), use default instant scroll
-                        const recipeDisplayArticle = document.querySelector(
-                          ".recipe-display" // Selector for the article container
+                        const recipeHeading = document.querySelector(
+                          ".recipe-display h2" // Selector for the recipe heading
                         );
-                        recipeDisplayArticle?.scrollIntoView({
+                        recipeHeading?.scrollIntoView({
                           block: 'start'
-                        });
+                       });
                       }
                     } else {
                       // Scroll to top (modify view) - existing behavior, apply to screens smaller than lg
