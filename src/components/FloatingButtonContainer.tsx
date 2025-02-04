@@ -30,7 +30,7 @@ export function FloatingButtonContainer({
   setIsCollapsibleOpen,
   input,
 }: FloatingButtonContainerProps) {
-  const [buttonState, setButtonState] = useState<"modify" | "recipe" | "scroll">("modify");
+  const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
 
   useEffect(() => {
     const handleScroll = () => { // Define handleScroll inside useEffect
@@ -46,11 +46,8 @@ export function FloatingButtonContainer({
           console.log("scrollY:", scrollY);
           console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
 
-          if (scrollY < recipeHeadingOffsetTop - 100) {
-            // Adjust offset as needed, e.g., -50px to trigger slightly before heading is at the very top
-            setButtonState("recipe");
-            console.log("State: recipe - scrollY < recipeHeadingOffsetTop - 100", scrollY < recipeHeadingOffsetTop - 100);
-          } else if (scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100) {
+          if (scrollY < recipeHeadingOffsetTop) {
+            } else if (scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100) {
             // User is close to the recipe but not yet at the modify point
             setButtonState("scroll");
             console.log("State: scroll - scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100", scrollY < recipeHeadingOffsetTop && scrollY >= recipeHeadingOffsetTop - 100);
@@ -76,8 +73,6 @@ export function FloatingButtonContainer({
     };
   }, [externalRecipe]);
 
-  const isRecipeButton = buttonState === "recipe";
-  const buttonText = isRecipeButton ? "Recipe" : "Modify"; // Ensure initializer
 
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
@@ -101,7 +96,7 @@ export function FloatingButtonContainer({
                   size="lg"
                   className="lg:hidden text-[#433633]"
                   onClick={() => {
-                    if (buttonState === "recipe" || buttonState === "scroll") {
+                    if (buttonState === "scroll") {
                       // Scroll to recipe heading
                       if (window.innerWidth < 1024) {
                         const recipeDisplayElement = document.querySelector(
@@ -142,13 +137,9 @@ export function FloatingButtonContainer({
                     }
                   }}
                 >
-                  {buttonState === "recipe" ? (
+                  {buttonState === "scroll" ? (
                     <div className="flex items-center gap-2">
-                      Recipe <ChevronDown className="h-4 w-4" />
-                    </div>
-                  ) : buttonState === "scroll" ? (
-                    <div className="flex items-center gap-2">
-                      Scroll to Recipe
+                      Scroll to Recipe <ChevronDown className="h-4 w-4" />
                     </div>
                   ) : (
                     <>
