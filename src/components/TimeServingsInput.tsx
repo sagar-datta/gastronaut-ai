@@ -57,7 +57,10 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 size="icon"
                 disabled={cookTime <= 15 || isLoading}
                 onClick={() => setCookTime(Math.max(15, cookTime - 5))}
-                className="text-[#433633] disabled:text-[#5C5552] disabled:cursor-not-allowed"
+                className={cn(
+                  "text-[#433633] disabled:text-[#5C5552]",
+                  isLoading || cookTime <= 15 ? "disabled:cursor-not-allowed" : ""
+                )}
               >
                 -
               </Button>
@@ -71,7 +74,10 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 size="icon"
                 disabled={cookTime >= 180 || isLoading}
                 onClick={() => setCookTime(Math.min(180, cookTime + 5))}
-                className="text-[#433633] disabled:text-[#5C5552] disabled:cursor-not-allowed"
+                className={cn(
+                  "text-[#433633] disabled:text-[#5C5552]",
+                  isLoading || cookTime >= 180 ? "disabled:cursor-not-allowed" : ""
+                )}
               >
                 +
               </Button>
@@ -106,7 +112,9 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 size="icon"
                 disabled={servings <= 1 || isLoading}
                 onClick={() => setServings(Math.max(1, servings - 1))}
-                className="disabled:cursor-not-allowed"
+                className={cn(
+                  isLoading || servings <= 1 ? "disabled:cursor-not-allowed" : ""
+                )}
               >
                 -
               </Button>
@@ -122,7 +130,9 @@ export const TimeServingsInput: React.FC<TimeServingsInputProps> = ({
                 size="icon"
                 disabled={servings >= 18 || isLoading}
                 onClick={() => setServings(Math.min(18, servings + 1))}
-                className="disabled:cursor-not-allowed"
+                className={cn(
+                  isLoading || servings >= 18 ? "disabled:cursor-not-allowed" : ""
+                )}
               >
                 +
               </Button>
