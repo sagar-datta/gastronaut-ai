@@ -103,16 +103,36 @@ export function FloatingButtonContainer({
                   onClick={() => {
                     if (buttonState === "recipe" || buttonState === "scroll") {
                       // Scroll to recipe heading
-                      const recipeDisplayArticle = document.querySelector(
-                        ".recipe-display" // Selector for the article container
-                      );
-                        console.log("Scrolling to recipe heading:");
-                        console.log("recipeHeading:", recipeDisplayArticle);
-                        console.log("recipeHeading.offsetTop:", recipeDisplayArticle.offsetTop);
-                        console.log("recipeHeading.getBoundingClientRect().top:", recipeDisplayArticle.getBoundingClientRect().top);
-                      if (recipeDisplayArticle) {
-                        recipeDisplayArticle.scrollIntoView({
-                          block: "start",
+                      if (window.innerWidth < 1024) { // Apply smooth scroll only on smaller screens (like tablet/mobile)
+                        const recipeDisplayArticle = document.querySelector(
+                          ".recipe-display" // Selector for the article container
+                        );
+                        if (recipeDisplayArticle) {
+                          const container = document.documentElement;
+                          const startPosition = container.scrollTop;
+                          const targetPosition = recipeDisplayArticle.offsetTop - 60; // Adjust offset if needed
+                          const duration = 500; // Duration for scroll animation
+                          const startTime = performance.now();
+
+                          const scroll = (currentTime: number) => {
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            container.scrollTop = startPosition + (targetPosition - startPosition) * progress;
+                            if (progress < 1) {
+                              requestAnimationFrame(scroll);
+                            }
+                          };
+                          requestAnimationFrame(scroll);
+                        } else {
+                          console.log("Recipe display article not found for scrolling.");
+                        }
+                      } else {
+                        // For larger screens (desktop), use default instant scroll
+                        const recipeDisplayArticle = document.querySelector(
+                          ".recipe-display" // Selector for the article container
+                        );
+                        recipeDisplayArticle?.scrollIntoView({
+                          block: 'start'
                         });
                       }
                     } else {
@@ -121,7 +141,7 @@ export function FloatingButtonContainer({
 
                       const container = document.documentElement;
                       const startPosition = container.scrollTop;
-                      const duration = 50; // Super short duration, almost instant
+                      const duration = 500; // Duration for scroll animation - corrected to 500ms
                       const startTime = performance.now();
                       const scroll = (currentTime: number) => {
                         const elapsed = currentTime - startTime;
