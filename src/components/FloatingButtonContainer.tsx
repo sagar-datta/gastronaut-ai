@@ -110,7 +110,7 @@ export function FloatingButtonContainer({
                         if (recipeDisplayArticle) {
                           const container = document.documentElement;
                           const startPosition = container.scrollTop;
-                          const targetPosition = recipeDisplayArticle.offsetTop - 60; // Adjust offset if needed
+                          const targetPosition = recipeDisplayArticle.offsetTop; // No offset
                           const duration = 500; // Duration for scroll animation
                           const startTime = performance.now();
 
@@ -139,11 +139,11 @@ export function FloatingButtonContainer({
                       // Scroll to top (modify view) - existing behavior, apply to screens smaller than lg
                       if (window.innerWidth < 1024) { // 1024px is Tailwind's lg breakpoint
 
-                      const container = document.documentElement;
-                      const startPosition = container.scrollTop;
-                      const duration = 500; // Duration for scroll animation - corrected to 500ms
-                      const startTime = performance.now();
-                      const scroll = (currentTime: number) => {
+                     const container = document.documentElement;
+                     const startPosition = container.scrollTop;
+                     const duration = 500; // Duration for scroll animation
+                     const startTime = performance.now();
+                     const scroll = (currentTime: number) => {
                         const elapsed = currentTime - startTime;
                         const progress = Math.min(elapsed / duration, 1);
                         // Simple linear animation for fastest execution
