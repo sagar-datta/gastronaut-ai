@@ -105,7 +105,7 @@ export function FloatingButtonContainer({
                       // Scroll to recipe heading
                       if (window.innerWidth < 1024) {
                         const recipeDisplayArticle = document.querySelector(
-                          ".recipe-display h2" // Selector for the recipe heading
+                          ".recipe-display" // Selector for the article container
                         );
                         if (recipeDisplayArticle) {
                           const container = document.documentElement;
