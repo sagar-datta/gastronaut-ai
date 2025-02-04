@@ -54,15 +54,15 @@ export function FloatingButtonContainer({
     recipeHeadingRef.current = document.querySelector(".recipe-display h2");
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.boundingClientRect.y < 0) {
-            setButtonState("modify"); // Recipe heading is above viewport, show "Modify Recipe" (INVERTED)
-          } else {
-            setButtonState("scroll"); // Recipe heading is in view or below, show "Scroll to Recipe" (INVERTED)
-          }
-        });
-      },
+     (entries) => {
+       entries.forEach((entry) => {
+         if (entry.isIntersecting) {
+           setButtonState("scroll"); // Recipe heading is intersecting (top edge at or below viewport top), show "Scroll to Recipe"
+         } else {
+           setButtonState("modify"); // Recipe heading is NOT intersecting (top edge above viewport top), show "Modify Recipe"
+         } 
+       });
+     },
       {
         root: null, // Use the viewport as the root
         threshold: 0, // Trigger as soon as any part of the element is no longer visible
