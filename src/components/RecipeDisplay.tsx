@@ -29,7 +29,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
 
   useEffect(() => {
     // Scroll to recipe display on mobile after recipe is rendered
-    if (recipeDisplaySectionRef.current && window.innerWidth < 768) {
+    if (recipeDisplaySectionRef.current && window.innerWidth < 1024) { // Increased breakpoint to 1024px
       // Example mobile breakpoint, adjust if needed
       recipeDisplaySectionRef.current.scrollIntoView({
         behavior: "smooth",
