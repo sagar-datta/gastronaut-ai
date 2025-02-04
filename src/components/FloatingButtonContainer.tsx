@@ -39,24 +39,22 @@ export function FloatingButtonContainer({
         const recipeHeading = document.querySelector(".recipe-display h2");
         if (recipeHeading) {
           console.log("Recipe heading FOUND!");
-          const recipeHeadingOffsetTop = recipeHeading.offsetTop;
-          const scrollY = window.scrollY;
-          console.log("scrollY:", scrollY);
-          console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
+          requestAnimationFrame(() => {
+            const recipeHeadingOffsetTop = recipeHeading.offsetTop;
+            const scrollY = window.scrollY;
+            console.log("scrollY:", scrollY);
+            console.log("recipeHeadingOffsetTop:", recipeHeadingOffsetTop);
 
-          if (scrollY >= recipeHeadingOffsetTop) {
-            // User is at or below the recipe heading, show "Scroll to Recipe"
-            if (buttonState === "modify") {
+            if (scrollY >= recipeHeadingOffsetTop) {
+              // User is at or below the recipe heading, show "Scroll to Recipe"
               setButtonState("scroll");
               console.log("State: scroll - scrollY >= recipeHeadingOffsetTop", scrollY >= recipeHeadingOffsetTop);
-            }
-          } else {
-            // User is above the recipe heading, show "Modify Recipe"
-            if (buttonState === "scroll") {
+            } else {
+              // User is above the recipe heading, show "Modify Recipe"
               setButtonState("modify");
               console.log("State: modify - scrollY < recipeHeadingOffsetTop", scrollY < recipeHeadingOffsetTop);
             }
-          }
+          });
         }
       }
     };
