@@ -104,40 +104,23 @@ export function FloatingButtonContainer({
                     if (buttonState === "recipe" || buttonState === "scroll") {
                       // Scroll to recipe heading
                       if (window.innerWidth < 1024) {
-                        const recipeDisplayArticle = document.querySelector(
+                        const recipeDisplayElement = document.querySelector(
                           ".recipe-display" // Selector for the article container
                         );
-                        if (recipeDisplayArticle) {
-                          const container = document.documentElement;
-                          const startPosition = container.scrollTop;
-                          const targetPosition = recipeDisplayArticle.offsetTop; // No offset
-                          const duration = 500; // Duration for scroll animation
-                          const startTime = performance.now();
-
-                         const scroll = (currentTime: number) => {
-                            const elapsed = currentTime - startTime;
-                            const progress = Math.min(elapsed / duration, 1);
-                            container.scrollTop = startPosition + (targetPosition - startPosition) * progress;
-                            if (progress < 1) {
-                              requestAnimationFrame(scroll);
-                            }
-                          };
-                          requestAnimationFrame(scroll);
-                        } else {
-                          console.log("Recipe display article not found for scrolling.");
-                        }
+                        recipeDisplayElement?.scrollIntoView({ behavior: "smooth", block: "start" });
                       } else {
                         // For larger screens (desktop), use default instant scroll
                         const recipeHeading = document.querySelector(
                           ".recipe-display h2" // Selector for the recipe heading
                         );
                         recipeHeading?.scrollIntoView({
-                          block: 'start'
-                       });
+                          block: "start",
+                        });
                       }
                     } else {
                       // Scroll to top (modify view) - existing behavior, apply to screens smaller than lg
-                      if (window.innerWidth < 1024) { // 1024px is Tailwind's lg breakpoint
+                      if (window.innerWidth < 1024) {
+                        // 1024px is Tailwind's lg breakpoint
 
                      const container = document.documentElement;
                      const startPosition = container.scrollTop;
