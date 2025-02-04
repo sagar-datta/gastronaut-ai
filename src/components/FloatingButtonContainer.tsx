@@ -130,10 +130,12 @@ export function FloatingButtonContainer({
 
   // Memoize scroll to top handler
   const handleScrollToTop = useCallback(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    useCallback(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, [])();
   }, []);
 
   // Memoize scroll to top button
@@ -234,7 +236,7 @@ export function FloatingButtonContainer({
                         size="lg"
                         variant="outline"
                         className="px-8 sm:flex hidden items-center gap-2 text-[#433633]"
-                        onClick={() => window.print()}
+                        onClick={useCallback(() => window.print(), [])}
                       >
                         <Printer className="h-4 w-4 text-[#433633]" />
                         Print Recipe
