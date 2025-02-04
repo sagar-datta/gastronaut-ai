@@ -50,54 +50,43 @@ export function FloatingButtonContainer({
   const recipeContainerRef = useRef<HTMLElement | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null); // Store observer
 
-  // Cache recipe heading element and setup IntersectionObserver
-  console.log("FloatingButtonContainer useEffect is running");
-
   useEffect(() => {
-    recipeContainerRef.current = document.querySelector(".recipe-display");
-
-    // Create observer only once
-    if (!observerRef.current) {
-      observerRef.current = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            console.log("isIntersecting:", entry.isIntersecting); // DEBUG LOG
-            console.log("boundingClientRect.top:", entry.boundingClientRect.top); // DEBUG LOG
-
-            if (entry.boundingClientRect.top > 0) {
-              setButtonState("scroll"); // Recipe heading top is below viewport top, show "Scroll to Recipe"
-            } else {
-              setButtonState("modify"); // Recipe heading top is above viewport top, show "Modify Recipe"
-            }
-          });
-        },
-        {
-          root: null,
-          threshold: 0, // Trigger as soon as any part of the element is no longer visible
-          rootMargin: '-10px 0px 0px 0px', // Trigger 10px before top
-        }
-      );
+    if (!externalRecipe) {
+      setButtonState("modify");
+      return;
     }
 
-    // Observe the element if it exists
-    if (recipeContainerRef.current) {
-      observerRef.current.observe(recipeContainerRef.current);
+    const updateButtonState = () => {
+      const recipeHeading = document.querySelector(".recipe-display h2");
+      if (!recipeHeading) return;
+
+      const rect = recipeHeading.getBoundingClientRect();
+      const newButtonState = rect.top <= 0 ? "modify" : "scroll";
+      setButtonState(newButtonState);
+    };
+
+    updateButtonState();
+    window.addEventListener("scroll", updateButtonState);
+
+    const observer = new IntersectionObserver(() => updateButtonState(), {
+      threshold: [0, 1],
+    });
+
+    const recipeHeading = document.querySelector(".recipe-display h2");
+    if (recipeHeading) {
+      observer.observe(recipeHeading);
     }
 
     return () => {
-      // Disconnect observer on unmount
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
+      window.removeEventListener("scroll", updateButtonState);
+      observer.disconnect();
     };
   }, [externalRecipe]);
-
 
   useEffect(() => {
     const isTop = window.scrollY < 100;
     setIsAtTop(isTop);
   }, []);
-
 
   const handleMobileButtonClick = useCallback(() => {
     if (buttonState === "scroll") {
@@ -107,11 +96,11 @@ export function FloatingButtonContainer({
         block: "start",
       });
     } else {
-     // Scroll to top to show input form (Modify Recipe action)
-     window.scrollTo({
-       top: 0,
-       behavior: "smooth",
-     });
+      // Scroll to top to show input form (Modify Recipe action)
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }
   }, [buttonState]);
 
@@ -149,7 +138,6 @@ export function FloatingButtonContainer({
       ),
     [externalRecipe, isLoading, isAtTop, handleScrollToTop]
   ); // Removed updateButtonState and isTop dependencies
- 
 
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
@@ -179,7 +167,7 @@ export function FloatingButtonContainer({
                     <>
                       <span className="sm:hidden">Modify</span>
                       <span className="hidden sm:inline">Modify Recipe</span>
-                     </>
+                    </>
                   )}
                 </Button>
               )}
