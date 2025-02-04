@@ -47,11 +47,11 @@ export function FloatingButtonContainer({
 }: FloatingButtonContainerProps) {
   const [buttonState, setButtonState] = useState<"modify" | "scroll">("modify");
   const [isAtTop, setIsAtTop] = useState(true);
-  const recipeHeadingRef = useRef<HTMLElement | null>(null);
+  const recipeContainerRef = useRef<HTMLElement | null>(null); // Renamed ref
 
   // Cache recipe heading element and setup IntersectionObserver
   useEffect(() => {
-    recipeHeadingRef.current = document.querySelector(".recipe-display h2");
+    recipeContainerRef.current = document.querySelector(".recipe-display"); // Target recipe container
 
     const observer = new IntersectionObserver(
      (entries) => {
@@ -135,7 +135,7 @@ export function FloatingButtonContainer({
       ),
     [externalRecipe, isLoading, isAtTop, handleScrollToTop]
   ); // Removed updateButtonState and isTop dependencies
-
+ 
 
   return (
     <div className="fixed bottom-0 left-0 right-0 print:hidden z-50 pointer-events-none">
