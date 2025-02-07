@@ -270,6 +270,14 @@ export function ChatInput({
                 {isLoading ? (
                   <motion.div
                     key="skeleton"
+                    ref={(el) => {
+                      if (el && window.innerWidth < 1024) {
+                        el.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                      }
+                    }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
