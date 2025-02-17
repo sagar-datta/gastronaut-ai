@@ -5,27 +5,27 @@ A sophisticated AI-powered recipe generator built with React, TypeScript, and Go
 ## ✨ Key Technical Highlights
 
 ### 💡 Smart Architecture
-- **Component Composition**: Modular architecture with specialized components (RecipeInputForm, RecipeDisplay, etc.) for maintainability and reusability
+- **Component Composition**: Modular architecture with specialised components (RecipeInputForm, RecipeDisplay, etc.) for maintainability and reusability
 - **TypeScript Integration**: Comprehensive type safety with interfaces for props and state management
-- **Performance Optimization**: 
+- **Performance Optimisation**: 
   - Efficient state management with React hooks
-  - Memoized computations using `useMemo` for expensive operations
+  - Memoised computations using `useMemo` for expensive operations
   - Lazy loading and code splitting for optimal bundle size
 
 ### 🎯 Advanced UI/UX Features
 - **Responsive Design**:
   - Fluid layouts using CSS Grid and Flexbox
   - Mobile-first approach with responsive breakpoints
-  - Smart scrolling behavior on mobile devices
+  - Smart scrolling behaviour on mobile devices
   - Touch-friendly interactive elements
 
 - **Smooth Animations**:
   - Framer Motion integration for fluid transitions
   - Collapsible sections with smooth height animations
   - Micro-interactions for better user feedback
-  - Optimized animation performance with GPU acceleration
+  - Optimised animation performance with GPU acceleration
 
-- **Print Optimization**:
+- **Print Optimisation**:
   - Custom print styles for recipe cards
   - Smart page breaks to prevent split content
   - Printer-friendly formatting with proper spacing
@@ -47,10 +47,10 @@ A sophisticated AI-powered recipe generator built with React, TypeScript, and Go
 - **Recipe Management**:
   - Interactive checklist for ingredients and equipment
   - State persistence for checked items
-  - Smart section organization
+  - Smart section organisation
   - Markdown rendering with custom components
 
-- **User Experience Optimizations**:
+- **User Experience Optimisations**:
   - Smooth scrolling to recipe display on mobile
   - Loading states with skeleton screens
   - Error handling with user-friendly messages
@@ -81,16 +81,16 @@ npm run dev
 ### Frontend Core
 - **React 18**: Latest features including automatic batching and concurrent rendering
 - **TypeScript**: Full type safety and enhanced developer experience
-- **Vite**: Lightning-fast HMR and optimized build process
+- **Vite**: Lightning-fast HMR and optimised build process
 
 ### UI Framework
 - **Tailwind CSS**: 
   - Utility-first CSS framework
-  - Custom configuration for brand colors
-  - JIT compiler for optimized production builds
+  - Custom configuration for brand colours
+  - JIT compiler for optimised production builds
 - **Shadcn/ui**: 
   - Accessible component primitives
-  - Customizable design system
+  - Customisable design system
   - Radix UI integration for better accessibility
 - **Framer Motion**: 
   - Production-ready animations
@@ -105,11 +105,11 @@ npm run dev
 
 ## 📱 Mobile Support
 - Responsive design that adapts to any screen size
-- Touch-optimized interactions
+- Touch-optimised interactions
 - Mobile-specific UX enhancements:
   - Automatic scrolling to relevant sections
   - Touch-friendly input controls
-  - Optimized layout for smaller screens
+  - Optimised layout for smaller screens
 
 ## 🎨 UX Decisions
 - **Progressive Disclosure**: Optional settings hidden behind a collapsible section to reduce initial complexity
@@ -117,7 +117,7 @@ npm run dev
 - **Visual Feedback**: Loading states, animations, and micro-interactions for better user engagement
 - **Error Prevention**: Input validation and clear error messages
 - **Accessibility First**: Screen reader support and keyboard navigation
-- **Print Optimization**: Clean, properly formatted recipe printouts
+- **Print Optimisation**: Clean, properly formatted recipe printouts
 
 ## 🤝 Contributing
 
@@ -127,9 +127,9 @@ npm run dev
 4. Push to the branch (`git push origin feature/new-feature`)
 5. Open a Pull Request
 
-## 📝 License
+## 📝 Licence
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+MIT Licence - see the [LICENCE](LICENSE) file for details.
 
 ## ❓ Troubleshooting
 
