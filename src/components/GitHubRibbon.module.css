@@ -1,4 +1,4 @@
-.github-corner {
+.github-corner-wrapper {
   position: absolute;
   top: 0;
   right: 0;
@@ -6,9 +6,33 @@
   overflow: hidden;
   height: 80px;
   width: 80px;
+  pointer-events: none;
 }
 
-.github-corner:hover .octo-arm {
+.github-corner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.github-corner svg {
+  pointer-events: none;
+}
+
+.github-corner path {
+  pointer-events: auto;
+}
+
+.github-cat {
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.github-corner:hover ~ .github-cat .octo-arm {
   animation: octocat-wave 560ms ease-in-out;
 }
 
@@ -28,10 +52,10 @@
 }
 
 @media (max-width: 500px) {
-  .github-corner:hover .octo-arm {
+  .github-corner:hover ~ .github-cat .octo-arm {
     animation: none;
   }
-  .github-corner .octo-arm {
+  .github-cat .octo-arm {
     animation: octocat-wave 560ms ease-in-out;
   }
 }
