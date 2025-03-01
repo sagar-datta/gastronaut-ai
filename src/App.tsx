@@ -1,4 +1,5 @@
 import { ChatInput } from "@/components/ChatInput";
+import { GitHubRibbon } from "@/components/GitHubRibbon";
 import { useRef, useState } from "react";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       className="min-h-screen grid grid-rows-[auto_1fr_auto] p-4 pb-24 print:p-4 bg-[hsl(var(--app-background))]"
       ref={containerRef}
     >
+      <GitHubRibbon />
       {/* Header */}
       <header className="bg-[hsl(var(--app-background))] rounded-lg p-4 text-center print:hidden">
         <button
