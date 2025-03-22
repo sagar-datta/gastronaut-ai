@@ -108,6 +108,18 @@
     margin: 0;
   }
 
+  @page :first {
+    margin: 0;
+  }
+
+  @page :left {
+    margin-top: 1.5cm;
+  }
+
+  @page :right {
+    margin-top: 1.5cm;
+  }
+
   /* Hide UI elements but preserve recipe styling */
   body > *:not(#root),
   header,
