@@ -102,7 +102,7 @@
 }
 
 @media print {
-  /* Remove browser headers/footers completely */
+  /* Page setup with comfortable margins */
   @page {
     size: auto;
     margin: 0;
@@ -110,7 +110,9 @@
 
   /* Add custom margins to content instead */
   .recipe-display {
-    margin: 2cm !important;
+    margin: 2.5cm !important;
+    margin-top: 2cm !important;
+    margin-bottom: 2cm !important;
     padding: 0 !important;
     width: auto !important;
     height: auto !important;
@@ -119,8 +121,16 @@
     visibility: visible !important;
     opacity: 1 !important;
     position: static !important;
-    /* Use the same font as in the app, not serif */
+    /* Use the same font as in the app */
     font-family: ui-sans-serif, system-ui, sans-serif !important;
+    /* Create a subtle parchment-like border */
+    border: 1px solid #e0e0e0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    background-color: white !important;
+    padding: 2cm !important;
+    max-width: 18cm !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   /* Reset for printing - make everything visible by default */
@@ -174,27 +184,30 @@
     position: static !important;
   }
 
-  /* Basic typography that matches the display */
+  /* Basic typography that matches the display but is more print-friendly */
   .prose {
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     font-family: ui-sans-serif, system-ui, sans-serif !important;
     color: #333 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0.01em !important;
   }
 
-  /* Recipe title - no border */
+  /* Recipe title with subtle bottom border for better separation */
   .recipe-display h1 {
-    font-size: 1.5rem !important;
+    font-size: 1.75rem !important;
     font-weight: bold !important;
     margin-top: 0 !important;
-    margin-bottom: 1rem !important;
-    text-align: left !important;
-    padding-bottom: 0 !important;
-    border: none !important;
+    margin-bottom: 1.25rem !important;
+    text-align: center !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 1px solid #eaeaea !important;
+    color: #222 !important;
   }
 
-  /* Section headings - no border */
+  /* Section headings with subtle emphasis */
   .recipe-display h2 {
     font-size: 1.25rem !important;
     font-weight: bold !important;
@@ -202,18 +215,18 @@
     margin-bottom: 0.75rem !important;
     page-break-after: avoid !important;
     color: #333 !important;
-    border: none !important;
-    padding-bottom: 0 !important;
+    padding-bottom: 0.25rem !important;
+    border-bottom: 1px dotted #eaeaea !important;
   }
 
-  /* Paragraphs */
+  /* Paragraphs with slightly larger space between for readability */
   .recipe-display p {
     margin-bottom: 0.75rem !important;
     orphans: 3 !important;
     widows: 3 !important;
     text-align: left !important;
     font-size: 1rem !important;
-    line-height: 1.5 !important;
+    line-height: 1.6 !important;
   }
 
   /* List formatting - ingredients & equipment */
@@ -221,12 +234,12 @@
   .recipe-display ol {
     margin-top: 0.5rem !important;
     margin-bottom: 1rem !important;
-    padding-left: 1.5rem !important;
+    padding-left: 1.75rem !important;
     page-break-inside: avoid !important;
   }
 
   .recipe-display li {
-    margin-bottom: 0.25rem !important;
+    margin-bottom: 0.4rem !important;
     font-size: 1rem !important;
     line-height: 1.5 !important;
     display: list-item !important;
@@ -253,23 +266,8 @@
 
   /* Section spacing */
   .recipe-display section {
-    margin-bottom: 1rem !important;
+    margin-bottom: 1.25rem !important;
     page-break-inside: avoid !important;
-  }
-
-  /* Remove all borders */
-  .recipe-display * {
-    border: none !important;
-  }
-
-  /* Override any styles that might hide content */
-  * {
-    background: none !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-    transform: none !important;
-    transition: none !important;
-    animation: none !important;
   }
 
   /* Make sure list items display properly */
@@ -285,5 +283,33 @@
 
   .recipe-display ol li {
     list-style-type: decimal !important;
+  }
+
+  /* Instructions styling */
+  .recipe-display section:last-of-type {
+    margin-top: 1.5rem !important;
+  }
+
+  /* Create a recipe card effect */
+  body::after {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  /* Override any styles that might hide content */
+  * {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
   }
 }
