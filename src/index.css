@@ -112,7 +112,6 @@
     max-width: 100%;
     margin: 0;
     padding: 0;
-    page-break-after: avoid !important;
   }
 
   /* Keep headings with their content */
@@ -121,6 +120,10 @@
   h3 {
     page-break-after: avoid;
     margin-top: 0.5em;
+  }
+
+  h2 {
+    margin-top: 1.5em;
   }
 
   /* Prevent orphaned list items */
@@ -132,11 +135,16 @@
     widows: 3;
   }
 
+  /* Keep lists together */
+  ul,
+  ol {
+    page-break-inside: avoid;
+  }
+
   /* Trim extra space */
   .prose > div:last-child {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
-    page-break-after: avoid !important;
   }
 
   /* Remove extra space after lists */
@@ -151,6 +159,7 @@
   body {
     background: white;
     color: black;
+    font-size: 12pt;
   }
 
   /* Enable text selection */
@@ -204,6 +213,19 @@
   body {
     min-height: 0 !important;
     height: auto !important;
-    margin-bottom: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Improve print layout */
+  .recipe-display {
+    column-gap: 0;
+    padding: 0 !important;
+  }
+
+  /* Recipe-specific print styling */
+  .recipe-display section {
+    margin-bottom: 1em;
+    page-break-inside: avoid;
   }
 }

@@ -29,7 +29,8 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
 
   useEffect(() => {
     // Scroll to recipe display on mobile after recipe is rendered
-    if (recipeDisplaySectionRef.current && window.innerWidth < 1024) { // Increased breakpoint to 1024px
+    if (recipeDisplaySectionRef.current && window.innerWidth < 1024) {
+      // Increased breakpoint to 1024px
       // Example mobile breakpoint, adjust if needed
       recipeDisplaySectionRef.current.scrollIntoView({
         behavior: "smooth",
@@ -76,13 +77,13 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
   // Custom components with conditional rendering for ingredients and equipment
   const components = {
     h1: ({ children }: { children: React.ReactNode }) => (
-      <h1 className="mb-0 print:break-before-page">{children}</h1>
+      <h1 className="mb-0">{children}</h1>
     ),
     h2: ({ children }: { children: React.ReactNode }) => (
-      <h2 className="print:break-before-page">{children}</h2>
+      <h2 className="mt-4 print:mt-6">{children}</h2>
     ),
     ul: ({ children }: { children: React.ReactNode }) => (
-      <ul className="break-inside-avoid-page list-none pl-0 space-y-2 print:break-inside-avoid">
+      <ul className="list-none pl-0 space-y-2 print:break-inside-avoid">
         {children}
       </ul>
     ),
@@ -106,7 +107,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
         const itemKey = `${sectionType}-${itemText}`;
 
         return (
-          <li className="break-inside-avoid-page flex items-start gap-2 print:break-inside-avoid">
+          <li className="flex items-start gap-2 print:break-inside-avoid">
             <Checkbox
               id={itemKey}
               checked={checkedItems[itemKey]?.checked ?? false}
@@ -124,7 +125,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
             />
             <label
               htmlFor={itemKey}
-              className="leading-relaxed cursor-pointer print:before:content-['•'] print:before:mr-2 print:before:inline-block print:break-inside-avoid"
+              className="leading-relaxed cursor-pointer print:before:content-['•'] print:before:mr-2 print:before:inline-block"
             >
               {children}
             </label>
@@ -132,31 +133,29 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
         );
       }
 
-      return (
-        <li className="break-inside-avoid-page print:break-inside-avoid">
-          {children}
-        </li>
-      );
+      return <li className="print:break-inside-avoid">{children}</li>;
     },
     p: ({ children }: { children: React.ReactNode }) => (
-      <p className="break-inside-avoid">{children}</p>
+      <p className="break-inside-avoid print:orphans-3 print:widows-3">
+        {children}
+      </p>
     ),
   };
 
   return (
     <article
       ref={recipeDisplaySectionRef}
-      className="recipe-display prose max-w-none p-6 print:p-0 print:my-0 print:break-after-auto [&_*]:break-inside-avoid-page print:[&_p]:orphans-3 print:[&_p]:widows-3"
+      className="recipe-display prose max-w-none p-6 print:p-0 print:my-0 print:break-after-auto"
     >
       <main className="space-y-4 print:space-y-2">
-        <header className="print:break-before-avoid print:break-after-avoid">
+        <header className="print:break-after-avoid">
           <ReactMarkdown components={components as Partial<Components>}>
             {titleSection}
           </ReactMarkdown>
         </header>
 
         {filteredSections.slice(1, ingredientsIndex).map((section, index) => (
-          <section key={index} className="print:break-inside-avoid-page">
+          <section key={index} className="print:break-inside-avoid">
             <ReactMarkdown components={components as Partial<Components>}>
               {section}
             </ReactMarkdown>
@@ -164,7 +163,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
         ))}
 
         {ingredientsSection && (
-          <section className="print:break-before-page print:break-inside-avoid print:break-after-avoid">
+          <section className="print:break-inside-avoid">
             <ReactMarkdown components={components as Partial<Components>}>
               {ingredientsSection}
             </ReactMarkdown>
@@ -172,7 +171,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
         )}
 
         {equipmentSection && (
-          <section className="print:break-before-page print:break-inside-avoid print:break-after-avoid">
+          <section className="print:break-inside-avoid">
             <ReactMarkdown components={components as Partial<Components>}>
               {equipmentSection}
             </ReactMarkdown>
@@ -184,7 +183,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
           .map((section, index, array) => (
             <section
               key={index}
-              className={`print:break-before-page print:break-inside-avoid ${
+              className={`print:break-inside-avoid ${
                 index === array.length - 1 ? "print:break-after-auto" : ""
               }`}
             >
