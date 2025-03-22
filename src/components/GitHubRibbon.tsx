@@ -1,8 +1,14 @@
 import styles from "./GitHubRibbon.module.css";
 
-export const GitHubRibbon = () => {
+type GitHubRibbonProps = {
+  className?: string;
+};
+
+export const GitHubRibbon = ({ className = "" }: GitHubRibbonProps) => {
   return (
-    <div className={`${styles["github-corner-wrapper"]} print:hidden`}>
+    <div
+      className={`${styles["github-corner-wrapper"]} print:hidden ${className}`}
+    >
       {/* Clickable triangle background */}
       <a
         href="https://github.com/sagar-datta/gastronaut-ai"

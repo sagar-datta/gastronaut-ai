@@ -102,15 +102,28 @@
 }
 
 @media print {
-  /* Page setup */
+  /* Remove browser headers/footers completely */
   @page {
     size: auto;
-    margin: 1.5cm;
-    margin-top: 1cm;
-    margin-bottom: 1cm;
+    margin: 0;
   }
 
-  /* Reset entire document for printing */
+  /* Add custom margins to content instead */
+  .recipe-display {
+    margin: 1.5cm !important;
+    margin-top: 1cm !important;
+    margin-bottom: 1cm !important;
+    padding: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+  }
+
+  /* Reset for printing - make everything visible by default */
   html,
   body,
   #root {
@@ -123,28 +136,44 @@
     width: 100% !important;
     height: auto !important;
     min-height: 0 !important;
+    max-height: none !important;
     overflow: visible !important;
     display: block !important;
     position: static !important;
-    float: none !important;
-    page-break-before: avoid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: auto !important;
   }
 
-  /* Hide all UI elements except for the recipe */
-  body > *:not(#root),
-  #root > *:not(.recipe-display),
+  /* Hide EVERYTHING except the recipe, with high specificity */
+  body > :not(#root),
+  #root > :not(div:has(.recipe-display)),
   .recipe-display ~ *,
-  .print\:hidden,
   header,
-  button,
-  nav,
   footer,
+  nav,
   aside,
-  .chatbot-container,
   form,
+  button,
   input,
-  textarea {
+  .print\:hidden {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    z-index: -9999 !important;
+  }
+
+  /* Explicitly make recipe visible */
+  #root,
+  div:has(.recipe-display),
+  .recipe-display,
+  .recipe-display * {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
   }
 
   /* Basic print styles for typography */
@@ -194,15 +223,6 @@
     margin-bottom: 0.2cm !important;
   }
 
-  /* Recipe container */
-  .recipe-display {
-    width: 100% !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-    display: block !important;
-    position: static !important;
-  }
-
   /* Section spacing */
   section {
     margin-bottom: 0.5cm !important;
@@ -216,10 +236,13 @@
     margin-left: 1em !important;
   }
 
-  /* Remove all background styling */
+  /* Override any styles that might hide content */
   * {
     background: none !important;
     box-shadow: none !important;
     text-shadow: none !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
   }
 }

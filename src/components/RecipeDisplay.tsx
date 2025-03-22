@@ -44,6 +44,8 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
       if (recipeDisplaySectionRef.current) {
         recipeDisplaySectionRef.current.style.display = "block";
         recipeDisplaySectionRef.current.style.position = "static";
+        recipeDisplaySectionRef.current.style.visibility = "visible";
+        recipeDisplaySectionRef.current.style.opacity = "1";
       }
 
       // Scroll to top before printing
@@ -51,6 +53,13 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
 
       // Add a class to the body to indicate we're in print mode
       document.body.classList.add("printing");
+
+      // Set timeout to make sure CSS has applied
+      setTimeout(() => {
+        if (recipeDisplaySectionRef.current) {
+          recipeDisplaySectionRef.current.style.display = "block";
+        }
+      }, 100);
     };
 
     const handleAfterPrint = () => {
@@ -170,19 +179,24 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
     ),
   };
 
+  if (!content) return null;
+
   return (
     <article
       ref={recipeDisplaySectionRef}
-      className="recipe-display prose max-w-none p-6 print:p-0 print:m-0"
+      className="recipe-display prose max-w-none p-6 print:p-0 print:visible"
+      id="recipe-to-print"
     >
       {/* Title section */}
-      <ReactMarkdown components={components as Partial<Components>}>
-        {titleSection}
-      </ReactMarkdown>
+      <div className="print:visible">
+        <ReactMarkdown components={components as Partial<Components>}>
+          {titleSection}
+        </ReactMarkdown>
+      </div>
 
       {/* Description sections before ingredients */}
       {filteredSections.slice(1, ingredientsIndex).map((section, index) => (
-        <section key={index} className="print:break-inside-avoid">
+        <section key={index} className="print:break-inside-avoid print:visible">
           <ReactMarkdown components={components as Partial<Components>}>
             {section}
           </ReactMarkdown>
@@ -191,7 +205,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
 
       {/* Ingredients section */}
       {ingredientsSection && (
-        <section className="print:break-inside-avoid">
+        <section className="print:break-inside-avoid print:visible">
           <ReactMarkdown components={components as Partial<Components>}>
             {ingredientsSection}
           </ReactMarkdown>
@@ -200,7 +214,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
 
       {/* Equipment section */}
       {equipmentSection && (
-        <section className="print:break-inside-avoid">
+        <section className="print:break-inside-avoid print:visible">
           <ReactMarkdown components={components as Partial<Components>}>
             {equipmentSection}
           </ReactMarkdown>
@@ -209,7 +223,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
 
       {/* Instructions and remaining sections */}
       {filteredSections.slice(ingredientsIndex + 1).map((section, index) => (
-        <section key={index} className="print:break-inside-avoid">
+        <section key={index} className="print:break-inside-avoid print:visible">
           <ReactMarkdown components={components as Partial<Components>}>
             {section}
           </ReactMarkdown>
