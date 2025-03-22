@@ -102,6 +102,12 @@
 }
 
 @media print {
+  /* Page setup */
+  @page {
+    size: auto;
+    margin: 0.5cm;
+  }
+
   :root {
     --background: 0 0% 100%;
     --app-background: 0 0% 100%;
@@ -157,9 +163,20 @@
 
   /* Clean print appearance */
   body {
-    background: white;
-    color: black;
+    background: white !important;
+    color: black !important;
     font-size: 12pt;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Fix for blank first page */
+  #root {
+    position: static !important;
+    display: block !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* Enable text selection */
@@ -187,12 +204,17 @@
   #root,
   main,
   div {
-    background: none;
+    background: none !important;
   }
 
   /* Hide screen-only elements */
   .print\\:hidden {
-    display: none;
+    display: none !important;
+  }
+
+  /* Hide header when printing */
+  header {
+    display: none !important;
   }
 
   /* Remove pointer cursors */
@@ -207,25 +229,33 @@
   [class*="h-"] {
     min-height: 0 !important;
     height: auto !important;
+    max-height: none !important;
   }
 
   /* Ensure no extra space at document end */
   body {
     min-height: 0 !important;
     height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
   }
 
   /* Improve print layout */
   .recipe-display {
-    column-gap: 0;
+    column-gap: 0 !important;
     padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    position: static !important;
   }
 
   /* Recipe-specific print styling */
   .recipe-display section {
     margin-bottom: 1em;
     page-break-inside: avoid;
+  }
+
+  /* Force immediate printing without blank pages */
+  .recipe-display main {
+    display: block !important;
+    position: static !important;
   }
 }

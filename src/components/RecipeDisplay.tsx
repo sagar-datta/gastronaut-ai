@@ -31,7 +31,6 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
     // Scroll to recipe display on mobile after recipe is rendered
     if (recipeDisplaySectionRef.current && window.innerWidth < 1024) {
       // Increased breakpoint to 1024px
-      // Example mobile breakpoint, adjust if needed
       recipeDisplaySectionRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -77,10 +76,10 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
   // Custom components with conditional rendering for ingredients and equipment
   const components = {
     h1: ({ children }: { children: React.ReactNode }) => (
-      <h1 className="mb-0">{children}</h1>
+      <h1 className="mb-0 print:mt-0">{children}</h1>
     ),
     h2: ({ children }: { children: React.ReactNode }) => (
-      <h2 className="mt-4 print:mt-6">{children}</h2>
+      <h2 className="mt-4 print:mt-4">{children}</h2>
     ),
     ul: ({ children }: { children: React.ReactNode }) => (
       <ul className="list-none pl-0 space-y-2 print:break-inside-avoid">
@@ -145,14 +144,12 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
   return (
     <article
       ref={recipeDisplaySectionRef}
-      className="recipe-display prose max-w-none p-6 print:p-0 print:my-0 print:break-after-auto"
+      className="recipe-display prose max-w-none p-6 print:p-0 print:m-0"
     >
-      <main className="space-y-4 print:space-y-2">
-        <header className="print:break-after-avoid">
-          <ReactMarkdown components={components as Partial<Components>}>
-            {titleSection}
-          </ReactMarkdown>
-        </header>
+      <main className="space-y-4 print:space-y-2 print:block">
+        <ReactMarkdown components={components as Partial<Components>}>
+          {titleSection}
+        </ReactMarkdown>
 
         {filteredSections.slice(1, ingredientsIndex).map((section, index) => (
           <section key={index} className="print:break-inside-avoid">
@@ -178,20 +175,13 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
           </section>
         )}
 
-        {filteredSections
-          .slice(ingredientsIndex + 1)
-          .map((section, index, array) => (
-            <section
-              key={index}
-              className={`print:break-inside-avoid ${
-                index === array.length - 1 ? "print:break-after-auto" : ""
-              }`}
-            >
-              <ReactMarkdown components={components as Partial<Components>}>
-                {section}
-              </ReactMarkdown>
-            </section>
-          ))}
+        {filteredSections.slice(ingredientsIndex + 1).map((section, index) => (
+          <section key={index} className="print:break-inside-avoid">
+            <ReactMarkdown components={components as Partial<Components>}>
+              {section}
+            </ReactMarkdown>
+          </section>
+        ))}
       </main>
     </article>
   );
