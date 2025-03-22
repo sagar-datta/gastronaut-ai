@@ -111,8 +111,6 @@
   /* Add custom margins to content instead */
   .recipe-display {
     margin: 2cm !important;
-    margin-top: 1.5cm !important;
-    margin-bottom: 1.5cm !important;
     padding: 0 !important;
     width: auto !important;
     height: auto !important;
@@ -121,8 +119,8 @@
     visibility: visible !important;
     opacity: 1 !important;
     position: static !important;
-    font-family: "Garamond", "Times New Roman", serif !important;
-    line-height: 1.6 !important;
+    /* Use the same font as in the app, not serif */
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
   }
 
   /* Reset for printing - make everything visible by default */
@@ -133,8 +131,6 @@
     color: black !important;
     margin: 0 !important;
     padding: 0 !important;
-    font-size: 11pt !important;
-    line-height: 1.5 !important;
     width: 100% !important;
     height: auto !important;
     min-height: 0 !important;
@@ -178,93 +174,92 @@
     position: static !important;
   }
 
-  /* Beautiful typography for print */
+  /* Basic typography that matches the display */
   .prose {
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
-    font-family: "Garamond", "Times New Roman", serif !important;
-    color: #111 !important;
+    font-family: ui-sans-serif, system-ui, sans-serif !important;
+    color: #333 !important;
   }
 
-  /* Recipe title */
+  /* Recipe title - no border */
   .recipe-display h1 {
-    font-size: 24pt !important;
+    font-size: 1.5rem !important;
     font-weight: bold !important;
     margin-top: 0 !important;
-    margin-bottom: 1cm !important;
-    text-align: center !important;
-    font-family: "Garamond", "Georgia", serif !important;
-    border-bottom: 1pt solid #333 !important;
-    padding-bottom: 0.5cm !important;
-    line-height: 1.2 !important;
-    color: #111 !important;
-    letter-spacing: 0.5pt !important;
+    margin-bottom: 1rem !important;
+    text-align: left !important;
+    padding-bottom: 0 !important;
+    border: none !important;
   }
 
-  /* Section headings */
+  /* Section headings - no border */
   .recipe-display h2 {
-    font-size: 16pt !important;
+    font-size: 1.25rem !important;
     font-weight: bold !important;
-    margin-top: 1cm !important;
-    margin-bottom: 0.5cm !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.75rem !important;
     page-break-after: avoid !important;
     color: #333 !important;
-    border-bottom: 0.5pt solid #999 !important;
-    padding-bottom: 0.2cm !important;
-    font-family: "Garamond", "Georgia", serif !important;
+    border: none !important;
+    padding-bottom: 0 !important;
   }
 
   /* Paragraphs */
   .recipe-display p {
-    margin-bottom: 0.4cm !important;
+    margin-bottom: 0.75rem !important;
     orphans: 3 !important;
     widows: 3 !important;
-    text-align: justify !important;
-    font-size: 12pt !important;
-    line-height: 1.6 !important;
+    text-align: left !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
   }
 
   /* List formatting - ingredients & equipment */
   .recipe-display ul,
   .recipe-display ol {
-    margin-top: 0.3cm !important;
-    margin-bottom: 0.5cm !important;
-    padding-left: 0.5cm !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 1rem !important;
+    padding-left: 1.5rem !important;
     page-break-inside: avoid !important;
   }
 
   .recipe-display li {
-    margin-bottom: 0.2cm !important;
-    font-size: 11pt !important;
+    margin-bottom: 0.25rem !important;
+    font-size: 1rem !important;
     line-height: 1.5 !important;
-  }
-
-  /* Instructions section styling */
-  .recipe-display h2 {
-    margin-top: 1cm !important;
-    color: #222 !important;
-  }
-
-  /* Special styling for instruction paragraphs */
-  .recipe-display section:last-of-type p {
-    margin-left: 0.2cm !important;
-    border-left: 1pt solid #ddd !important;
-    padding-left: 0.4cm !important;
-  }
-
-  /* Force bullet points for ingredients and equipment in print */
-  .recipe-display label[class*="print:before:content"] {
     display: list-item !important;
-    list-style-type: disc !important;
-    margin-left: 1em !important;
-    font-size: 11pt !important;
+  }
+
+  /* Fix bullet points */
+  .recipe-display label {
+    /* Remove any bullet styling from the print:before */
+    display: inline !important;
+    margin-left: 0 !important;
+  }
+
+  /* Make checkboxes work in print */
+  .recipe-display label.print\:before\:content-\[\'•\'\] {
+    position: relative !important;
+    padding-left: 1.5em !important;
+  }
+
+  .recipe-display label.print\:before\:content-\[\'•\'\]::before {
+    content: "•" !important;
+    position: absolute !important;
+    left: 0.5em !important;
   }
 
   /* Section spacing */
   .recipe-display section {
-    margin-bottom: 0.7cm !important;
+    margin-bottom: 1rem !important;
     page-break-inside: avoid !important;
+  }
+
+  /* Remove all borders */
+  .recipe-display * {
+    border: none !important;
   }
 
   /* Override any styles that might hide content */
@@ -275,5 +270,20 @@
     transform: none !important;
     transition: none !important;
     animation: none !important;
+  }
+
+  /* Make sure list items display properly */
+  .recipe-display ul li,
+  .recipe-display ol li {
+    display: list-item !important;
+    list-style-position: outside !important;
+  }
+
+  .recipe-display ul li {
+    list-style-type: disc !important;
+  }
+
+  .recipe-display ol li {
+    list-style-type: decimal !important;
   }
 }

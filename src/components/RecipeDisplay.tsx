@@ -120,7 +120,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
       <h2 className="mt-4 print:mt-4">{children}</h2>
     ),
     ul: ({ children }: { children: React.ReactNode }) => (
-      <ul className="list-none pl-0 space-y-2 print:break-inside-avoid">
+      <ul className="list-none pl-0 space-y-2 print:list-disc print:pl-5">
         {children}
       </ul>
     ),
@@ -144,7 +144,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
         const itemKey = `${sectionType}-${itemText}`;
 
         return (
-          <li className="flex items-start gap-2 print:break-inside-avoid">
+          <li className="flex items-start gap-2 print:list-item">
             <Checkbox
               id={itemKey}
               checked={checkedItems[itemKey]?.checked ?? false}
@@ -162,7 +162,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
             />
             <label
               htmlFor={itemKey}
-              className="leading-relaxed cursor-pointer print:before:content-['•'] print:before:mr-2 print:before:inline-block"
+              className="leading-relaxed cursor-pointer print:inline"
             >
               {children}
             </label>
@@ -170,7 +170,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
         );
       }
 
-      return <li className="print:break-inside-avoid">{children}</li>;
+      return <li className="print:list-item">{children}</li>;
     },
     p: ({ children }: { children: React.ReactNode }) => (
       <p className="break-inside-avoid print:orphans-3 print:widows-3">
