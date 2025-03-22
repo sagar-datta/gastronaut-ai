@@ -48,11 +48,22 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
 
       // Scroll to top before printing
       window.scrollTo(0, 0);
+
+      // Add a class to the body to indicate we're in print mode
+      document.body.classList.add("printing");
+    };
+
+    const handleAfterPrint = () => {
+      // Remove print mode class after printing
+      document.body.classList.remove("printing");
     };
 
     window.addEventListener("beforeprint", handleBeforePrint);
+    window.addEventListener("afterprint", handleAfterPrint);
+
     return () => {
       window.removeEventListener("beforeprint", handleBeforePrint);
+      window.removeEventListener("afterprint", handleAfterPrint);
     };
   }, []);
 
@@ -160,52 +171,50 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
   };
 
   return (
-    <div className="print:block print:static print:m-0 print:p-0">
-      <article
-        ref={recipeDisplaySectionRef}
-        className="recipe-display prose max-w-none p-6 print:p-0 print:m-0"
-        style={{ pageBreakBefore: "avoid", breakBefore: "avoid" }}
-      >
-        <div className="print:block print:static print:m-0 print:p-0">
+    <article
+      ref={recipeDisplaySectionRef}
+      className="recipe-display prose max-w-none p-6 print:p-0 print:m-0"
+    >
+      {/* Title section */}
+      <ReactMarkdown components={components as Partial<Components>}>
+        {titleSection}
+      </ReactMarkdown>
+
+      {/* Description sections before ingredients */}
+      {filteredSections.slice(1, ingredientsIndex).map((section, index) => (
+        <section key={index} className="print:break-inside-avoid">
           <ReactMarkdown components={components as Partial<Components>}>
-            {titleSection}
+            {section}
           </ReactMarkdown>
+        </section>
+      ))}
 
-          {filteredSections.slice(1, ingredientsIndex).map((section, index) => (
-            <section key={index} className="print:break-inside-avoid">
-              <ReactMarkdown components={components as Partial<Components>}>
-                {section}
-              </ReactMarkdown>
-            </section>
-          ))}
+      {/* Ingredients section */}
+      {ingredientsSection && (
+        <section className="print:break-inside-avoid">
+          <ReactMarkdown components={components as Partial<Components>}>
+            {ingredientsSection}
+          </ReactMarkdown>
+        </section>
+      )}
 
-          {ingredientsSection && (
-            <section className="print:break-inside-avoid">
-              <ReactMarkdown components={components as Partial<Components>}>
-                {ingredientsSection}
-              </ReactMarkdown>
-            </section>
-          )}
+      {/* Equipment section */}
+      {equipmentSection && (
+        <section className="print:break-inside-avoid">
+          <ReactMarkdown components={components as Partial<Components>}>
+            {equipmentSection}
+          </ReactMarkdown>
+        </section>
+      )}
 
-          {equipmentSection && (
-            <section className="print:break-inside-avoid">
-              <ReactMarkdown components={components as Partial<Components>}>
-                {equipmentSection}
-              </ReactMarkdown>
-            </section>
-          )}
-
-          {filteredSections
-            .slice(ingredientsIndex + 1)
-            .map((section, index) => (
-              <section key={index} className="print:break-inside-avoid">
-                <ReactMarkdown components={components as Partial<Components>}>
-                  {section}
-                </ReactMarkdown>
-              </section>
-            ))}
-        </div>
-      </article>
-    </div>
+      {/* Instructions and remaining sections */}
+      {filteredSections.slice(ingredientsIndex + 1).map((section, index) => (
+        <section key={index} className="print:break-inside-avoid">
+          <ReactMarkdown components={components as Partial<Components>}>
+            {section}
+          </ReactMarkdown>
+        </section>
+      ))}
+    </article>
   );
 }

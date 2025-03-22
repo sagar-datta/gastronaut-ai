@@ -105,168 +105,121 @@
   /* Page setup */
   @page {
     size: auto;
-    margin: 0.5cm;
-    margin-top: 0.3cm;
-    orphans: 2;
-    widows: 2;
+    margin: 1.5cm;
+    margin-top: 1cm;
+    margin-bottom: 1cm;
   }
 
-  /* Fix blank first page */
-  html {
-    height: auto !important;
-    overflow: visible !important;
-  }
-
-  body {
-    height: auto !important;
-    min-height: 0 !important;
-    position: relative !important;
-    overflow: visible !important;
-    display: block !important;
-    page-break-before: avoid !important;
-    page-break-after: auto !important;
+  /* Reset entire document for printing */
+  html,
+  body,
+  #root {
     background: white !important;
     color: black !important;
-    font-size: 12pt;
-    padding: 0 !important;
     margin: 0 !important;
-  }
-
-  /* Fix Chrome blank first page */
-  body::before {
-    content: normal !important;
-  }
-
-  #root {
-    display: block !important;
-    position: relative !important;
-    transform: none !important;
+    padding: 0 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    width: 100% !important;
     height: auto !important;
-    overflow: visible !important;
     min-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    page-break-before: avoid !important;
-  }
-
-  :root {
-    --background: 0 0% 100%;
-    --app-background: 0 0% 100%;
-  }
-
-  /* Basic print styles */
-  .prose {
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
     overflow: visible !important;
-  }
-
-  /* Keep headings with their content */
-  h1,
-  h2,
-  h3 {
-    page-break-after: avoid;
-    page-break-before: avoid !important;
-    margin-top: 0.5em;
-  }
-
-  h2 {
-    margin-top: 1.5em;
-  }
-
-  /* Prevent orphaned list items */
-  p,
-  ul,
-  ol,
-  li {
-    orphans: 3;
-    widows: 3;
-  }
-
-  /* Keep lists together */
-  ul,
-  ol {
-    page-break-inside: avoid;
-  }
-
-  /* Trim extra space */
-  .prose > div:last-child {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  /* Remove extra space after lists */
-  ul:last-child,
-  ol:last-child,
-  p:last-child {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  /* Remove decorative backgrounds */
-  .checkered-bg,
-  .checkered-bg::before,
-  [class*="bg-"],
-  [data-theme],
-  #root,
-  main,
-  div {
-    background: none !important;
-  }
-
-  /* Hide screen-only elements */
-  .print\\:hidden,
-  header,
-  button {
-    display: none !important;
-  }
-
-  /* Remove pointer cursors */
-  [class*="cursor-pointer"] {
-    cursor: text !important;
-  }
-
-  /* Prevent blank pages from fixed heights */
-  #root,
-  main,
-  [class*="min-h-"],
-  [class*="h-"] {
-    min-height: 0 !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-
-  /* Improve print layout */
-  .recipe-display {
-    display: block !important;
-    position: static !important;
-    overflow: visible !important;
-    page-break-before: avoid !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  /* Enable text selection */
-  * {
-    user-select: text !important;
-    -webkit-user-select: text !important;
-  }
-
-  /* Recipe-specific print styling */
-  .recipe-display section {
-    margin-bottom: 1em;
-    page-break-inside: avoid;
-  }
-
-  /* Fix all divs */
-  div {
     display: block !important;
     position: static !important;
     float: none !important;
-    overflow: visible !important;
-    height: auto !important;
     page-break-before: avoid !important;
+  }
+
+  /* Hide all UI elements except for the recipe */
+  body > *:not(#root),
+  #root > *:not(.recipe-display),
+  .recipe-display ~ *,
+  .print\:hidden,
+  header,
+  button,
+  nav,
+  footer,
+  aside,
+  .chatbot-container,
+  form,
+  input,
+  textarea {
+    display: none !important;
+  }
+
+  /* Basic print styles for typography */
+  .prose {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: serif !important;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 18pt !important;
+    margin-top: 0 !important;
+    margin-bottom: 0.5cm !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
+    text-align: center !important;
+    font-weight: bold !important;
+  }
+
+  h2 {
+    font-size: 14pt !important;
+    margin-top: 1cm !important;
+    margin-bottom: 0.5cm !important;
+    page-break-after: avoid !important;
+    font-weight: bold !important;
+  }
+
+  /* Paragraphs */
+  p {
+    margin-bottom: 0.4cm !important;
+    orphans: 3 !important;
+    widows: 3 !important;
+  }
+
+  /* List formatting */
+  ul,
+  ol {
+    margin-top: 0.3cm !important;
+    margin-bottom: 0.5cm !important;
+    padding-left: 0.5cm !important;
+    page-break-inside: avoid !important;
+  }
+
+  li {
+    margin-bottom: 0.2cm !important;
+  }
+
+  /* Recipe container */
+  .recipe-display {
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    display: block !important;
+    position: static !important;
+  }
+
+  /* Section spacing */
+  section {
+    margin-bottom: 0.5cm !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Force bullet points for ingredients and equipment in print */
+  label[class*="print:before:content"] {
+    display: list-item !important;
+    list-style-type: disc !important;
+    margin-left: 1em !important;
+  }
+
+  /* Remove all background styling */
+  * {
+    background: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
 }
