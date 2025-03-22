@@ -112,12 +112,7 @@
     margin: 0;
   }
 
-  @page :left {
-    margin-top: 1.5cm;
-    margin-bottom: 1.5cm;
-  }
-
-  @page :right {
+  @page :left, :right {
     margin-top: 1.5cm;
     margin-bottom: 1.5cm;
   }
@@ -152,7 +147,6 @@
     margin: 2cm !important;
     padding: 0 !important;
     width: auto !important;
-    /* Keep all other styling from the normal display */
   }
 
   /* Prevent trailing blank page */
@@ -165,14 +159,8 @@
     page-break-after: avoid !important;
   }
 
-  /* Ensure last section doesn't cause a blank page */
-  .recipe-display section:last-of-type {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-    page-break-after: avoid !important;
-  }
-
-  /* Remove any trailing space in the last element */
+  /* Ensure last section and elements don't cause a blank page */
+  .recipe-display section:last-of-type,
   .recipe-display *:last-child {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
@@ -199,7 +187,7 @@
     margin-bottom: 0 !important;
   }
 
-  /* Force headings to stay with at least some content */
+  /* Force headings to stay with their content */
   .recipe-display h1 + *,
   .recipe-display h2 + *,
   .recipe-display h3 + * {
@@ -207,7 +195,7 @@
     break-before: avoid !important;
   }
 
-  /* Specific rule for "Instructions" heading */
+  /* Special handling for Instructions section */
   .recipe-display h3:last-of-type {
     page-break-after: avoid !important;
     break-after: avoid !important;
@@ -218,7 +206,7 @@
     margin-bottom: 0.25em !important;
   }
 
-  /* At least first few lines of instructions must stay with heading */
+  /* Keep instructions content with heading */
   .recipe-display h3:last-of-type + * {
     page-break-before: avoid !important;
     break-before: avoid !important;
@@ -226,25 +214,21 @@
     break-inside: avoid !important;
   }
 
-  /* Ensure the first few list items stay with their heading */
+  /* Keep first few list items with heading */
   .recipe-display h3:last-of-type + ol > li:nth-child(-n + 3),
   .recipe-display h3:last-of-type + ul > li:nth-child(-n + 3) {
     page-break-before: avoid !important;
     break-before: avoid !important;
   }
 
-  /* Control orphans and widows globally */
+  /* Control page breaking for all content */
   .recipe-display p,
   .recipe-display li,
   .recipe-display ul,
-  .recipe-display ol {
+  .recipe-display ol,
+  .recipe-display section {
     orphans: 3 !important;
     widows: 3 !important;
-    page-break-inside: avoid !important;
-  }
-
-  /* Ensure sections stay together when possible */
-  .recipe-display section {
     page-break-inside: avoid !important;
   }
 }
