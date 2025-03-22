@@ -114,10 +114,12 @@
 
   @page :left {
     margin-top: 1.5cm;
+    margin-bottom: 1.5cm;
   }
 
   @page :right {
     margin-top: 1.5cm;
+    margin-bottom: 1.5cm;
   }
 
   /* Hide UI elements but preserve recipe styling */
