@@ -13,10 +13,6 @@ function App() {
     window.location.reload();
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
     <div
       className="min-h-screen grid grid-rows-[auto_1fr_auto] p-4 pb-24 print:p-0 bg-[hsl(var(--app-background))] print:bg-white"
@@ -34,14 +30,6 @@ function App() {
         <p className="text-sm text-[#5C5552] mt-1">
           Your AI-powered culinary companion for recipe discovery
         </p>
-        {recipe && (
-          <button
-            onClick={handlePrint}
-            className="mt-2 px-4 py-2 bg-[#433633] text-white rounded hover:bg-[#5C5552] transition-colors"
-          >
-            Print Recipe
-          </button>
-        )}
       </header>
 
       {/* Main content */}
