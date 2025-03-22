@@ -102,61 +102,14 @@
 }
 
 @media print {
-  /* Page setup with comfortable margins */
+  /* Basic page setup */
   @page {
     size: auto;
     margin: 0;
   }
 
-  /* Add custom margins to content instead */
-  .recipe-display {
-    margin: 2.5cm !important;
-    margin-top: 2cm !important;
-    margin-bottom: 2cm !important;
-    padding: 0 !important;
-    width: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: static !important;
-    /* Use the same font as in the app */
-    font-family: ui-sans-serif, system-ui, sans-serif !important;
-    /* Create a subtle parchment-like border */
-    border: 1px solid #e0e0e0 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-    background-color: white !important;
-    padding: 2cm !important;
-    max-width: 18cm !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  /* Reset for printing - make everything visible by default */
-  html,
-  body,
-  #root {
-    background: white !important;
-    color: black !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    overflow: visible !important;
-    display: block !important;
-    position: static !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: auto !important;
-  }
-
-  /* Hide EVERYTHING except the recipe, with high specificity */
-  body > :not(#root),
-  #root > :not(div:has(.recipe-display)),
-  .recipe-display ~ *,
+  /* Hide UI elements but preserve recipe styling */
+  body > *:not(#root),
   header,
   footer,
   nav,
@@ -166,150 +119,53 @@
   input,
   .print\:hidden {
     display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    position: absolute !important;
-    z-index: -9999 !important;
   }
 
-  /* Explicitly make recipe visible */
-  #root,
-  div:has(.recipe-display),
-  .recipe-display,
-  .recipe-display * {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: static !important;
-  }
-
-  /* Basic typography that matches the display but is more print-friendly */
-  .prose {
-    max-width: 100% !important;
+  /* Set up the background */
+  html,
+  body,
+  #root {
+    background: white !important;
     margin: 0 !important;
     padding: 0 !important;
-    font-family: ui-sans-serif, system-ui, sans-serif !important;
-    color: #333 !important;
-    line-height: 1.6 !important;
-    letter-spacing: 0.01em !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
   }
 
-  /* Recipe title with subtle bottom border for better separation */
-  .recipe-display h1 {
-    font-size: 1.75rem !important;
-    font-weight: bold !important;
-    margin-top: 0 !important;
-    margin-bottom: 1.25rem !important;
-    text-align: center !important;
-    padding-bottom: 0.5rem !important;
-    border-bottom: 1px solid #eaeaea !important;
-    color: #222 !important;
+  /* Preserve recipe display styling but add page margins */
+  .recipe-display {
+    margin: 2cm !important;
+    padding: 0 !important;
+    width: auto !important;
+    /* Keep all other styling from the normal display */
   }
 
-  /* Section headings with subtle emphasis */
-  .recipe-display h2 {
-    font-size: 1.25rem !important;
-    font-weight: bold !important;
-    margin-top: 1.5rem !important;
-    margin-bottom: 0.75rem !important;
-    page-break-after: avoid !important;
-    color: #333 !important;
-    padding-bottom: 0.25rem !important;
-    border-bottom: 1px dotted #eaeaea !important;
-  }
-
-  /* Paragraphs with slightly larger space between for readability */
-  .recipe-display p {
-    margin-bottom: 0.75rem !important;
-    orphans: 3 !important;
-    widows: 3 !important;
-    text-align: left !important;
-    font-size: 1rem !important;
-    line-height: 1.6 !important;
-  }
-
-  /* List formatting - ingredients & equipment */
-  .recipe-display ul,
-  .recipe-display ol {
-    margin-top: 0.5rem !important;
-    margin-bottom: 1rem !important;
-    padding-left: 1.75rem !important;
-    page-break-inside: avoid !important;
-  }
-
-  .recipe-display li {
-    margin-bottom: 0.4rem !important;
-    font-size: 1rem !important;
-    line-height: 1.5 !important;
-    display: list-item !important;
-  }
-
-  /* Fix bullet points */
-  .recipe-display label {
-    /* Remove any bullet styling from the print:before */
-    display: inline !important;
-    margin-left: 0 !important;
-  }
-
-  /* Make checkboxes work in print */
-  .recipe-display label.print\:before\:content-\[\'•\'\] {
-    position: relative !important;
-    padding-left: 1.5em !important;
-  }
-
-  .recipe-display label.print\:before\:content-\[\'•\'\]::before {
-    content: "•" !important;
-    position: absolute !important;
-    left: 0.5em !important;
-  }
-
-  /* Section spacing */
-  .recipe-display section {
-    margin-bottom: 1.25rem !important;
-    page-break-inside: avoid !important;
-  }
-
-  /* Make sure list items display properly */
-  .recipe-display ul li,
-  .recipe-display ol li {
-    display: list-item !important;
-    list-style-position: outside !important;
-  }
-
-  .recipe-display ul li {
+  /* Preserve bullet points */
+  .recipe-display ul {
     list-style-type: disc !important;
   }
 
-  .recipe-display ol li {
+  .recipe-display ol {
     list-style-type: decimal !important;
   }
 
-  /* Instructions styling */
-  .recipe-display section:last-of-type {
-    margin-top: 1.5rem !important;
+  /* Keep headings intact */
+  .recipe-display h1,
+  .recipe-display h2 {
+    page-break-after: avoid !important;
   }
 
-  /* Create a recipe card effect */
-  body::after {
-    content: "";
-    display: block;
-    height: 100%;
-    width: 100%;
-    background: white;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
+  /* Ensure page breaks don't split content awkwardly */
+  .recipe-display p,
+  .recipe-display ul,
+  .recipe-display ol,
+  .recipe-display li {
+    page-break-inside: avoid !important;
   }
 
-  /* Override any styles that might hide content */
-  * {
-    background-color: transparent !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-    transform: none !important;
-    transition: none !important;
-    animation: none !important;
+  /* Ensure sections stay together */
+  .recipe-display section {
+    page-break-inside: avoid !important;
   }
 }
