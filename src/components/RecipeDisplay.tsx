@@ -184,7 +184,7 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
   return (
     <article
       ref={recipeDisplaySectionRef}
-      className="recipe-display prose max-w-none p-6 print:p-0 print:visible"
+      className="recipe-display prose max-w-none p-6 print:p-0 print:visible print:break-after-avoid"
       id="recipe-to-print"
     >
       {/* Title section */}
@@ -223,7 +223,14 @@ export function RecipeDisplay({ content, onItemsChange }: RecipeDisplayProps) {
 
       {/* Instructions and remaining sections */}
       {filteredSections.slice(ingredientsIndex + 1).map((section, index) => (
-        <section key={index} className="print:break-inside-avoid print:visible">
+        <section
+          key={index}
+          className={`print:break-inside-avoid print:visible ${
+            index === filteredSections.slice(ingredientsIndex + 1).length - 1
+              ? "print:mb-0 print:pb-0 print:break-after-avoid"
+              : ""
+          }`}
+        >
           <ReactMarkdown components={components as Partial<Components>}>
             {section}
           </ReactMarkdown>

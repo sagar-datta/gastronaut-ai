@@ -141,6 +141,30 @@
     /* Keep all other styling from the normal display */
   }
 
+  /* Prevent trailing blank page */
+  .recipe-display::after {
+    content: "";
+    display: block;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Ensure last section doesn't cause a blank page */
+  .recipe-display section:last-of-type {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Remove any trailing space in the last element */
+  .recipe-display *:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    page-break-after: avoid !important;
+  }
+
   /* Preserve bullet points */
   .recipe-display ul {
     list-style-type: disc !important;
